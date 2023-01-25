@@ -1,0 +1,10 @@
+# env
+.env
+
+# node modules
+node_modules/
+
+# dist
+dist/
+
+.DS_Store

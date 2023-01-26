@@ -5,6 +5,7 @@ import {
   RLLQueryConfig,
 } from "./application_types";
 import { BASE_URL } from "./constants";
+import { apiKeyValidator } from "./utils";
 
 class RLLClient {
   private apiKey: string;
@@ -13,6 +14,9 @@ class RLLClient {
   };
 
   constructor(apiKey: string, options?: RLLClientOptions) {
+    // Validate API Key is a valid UUID format
+    // Constructor throws if not
+    apiKeyValidator(apiKey);
     this.apiKey = apiKey;
 
     if (!options) {
@@ -34,7 +38,13 @@ class RLLClient {
       headers = { authorization: `Bearer ${this.apiKey}` };
     }
 
-    return fetch(url, { headers }).then((res) => res.json());
+    return fetch(url.href, { headers }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw res;
+      }
+    });
   }
 
   public companies(

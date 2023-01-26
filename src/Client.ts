@@ -1,53 +1,93 @@
-import { RLLClient, RLLEntity, RLLQueryConfig } from "./application_types";
+import {
+  RLLClientOptions,
+  RLLEndPoint,
+  RLLEntity,
+  RLLQueryConfig,
+} from "./application_types";
+import { BASE_URL } from "./constants";
 
-class Client {
+class RLLClient {
   private apiKey: string;
   private config = {
-    clientSide: false,
+    keyInQueryParams: false,
   };
 
-  constructor(apiKey: string, options: RLLClient.Options) {
+  constructor(apiKey: string, options?: RLLClientOptions) {
     this.apiKey = apiKey;
-    if (options.clientSide) {
-      this.config.clientSide = options.clientSide;
+
+    if (!options) {
+      return;
     }
+
+    if (options.keyInQueryParams) {
+      this.config.keyInQueryParams = options.keyInQueryParams;
+    }
+  }
+
+  private query<T>(endpoint: string): Promise<T> {
+    const url = new URL("json/" + endpoint, BASE_URL);
+    let headers: HeadersInit | undefined;
+
+    if (this.config.keyInQueryParams) {
+      url.searchParams.set("key", this.apiKey);
+    } else {
+      headers = { authorization: `Bearer ${this.apiKey}` };
+    }
+
+    return fetch(url, { headers }).then((res) => res.json());
   }
 
   public companies(
     options?: RLLQueryConfig.Companies
   ): Promise<RLLEntity.Company[] | RLLEntity.Company> {
-    return Promise.resolve([]);
+    return this.query<RLLEntity.Company[] | RLLEntity.Company>(
+      RLLEndPoint.COMPANIES
+    );
   }
+
   public launches(
     options?: RLLQueryConfig.Launches
   ): Promise<RLLEntity.Launch[] | RLLEntity.Launch> {
-    return Promise.resolve([]);
+    return this.query<RLLEntity.Launch[] | RLLEntity.Launch>(
+      RLLEndPoint.LAUNCHES
+    );
   }
+
   public locations(
     options?: RLLQueryConfig.Locations
   ): Promise<RLLEntity.Location[] | RLLEntity.Location> {
-    return Promise.resolve([]);
+    return this.query<RLLEntity.Location[] | RLLEntity.Location>(
+      RLLEndPoint.LOCATIONS
+    );
   }
+
   public missions(
     options?: RLLQueryConfig.Missions
   ): Promise<RLLEntity.Mission[] | RLLEntity.Mission> {
-    return Promise.resolve([]);
+    return this.query<RLLEntity.Mission[] | RLLEntity.Mission>(
+      RLLEndPoint.MISSIONS
+    );
   }
+
   public pads(
     options?: RLLQueryConfig.Pads
   ): Promise<RLLEntity.Pad[] | RLLEntity.Pad> {
-    return Promise.resolve([]);
+    return this.query<RLLEntity.Pad[] | RLLEntity.Pad>(RLLEndPoint.PADS);
   }
+
   public tags(
     options?: RLLQueryConfig.Tags
   ): Promise<RLLEntity.Tag[] | RLLEntity.Tag> {
-    return Promise.resolve([]);
+    return this.query<RLLEntity.Tag[] | RLLEntity.Tag>(RLLEndPoint.TAGS);
   }
+
   public vehicles(
     options?: RLLQueryConfig.Vehicles
   ): Promise<RLLEntity.Vehicle[] | RLLEntity.Vehicle> {
-    return Promise.resolve([]);
+    return this.query<RLLEntity.Vehicle[] | RLLEntity.Vehicle>(
+      RLLEndPoint.VEHICLES
+    );
   }
 }
 
-export default Client;
+export default RLLClient;

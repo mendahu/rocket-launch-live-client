@@ -1,5 +1,15 @@
 import { ISO3166Alpha2 } from "./standards_types";
 
+export enum RLLEndPoint {
+  COMPANIES = "companies",
+  LAUNCHES = "launches",
+  LOCATIONS = "locations",
+  MISSIONS = "missions",
+  PADS = "pads",
+  TAGS = "tags",
+  VEHICLES = "vehicles",
+}
+
 interface RLLRecord {
   id: number;
   name: string;
@@ -127,8 +137,6 @@ export namespace RLLQueryConfig {
   }
 }
 
-export namespace RLLClient {
-  export type Options = {
-    clientSide?: boolean;
-  };
-}
+export type RLLClientOptions = {
+  keyInQueryParams?: boolean;
+};

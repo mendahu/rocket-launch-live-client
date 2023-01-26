@@ -1,1 +1,1 @@
-const BASE_URL = "https://fdo.rocketlaunch.live/json/";
+export const BASE_URL = "https://fdo.rocketlaunch.live";

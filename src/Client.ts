@@ -1,4 +1,4 @@
-import { RLLClient, RLLEntities } from "./types";
+import { RLLClient, RLLEntity, RLLQueryConfig } from "./application_types";
 
 class Client {
   private apiKey: string;
@@ -13,25 +13,39 @@ class Client {
     }
   }
 
-  public companies(): Promise<RLLEntities.Company[] | RLLEntities.Company> {
+  public companies(
+    options?: RLLQueryConfig.Companies
+  ): Promise<RLLEntity.Company[] | RLLEntity.Company> {
     return Promise.resolve([]);
   }
-  public launches(): Promise<RLLEntities.Launch[] | RLLEntities.Launch> {
+  public launches(
+    options?: RLLQueryConfig.Launches
+  ): Promise<RLLEntity.Launch[] | RLLEntity.Launch> {
     return Promise.resolve([]);
   }
-  public locations(): Promise<RLLEntities.Location[] | RLLEntities.Location> {
+  public locations(
+    options?: RLLQueryConfig.Locations
+  ): Promise<RLLEntity.Location[] | RLLEntity.Location> {
     return Promise.resolve([]);
   }
-  public missions(): Promise<RLLEntities.Mission[] | RLLEntities.Mission> {
+  public missions(
+    options?: RLLQueryConfig.Missions
+  ): Promise<RLLEntity.Mission[] | RLLEntity.Mission> {
     return Promise.resolve([]);
   }
-  public pads(): Promise<RLLEntities.Pad[] | RLLEntities.Pad> {
+  public pads(
+    options?: RLLQueryConfig.Pads
+  ): Promise<RLLEntity.Pad[] | RLLEntity.Pad> {
     return Promise.resolve([]);
   }
-  public tags(): Promise<RLLEntities.Tag[] | RLLEntities.Tag> {
+  public tags(
+    options?: RLLQueryConfig.Tags
+  ): Promise<RLLEntity.Tag[] | RLLEntity.Tag> {
     return Promise.resolve([]);
   }
-  public vehicles(): Promise<RLLEntities.Vehicle[] | RLLEntities.Vehicle> {
+  public vehicles(
+    options?: RLLQueryConfig.Vehicles
+  ): Promise<RLLEntity.Vehicle[] | RLLEntity.Vehicle> {
     return Promise.resolve([]);
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "rocket-launch-live-client",
   "version": "0.1.0",
-  "description": "A Javascript client for interacting with the RocketLaunch.Live API",
+  "description": "A Node.JS client for interacting with the RocketLaunch.Live API",
   "main": "dist/index.js",
   "scripts": {
     "clear": "rm -rf ./dist",

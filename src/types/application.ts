@@ -1,4 +1,4 @@
-import { ISO3166Alpha2 } from "./standards_types";
+import { ISO3166Alpha2 } from "./standards";
 
 export enum RLLEndPoint {
   COMPANIES = "companies",
@@ -16,10 +16,20 @@ interface RLLRecord {
 }
 
 export namespace RLLEntity {
+  interface Country {
+    name: string;
+    code: ISO3166Alpha2.CountryCode;
+  }
+
+  interface State {
+    name: string;
+    abbr: ISO3166Alpha2.StateCodeUS;
+  }
+
   export interface Company extends RLLRecord {
-    country: string;
-    slug: string;
-    inactive: boolean;
+    country: Country;
+    slug?: string;
+    inactive: boolean | null;
   }
 
   enum LaunchResult {
@@ -30,58 +40,77 @@ export namespace RLLEntity {
     IN_FLIGHT_ABORT_CREWED = 3,
   }
 
+  interface Media extends Omit<RLLRecord, "name"> {
+    media_url: string | null;
+    youtube_vidid: string | null;
+    featured: boolean;
+    ldfeatured: boolean;
+    approved: boolean;
+  }
+
   export interface Launch extends RLLRecord {
-    sort_date: Date;
-    provider: Company;
-    vehicle: Vehicle;
-    pad: Pad;
-    missions: Mission[];
+    cospar_id: string;
+    sort_date: string;
+    provider: Omit<Company, "inactive" | "country">;
+    vehicle: Omit<Vehicle, "company_id" | "company">;
+    pad: Omit<Pad, "full_name">;
+    missions: Omit<Mission, "launch_id">[];
+    mission_description: string | null;
     launch_description: string;
-    win_open: Date;
-    t0: Date;
-    win_close: Date;
-    est_date: Date;
+    win_open: string | null;
+    t0: string | null;
+    win_close: string | null;
+    est_date: {
+      month: number | null;
+      day: number | null;
+      year: number | null;
+      quarter: number | null;
+    };
     date_str: string;
-    tags: Tag[];
+    tags: Omit<Tag, "slug">[];
     slug: string;
-    weather_summary: unknown;
-    weather_temp: number;
-    weather_icon: string;
-    weather_updated: Date;
+    weather_summary: string | null;
+    weather_temp: number | null;
+    weather_icon: string | null;
+    weather_updated: string | null;
     quicktext: string;
-    media?: {
-      ldfeatured: string;
-      featured: string;
-    }[];
+    media?: Media[];
     result: LaunchResult;
-    modified: Date;
+    suborbital: boolean;
+    modified: string;
   }
 
   export interface Location extends RLLRecord {
-    latitude: number;
-    longitude: number;
-    country: string;
-    state: string;
+    latitute: string; // original API had a typo which was preserved for backwards compatibility
+    latitude: string;
+    longitude: string;
+    state: State | null;
+    statename?: string | null;
+    country: Country;
+    pads: Omit<Pad, "location" | "country" | "state">[];
     utc_offset: number;
   }
 
   export interface Mission extends RLLRecord {
-    description: string;
-    launch: Launch;
-    company: Company;
+    description: string | null;
+    launch_id: number;
+    company: Omit<Company, "slug" | "inactive" | "country">;
   }
 
   export interface Pad extends RLLRecord {
-    location: Location;
-    country: string;
-    state: string;
+    full_name: string;
+    location: Omit<Location, "pads" | "utc_offset" | "latitute">;
   }
 
   export interface Tag extends Omit<RLLRecord, "name"> {
     text: string;
+    slug: string;
   }
 
-  export interface Vehicle extends RLLRecord {}
+  export interface Vehicle extends RLLRecord {
+    company_id?: number;
+    company: Omit<Company, "slug" | "inactive" | "country">;
+  }
 }
 
 interface RLLBaseQueryConfig {
@@ -139,4 +168,13 @@ export namespace RLLQueryConfig {
 
 export type RLLClientOptions = {
   keyInQueryParams?: boolean;
+};
+
+export type RLLResponse<T> = {
+  valid_auth: boolean;
+  count: number;
+  limit: number;
+  total: number;
+  last_page: number;
+  result: T;
 };

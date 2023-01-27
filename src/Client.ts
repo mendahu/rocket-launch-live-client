@@ -3,9 +3,14 @@ import {
   RLLEndPoint,
   RLLEntity,
   RLLQueryConfig,
-} from "./application_types";
-import { BASE_URL } from "./constants";
-import { apiKeyValidator } from "./utils";
+  RLLResponse,
+} from "./types/application";
+import { BASE_URL, fetcher } from "./fetcher";
+import {
+  apiKeyValidator,
+  convertOptionsToQueryParams,
+  optionsValidator,
+} from "./utils";
 
 class RLLClient {
   private apiKey: string;
@@ -23,79 +28,90 @@ class RLLClient {
       return;
     }
 
+    // Validate Options with warnings or throws
+    optionsValidator(options);
+
     if (options.keyInQueryParams) {
       this.config.keyInQueryParams = options.keyInQueryParams;
     }
   }
 
-  private query<T>(endpoint: string): Promise<T> {
-    const url = new URL("json/" + endpoint, BASE_URL);
-    let headers: HeadersInit | undefined;
-
-    if (this.config.keyInQueryParams) {
-      url.searchParams.set("key", this.apiKey);
-    } else {
-      headers = { authorization: `Bearer ${this.apiKey}` };
-    }
-
-    return fetch(url.href, { headers }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw res;
-      }
-    });
+  private query<T>(endpoint: string, params: URLSearchParams): Promise<T> {
+    return fetcher<T>(
+      this.apiKey,
+      endpoint,
+      params,
+      this.config.keyInQueryParams
+    );
   }
 
   public companies(
     options?: RLLQueryConfig.Companies
-  ): Promise<RLLEntity.Company[] | RLLEntity.Company> {
-    return this.query<RLLEntity.Company[] | RLLEntity.Company>(
-      RLLEndPoint.COMPANIES
+  ): Promise<RLLResponse<RLLEntity.Company[] | RLLEntity.Company>> {
+    const params = convertOptionsToQueryParams(options);
+    return this.query<RLLResponse<RLLEntity.Company[] | RLLEntity.Company>>(
+      RLLEndPoint.COMPANIES,
+      params
     );
   }
 
   public launches(
     options?: RLLQueryConfig.Launches
-  ): Promise<RLLEntity.Launch[] | RLLEntity.Launch> {
-    return this.query<RLLEntity.Launch[] | RLLEntity.Launch>(
-      RLLEndPoint.LAUNCHES
+  ): Promise<RLLResponse<RLLEntity.Launch[] | RLLEntity.Launch>> {
+    const params = convertOptionsToQueryParams(options);
+    return this.query<RLLResponse<RLLEntity.Launch[] | RLLEntity.Launch>>(
+      RLLEndPoint.LAUNCHES,
+      params
     );
   }
 
   public locations(
     options?: RLLQueryConfig.Locations
-  ): Promise<RLLEntity.Location[] | RLLEntity.Location> {
-    return this.query<RLLEntity.Location[] | RLLEntity.Location>(
-      RLLEndPoint.LOCATIONS
+  ): Promise<RLLResponse<RLLEntity.Location[] | RLLEntity.Location>> {
+    const params = convertOptionsToQueryParams(options);
+    return this.query<RLLResponse<RLLEntity.Location[] | RLLEntity.Location>>(
+      RLLEndPoint.LOCATIONS,
+      params
     );
   }
 
   public missions(
     options?: RLLQueryConfig.Missions
-  ): Promise<RLLEntity.Mission[] | RLLEntity.Mission> {
-    return this.query<RLLEntity.Mission[] | RLLEntity.Mission>(
-      RLLEndPoint.MISSIONS
+  ): Promise<RLLResponse<RLLEntity.Mission[] | RLLEntity.Mission>> {
+    const params = convertOptionsToQueryParams(options);
+    return this.query<RLLResponse<RLLEntity.Mission[] | RLLEntity.Mission>>(
+      RLLEndPoint.MISSIONS,
+      params
     );
   }
 
   public pads(
     options?: RLLQueryConfig.Pads
-  ): Promise<RLLEntity.Pad[] | RLLEntity.Pad> {
-    return this.query<RLLEntity.Pad[] | RLLEntity.Pad>(RLLEndPoint.PADS);
+  ): Promise<RLLResponse<RLLEntity.Pad[] | RLLEntity.Pad>> {
+    const params = convertOptionsToQueryParams(options);
+    return this.query<RLLResponse<RLLEntity.Pad[] | RLLEntity.Pad>>(
+      RLLEndPoint.PADS,
+      params
+    );
   }
 
   public tags(
     options?: RLLQueryConfig.Tags
-  ): Promise<RLLEntity.Tag[] | RLLEntity.Tag> {
-    return this.query<RLLEntity.Tag[] | RLLEntity.Tag>(RLLEndPoint.TAGS);
+  ): Promise<RLLResponse<RLLEntity.Tag[] | RLLEntity.Tag>> {
+    const params = convertOptionsToQueryParams(options);
+    return this.query<RLLResponse<RLLEntity.Tag[] | RLLEntity.Tag>>(
+      RLLEndPoint.TAGS,
+      params
+    );
   }
 
   public vehicles(
     options?: RLLQueryConfig.Vehicles
-  ): Promise<RLLEntity.Vehicle[] | RLLEntity.Vehicle> {
-    return this.query<RLLEntity.Vehicle[] | RLLEntity.Vehicle>(
-      RLLEndPoint.VEHICLES
+  ): Promise<RLLResponse<RLLEntity.Vehicle[] | RLLEntity.Vehicle>> {
+    const params = convertOptionsToQueryParams(options);
+    return this.query<RLLResponse<RLLEntity.Vehicle[] | RLLEntity.Vehicle>>(
+      RLLEndPoint.VEHICLES,
+      params
     );
   }
 }

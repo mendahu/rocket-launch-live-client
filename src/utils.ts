@@ -30,7 +30,7 @@ export const optionsValidator = (options: {}): void => {
   for (const option in options) {
     if (option !== "keyInQueryParams") {
       console.warn(
-        `[RLL Client]: RLL Client options do not accept a "${option} property. This property will be ignored.`
+        `[RLL Client]: RLL Client options do not accept a "${option}" property. This property will be ignored.`
       );
     } else {
       if (typeof options[option] !== "boolean") {

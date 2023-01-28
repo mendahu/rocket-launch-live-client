@@ -48,70 +48,78 @@ class RLLClient {
   public companies(
     options?: RLLQueryConfig.Companies
   ): Promise<RLLResponse<RLLEntity.Company[] | RLLEntity.Company>> {
-    const params = queryOptionsValidator(RLLEndPoint.COMPANIES, options);
-    return this.query<RLLResponse<RLLEntity.Company[] | RLLEntity.Company>>(
-      RLLEndPoint.COMPANIES,
-      params
+    return queryOptionsValidator(RLLEndPoint.COMPANIES, options).then(
+      (params) =>
+        this.query<RLLResponse<RLLEntity.Company[] | RLLEntity.Company>>(
+          RLLEndPoint.COMPANIES,
+          params
+        )
     );
   }
 
   public launches(
     options?: RLLQueryConfig.Launches
   ): Promise<RLLResponse<RLLEntity.Launch[] | RLLEntity.Launch>> {
-    const params = queryOptionsValidator(RLLEndPoint.LAUNCHES, options);
-    return this.query<RLLResponse<RLLEntity.Launch[] | RLLEntity.Launch>>(
-      RLLEndPoint.LAUNCHES,
-      params
+    return queryOptionsValidator(RLLEndPoint.LAUNCHES, options).then((params) =>
+      this.query<RLLResponse<RLLEntity.Launch[] | RLLEntity.Launch>>(
+        RLLEndPoint.LAUNCHES,
+        params
+      )
     );
   }
 
   public locations(
     options?: RLLQueryConfig.Locations
   ): Promise<RLLResponse<RLLEntity.Location[] | RLLEntity.Location>> {
-    const params = queryOptionsValidator(RLLEndPoint.LOCATIONS, options);
-    return this.query<RLLResponse<RLLEntity.Location[] | RLLEntity.Location>>(
-      RLLEndPoint.LOCATIONS,
-      params
+    return queryOptionsValidator(RLLEndPoint.LOCATIONS, options).then(
+      (params) =>
+        this.query<RLLResponse<RLLEntity.Location[] | RLLEntity.Location>>(
+          RLLEndPoint.LOCATIONS,
+          params
+        )
     );
   }
-
   public missions(
     options?: RLLQueryConfig.Missions
   ): Promise<RLLResponse<RLLEntity.Mission[] | RLLEntity.Mission>> {
-    const params = queryOptionsValidator(RLLEndPoint.MISSIONS, options);
-    return this.query<RLLResponse<RLLEntity.Mission[] | RLLEntity.Mission>>(
-      RLLEndPoint.MISSIONS,
-      params
+    return queryOptionsValidator(RLLEndPoint.MISSIONS, options).then((params) =>
+      this.query<RLLResponse<RLLEntity.Mission[] | RLLEntity.Mission>>(
+        RLLEndPoint.MISSIONS,
+        params
+      )
     );
   }
 
   public pads(
     options?: RLLQueryConfig.Pads
   ): Promise<RLLResponse<RLLEntity.Pad[] | RLLEntity.Pad>> {
-    const params = queryOptionsValidator(RLLEndPoint.PADS, options);
-    return this.query<RLLResponse<RLLEntity.Pad[] | RLLEntity.Pad>>(
-      RLLEndPoint.PADS,
-      params
+    return queryOptionsValidator(RLLEndPoint.PADS, options).then((params) =>
+      this.query<RLLResponse<RLLEntity.Pad[] | RLLEntity.Pad>>(
+        RLLEndPoint.PADS,
+        params
+      )
     );
   }
 
   public tags(
     options?: RLLQueryConfig.Tags
   ): Promise<RLLResponse<RLLEntity.Tag[] | RLLEntity.Tag>> {
-    const params = queryOptionsValidator(RLLEndPoint.TAGS, options);
-    return this.query<RLLResponse<RLLEntity.Tag[] | RLLEntity.Tag>>(
-      RLLEndPoint.TAGS,
-      params
+    return queryOptionsValidator(RLLEndPoint.TAGS, options).then((params) =>
+      this.query<RLLResponse<RLLEntity.Tag[] | RLLEntity.Tag>>(
+        RLLEndPoint.TAGS,
+        params
+      )
     );
   }
 
   public vehicles(
     options?: RLLQueryConfig.Vehicles
   ): Promise<RLLResponse<RLLEntity.Vehicle[] | RLLEntity.Vehicle>> {
-    const params = queryOptionsValidator(RLLEndPoint.VEHICLES, options);
-    return this.query<RLLResponse<RLLEntity.Vehicle[] | RLLEntity.Vehicle>>(
-      RLLEndPoint.VEHICLES,
-      params
+    return queryOptionsValidator(RLLEndPoint.VEHICLES, options).then((params) =>
+      this.query<RLLResponse<RLLEntity.Vehicle[] | RLLEntity.Vehicle>>(
+        RLLEndPoint.VEHICLES,
+        params
+      )
     );
   }
 }

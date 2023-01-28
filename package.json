@@ -10,7 +10,7 @@
     "build": "tsc",
     "start": "node ./dist/test.js",
     "prepublish": "tsc",
-    "test": "mocha  --watch"
+    "test": "mocha --watch"
   },
   "repository": {
     "type": "git",

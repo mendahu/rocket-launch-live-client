@@ -1,5 +1,6 @@
 const { expect } = require("chai");
 const sinon = require("sinon");
+const https = require("node:https");
 
 const rllc = require("../dist/index");
 const clientGen = rllc.default;

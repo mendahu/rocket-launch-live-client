@@ -23,7 +23,6 @@ export const fetcher = <T>(
 };
 
 const query = <T>(url: URL, headers?: HeadersInit): Promise<T> => {
-  console.log(url, headers);
   return new Promise((resolve, reject) => {
     const req = https.get(url, { headers }, (res) => {
       let data = [];
@@ -31,9 +30,12 @@ const query = <T>(url: URL, headers?: HeadersInit): Promise<T> => {
       res.on("data", (chunk) => data.push(chunk));
 
       res.on("end", () => {
-        const response = Buffer.concat(data).toString();
-
-        resolve(JSON.parse(response));
+        if (res.statusCode === 200) {
+          const response = Buffer.concat(data).toString();
+          resolve(JSON.parse(response));
+        } else {
+          reject(res);
+        }
       });
     });
     req.on("error", reject);

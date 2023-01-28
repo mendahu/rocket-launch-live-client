@@ -8,8 +8,8 @@ import {
 import { fetcher } from "./fetcher";
 import {
   apiKeyValidator,
-  convertOptionsToQueryParams,
   optionsValidator,
+  queryOptionsValidator,
 } from "./utils";
 
 class RLLClient {
@@ -48,7 +48,7 @@ class RLLClient {
   public companies(
     options?: RLLQueryConfig.Companies
   ): Promise<RLLResponse<RLLEntity.Company[] | RLLEntity.Company>> {
-    const params = convertOptionsToQueryParams(options);
+    const params = queryOptionsValidator(RLLEndPoint.COMPANIES, options);
     return this.query<RLLResponse<RLLEntity.Company[] | RLLEntity.Company>>(
       RLLEndPoint.COMPANIES,
       params
@@ -58,7 +58,7 @@ class RLLClient {
   public launches(
     options?: RLLQueryConfig.Launches
   ): Promise<RLLResponse<RLLEntity.Launch[] | RLLEntity.Launch>> {
-    const params = convertOptionsToQueryParams(options);
+    const params = queryOptionsValidator(RLLEndPoint.LAUNCHES, options);
     return this.query<RLLResponse<RLLEntity.Launch[] | RLLEntity.Launch>>(
       RLLEndPoint.LAUNCHES,
       params
@@ -68,7 +68,7 @@ class RLLClient {
   public locations(
     options?: RLLQueryConfig.Locations
   ): Promise<RLLResponse<RLLEntity.Location[] | RLLEntity.Location>> {
-    const params = convertOptionsToQueryParams(options);
+    const params = queryOptionsValidator(RLLEndPoint.LOCATIONS, options);
     return this.query<RLLResponse<RLLEntity.Location[] | RLLEntity.Location>>(
       RLLEndPoint.LOCATIONS,
       params
@@ -78,7 +78,7 @@ class RLLClient {
   public missions(
     options?: RLLQueryConfig.Missions
   ): Promise<RLLResponse<RLLEntity.Mission[] | RLLEntity.Mission>> {
-    const params = convertOptionsToQueryParams(options);
+    const params = queryOptionsValidator(RLLEndPoint.MISSIONS, options);
     return this.query<RLLResponse<RLLEntity.Mission[] | RLLEntity.Mission>>(
       RLLEndPoint.MISSIONS,
       params
@@ -88,7 +88,7 @@ class RLLClient {
   public pads(
     options?: RLLQueryConfig.Pads
   ): Promise<RLLResponse<RLLEntity.Pad[] | RLLEntity.Pad>> {
-    const params = convertOptionsToQueryParams(options);
+    const params = queryOptionsValidator(RLLEndPoint.PADS, options);
     return this.query<RLLResponse<RLLEntity.Pad[] | RLLEntity.Pad>>(
       RLLEndPoint.PADS,
       params
@@ -98,7 +98,7 @@ class RLLClient {
   public tags(
     options?: RLLQueryConfig.Tags
   ): Promise<RLLResponse<RLLEntity.Tag[] | RLLEntity.Tag>> {
-    const params = convertOptionsToQueryParams(options);
+    const params = queryOptionsValidator(RLLEndPoint.TAGS, options);
     return this.query<RLLResponse<RLLEntity.Tag[] | RLLEntity.Tag>>(
       RLLEndPoint.TAGS,
       params
@@ -108,7 +108,7 @@ class RLLClient {
   public vehicles(
     options?: RLLQueryConfig.Vehicles
   ): Promise<RLLResponse<RLLEntity.Vehicle[] | RLLEntity.Vehicle>> {
-    const params = convertOptionsToQueryParams(options);
+    const params = queryOptionsValidator(RLLEndPoint.VEHICLES, options);
     return this.query<RLLResponse<RLLEntity.Vehicle[] | RLLEntity.Vehicle>>(
       RLLEndPoint.VEHICLES,
       params

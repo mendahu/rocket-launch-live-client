@@ -5,7 +5,7 @@ import {
   RLLQueryConfig,
   RLLResponse,
 } from "./types/application";
-import { BASE_URL, fetcher } from "./fetcher";
+import { fetcher } from "./fetcher";
 import {
   apiKeyValidator,
   convertOptionsToQueryParams,

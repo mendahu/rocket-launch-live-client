@@ -1,4 +1,6 @@
-export const BASE_URL = "https://fdo.rocketlaunch.live";
+const https = require("node:https");
+
+const BASE_URL = "https://fdo.rocketlaunch.live";
 
 export const fetcher = <T>(
   apiKey: string,
@@ -17,11 +19,22 @@ export const fetcher = <T>(
 
   params.forEach((v, k) => url.searchParams.set(k, v));
 
-  return fetch(url.href, { headers }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw res;
-    }
+  return query<T>(url, headers);
+};
+
+const query = <T>(url: URL, headers?: HeadersInit): Promise<T> => {
+  return new Promise((resolve, reject) => {
+    const req = https.get(url, { headers }, (res) => {
+      let data = [];
+
+      res.on("data", (chunk) => data.push(chunk));
+
+      res.on("end", () => {
+        const response = Buffer.concat(data).toString();
+
+        resolve(JSON.parse(response));
+      });
+    });
+    req.on("error", reject);
   });
 };

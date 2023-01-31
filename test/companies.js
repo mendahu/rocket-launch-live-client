@@ -23,6 +23,10 @@ describe("companies method", () => {
     sandbox.restore();
   });
 
+  after(() => {
+    utils.warn.restore();
+  });
+
   it("should execute a query with no args", async () => {
     const scope = nock("https://fdo.rocketlaunch.live", {
       reqheaders: {

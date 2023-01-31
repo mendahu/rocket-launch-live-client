@@ -32,6 +32,8 @@ const options = {
   // Defaults to false.
   // Set to true to pass your API key as a query parameter instead of an authorization header (not recommended)
 };
+
+const client = rllc(RLL_API_KEY, options);
 ```
 
 ## Endpoints

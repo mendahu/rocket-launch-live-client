@@ -144,6 +144,25 @@ describe("launches method", () => {
       );
     });
 
+    it("should execute correctly with page number", async () => {
+      const testParams = { page: 6 };
+
+      const params = new URLSearchParams({ page: 6 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
     it("should convert string page to number", async () => {
       const testParams = { page: "5" };
 
@@ -237,6 +256,25 @@ describe("launches method", () => {
         client.launches({ id: () => 5 }),
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
+    });
+
+    it("should execute correctly with id parameter", async () => {
+      const testParams = { id: 6 };
+
+      const params = new URLSearchParams({ id: 6 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
     });
 
     it("should convert string id to number", async () => {
@@ -348,6 +386,25 @@ describe("launches method", () => {
       );
     });
 
+    it("should execute correctly with cospar_id param", async () => {
+      const testParams = { cospar_id: "2022-123" };
+
+      const params = new URLSearchParams({ cospar_id: "2022-123" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
     it("should ignore undefined cospar_id", async () => {
       sandbox.spy(utils, "warn");
 
@@ -374,67 +431,79 @@ describe("launches method", () => {
     });
   });
 
-  describe("search parameter", () => {
-    it("should reject on malformed number search", async () => {
+  describe("after_date parameter", () => {
+    it("should reject on malformed number after_date", async () => {
       return assert.isRejected(
-        client.launches({ search: 5 }),
-        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+        client.launches({ after_date: 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
       );
     });
 
-    it("should reject on malformed empty string search", async () => {
+    it("should reject on malformed array after_date", () => {
       return assert.isRejected(
-        client.launches({ search: "" }),
-        `Malformed query parameter for resource "launches" and parameter: "search": String must have length greater than 0`
+        client.launches({ after_date: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
       );
     });
 
-    it("should reject on malformed array search", () => {
+    it("should reject on malformed string after_date", () => {
       return assert.isRejected(
-        client.launches({ search: [] }),
-        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+        client.launches({ after_date: "2022-10-10T00:30:30Z" }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
       );
     });
 
-    it("should reject on malformed object search", () => {
+    it("should reject on malformed object after_date", () => {
       return assert.isRejected(
-        client.launches({ search: {} }),
-        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+        client.launches({ after_date: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
       );
     });
 
-    it("should reject on malformed date search", () => {
+    it("should reject on malformed boolean after_date", () => {
       return assert.isRejected(
-        client.launches({ search: new Date() }),
-        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+        client.launches({ after_date: false }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
       );
     });
 
-    it("should reject on malformed boolean search", () => {
+    it("should reject on malformed null after_date", () => {
       return assert.isRejected(
-        client.launches({ search: false }),
-        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+        client.launches({ after_date: null }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
       );
     });
 
-    it("should reject on malformed null search", () => {
+    it("should reject on malformed function after_date", () => {
       return assert.isRejected(
-        client.launches({ search: null }),
-        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+        client.launches({ after_date: () => "2022-123" }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
       );
     });
 
-    it("should reject on malformed function search", () => {
-      return assert.isRejected(
-        client.launches({ search: () => "spacex" }),
-        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
-      );
+    it("should execute correctly with after_date", async () => {
+      const testParams = { after_date: new Date("2023-01-02T12:00:00Z") };
+
+      const params = new URLSearchParams({ after_date: "2023-01-02" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
     });
 
-    it("should ignore undefined search", async () => {
+    it("should ignore undefined after_date", async () => {
       sandbox.spy(utils, "warn");
 
-      const testParams = { search: undefined };
+      const testParams = { after_date: undefined };
 
       const params = new URLSearchParams({});
 
@@ -452,7 +521,7 @@ describe("launches method", () => {
       scope.done();
 
       expect(utils.warn.getCall(0).args[0]).to.equal(
-        'Parameter "search" is undefined and will be ignored.'
+        'Parameter "after_date" is undefined and will be ignored.'
       );
     });
   });
@@ -543,6 +612,89 @@ describe("launches method", () => {
 
       expect(utils.warn.getCall(0).args[0]).to.equal(
         'Parameter "country_code" is undefined and will be ignored.'
+      );
+    });
+  });
+
+  describe("search parameter", () => {
+    it("should reject on malformed number search", async () => {
+      return assert.isRejected(
+        client.launches({ search: 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed empty string search", async () => {
+      return assert.isRejected(
+        client.launches({ search: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "search": String must have length greater than 0`
+      );
+    });
+
+    it("should reject on malformed array search", () => {
+      return assert.isRejected(
+        client.launches({ search: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed object search", () => {
+      return assert.isRejected(
+        client.launches({ search: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed date search", () => {
+      return assert.isRejected(
+        client.launches({ search: new Date() }),
+        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed boolean search", () => {
+      return assert.isRejected(
+        client.launches({ search: false }),
+        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed null search", () => {
+      return assert.isRejected(
+        client.launches({ search: null }),
+        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed function search", () => {
+      return assert.isRejected(
+        client.launches({ search: () => "spacex" }),
+        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
+      );
+    });
+
+    it("should ignore undefined search", async () => {
+      sandbox.spy(utils, "warn");
+
+      const testParams = { search: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(utils.warn.getCall(0).args[0]).to.equal(
+        'Parameter "search" is undefined and will be ignored.'
       );
     });
   });

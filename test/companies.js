@@ -144,6 +144,25 @@ describe("companies method", () => {
       );
     });
 
+    it("should execute corectly with page number", async () => {
+      const testParams = { page: 6 };
+
+      const params = new URLSearchParams({ page: 6 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/companies")
+        .query(params)
+        .reply(200, {});
+
+      await client.companies(testParams);
+
+      scope.done();
+    });
+
     it("should convert string page to number", async () => {
       const testParams = { page: "5" };
 
@@ -237,6 +256,25 @@ describe("companies method", () => {
         client.companies({ id: () => 5 }),
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
+    });
+
+    it("should execute correctly with id number", async () => {
+      const testParams = { id: 6 };
+
+      const params = new URLSearchParams({ id: 6 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/companies")
+        .query(params)
+        .reply(200, {});
+
+      await client.companies(testParams);
+
+      scope.done();
     });
 
     it("should convert string id to number", async () => {
@@ -341,6 +379,25 @@ describe("companies method", () => {
       );
     });
 
+    it("should excute correctly with name attribute", async () => {
+      const testParams = { name: "SpaceX" };
+
+      const params = new URLSearchParams({ name: "SpaceX" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/companies")
+        .query(params)
+        .reply(200, {});
+
+      await client.companies(testParams);
+
+      scope.done();
+    });
+
     it("should ignore undefined name", async () => {
       sandbox.spy(utils, "warn");
 
@@ -431,6 +488,25 @@ describe("companies method", () => {
       );
     });
 
+    it("should execute correctly with good country code", async () => {
+      const testParams = { country_code: "CA" };
+
+      const params = new URLSearchParams({ country_code: "CA" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/companies")
+        .query(params)
+        .reply(200, {});
+
+      await client.companies(testParams);
+
+      scope.done();
+    });
+
     it("should ignore undefined country_code", async () => {
       sandbox.spy(utils, "warn");
 
@@ -505,6 +581,25 @@ describe("companies method", () => {
         client.companies({ inactive: () => true }),
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
+    });
+
+    it("should execute correctly with inactive parameter", async () => {
+      const testParams = { inactive: true };
+
+      const params = new URLSearchParams({ inactive: 1 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/companies")
+        .query(params)
+        .reply(200, {});
+
+      await client.companies(testParams);
+
+      scope.done();
     });
 
     it("should ignore undefined inactive", async () => {

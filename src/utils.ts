@@ -1,6 +1,11 @@
 import { RLLEndPoint, RLLQueryConfig } from "./types/application";
 import { countryCodes, usStateCodes } from "./types/standards";
 
+const getLeadingZero = (month: number, offset: number = 0): string => {
+  const str = "0".concat((month + offset).toString());
+  return str.slice(-2);
+};
+
 export const apiKeyValidator = (apiKey: any): void => {
   if (apiKey === undefined) {
     error("RLL Client requires API Key", "type");
@@ -117,17 +122,20 @@ const validators = {
   shortDate: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
       if (!(option instanceof Date)) {
-        return reject("Must be a Date");
+        return reject("Must be a JavaScript Date Object");
       }
       resolve(
-        `${option.getUTCFullYear()}-${option.getUTCMonth()}-${option.getUTCDate()}`
+        `${option.getUTCFullYear()}-${getLeadingZero(
+          option.getUTCMonth(),
+          1
+        )}-${getLeadingZero(option.getUTCDate())}`
       );
     });
   },
   isoDate: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
       if (!(option instanceof Date)) {
-        return reject("Must be a Date");
+        return reject("Must be a JavaScript Date Object");
       }
       resolve(option.toISOString());
     });

@@ -11,3 +11,6 @@ dist/
 
 # test code
 src/test.ts
+
+# Project notes
+notes.md

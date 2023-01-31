@@ -1,6 +1,7 @@
 const { expect } = require("chai");
 const sinon = require("sinon");
-const https = require("node:https");
+const nock = require("nock");
+const utils = require("../dist/utils");
 
 const rllc = require("../dist/index");
 const clientGen = rllc.default;
@@ -54,16 +55,13 @@ describe("rllc Client", () => {
   });
 
   it("should not throw with random options, but should warn", () => {
-    const consoleMock = sandbox.mock(console);
+    sandbox.spy(utils, "warn");
 
     clientGen("aac004f6-07ab-4f82-bff2-71d977072c56", { banana: true });
 
-    consoleMock
-      .expects("warn")
-      .once()
-      .withArgs(
-        '[RLL Client]: RLL Client options do not accept a "banana" property. This property will be ignored.'
-      );
+    expect(utils.warn.getCall(0).args[0]).to.equal(
+      'RLL Client options do not accept a "banana" property. This property will be ignored.'
+    );
   });
 
   it("should throw if keyInQueryParams is not a boolean", () => {
@@ -74,5 +72,38 @@ describe("rllc Client", () => {
     ).to.throw(
       "[RLL Client]: RLL Client configuration option 'keyInQueryParams' must be a boolean."
     );
+  });
+
+  it("should not pass api key to params normally", async () => {
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+      },
+    })
+      .get("/json/launches")
+      .query((actualQueryObject) => {
+        return !actualQueryObject.key;
+      })
+      .reply(200, {});
+
+    const client = clientGen("aac004f6-07ab-4f82-bff2-71d977072c56");
+    await client.launches();
+
+    scope.done();
+  });
+
+  it("should pass api key to params", async () => {
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      badheaders: ["authorization"],
+    })
+      .get("/json/launches?key=aac004f6-07ab-4f82-bff2-71d977072c56")
+      .reply(200, {});
+
+    const client = clientGen("aac004f6-07ab-4f82-bff2-71d977072c56", {
+      keyInQueryParams: true,
+    });
+    await client.launches();
+
+    scope.done();
   });
 });

@@ -9,3 +9,6 @@ node_modules/
 src/test.ts
 
 test
+
+# Project notes
+notes.md

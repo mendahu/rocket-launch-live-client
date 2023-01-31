@@ -28,7 +28,6 @@ export namespace RLLEntity {
 
   export interface Company extends RLLRecord {
     country: Country;
-    slug?: string;
     inactive: boolean | null;
   }
 
@@ -115,13 +114,13 @@ export namespace RLLEntity {
 
 interface RLLBaseQueryConfig {
   id?: number;
+  page?: number;
 }
 
 export namespace RLLQueryConfig {
   export interface Companies extends RLLBaseQueryConfig {
     name?: string;
     country_code?: ISO3166Alpha2.CountryCode;
-    slug?: string;
     inactive?: boolean;
   }
 
@@ -164,6 +163,15 @@ export namespace RLLQueryConfig {
   export interface Vehicles extends RLLBaseQueryConfig {
     name?: string;
   }
+
+  export interface All
+    extends Companies,
+      Launches,
+      Locations,
+      Missions,
+      Pads,
+      Tags,
+      Vehicles {}
 }
 
 export type RLLClientOptions = {
@@ -171,6 +179,7 @@ export type RLLClientOptions = {
 };
 
 export type RLLResponse<T> = {
+  errors?: string[];
   valid_auth: boolean;
   count: number;
   limit: number;

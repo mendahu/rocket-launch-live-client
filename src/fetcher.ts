@@ -33,6 +33,8 @@ const query = <T>(url: URL, headers?: HeadersInit): Promise<T> => {
         if (res.statusCode === 200) {
           const response = Buffer.concat(data).toString();
           resolve(JSON.parse(response));
+        } else if (res.statusCode === 404) {
+          reject({ error: "Resource not found", statusCode: 404 });
         } else {
           reject(res);
         }

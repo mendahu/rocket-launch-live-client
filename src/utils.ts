@@ -1,18 +1,17 @@
 import { RLLEndPoint, RLLQueryConfig } from "./types/application";
+import { countryCodes, usStateCodes } from "./types/standards";
 
 export const apiKeyValidator = (apiKey: any): void => {
   if (apiKey === undefined) {
-    throw new Error("[RLL Client]: RLL Client requires API Key");
+    error("RLL Client requires API Key", "type");
   }
 
   if (typeof apiKey !== "string") {
-    throw new Error("[RLL Client]: RLL Client API Key must be a string");
+    error("RLL Client API Key must be a string", "type");
   }
 
   if (apiKey === "") {
-    throw new Error(
-      "[RLL Client]: RLL Client API Key cannot be an empty string"
-    );
+    error("RLL Client API Key cannot be an empty string", "type");
   }
 
   const validator = apiKey.match(
@@ -20,8 +19,9 @@ export const apiKeyValidator = (apiKey: any): void => {
   );
 
   if (validator === null) {
-    throw new Error(
-      "[RLL Client]: RLL Client API Key appears malformed. RLL Client API Keys are in UUID format."
+    error(
+      "RLL Client API Key appears malformed. RLL Client API Keys are in UUID format.",
+      "type"
     );
   }
 };
@@ -29,13 +29,14 @@ export const apiKeyValidator = (apiKey: any): void => {
 export const optionsValidator = (options: {}): void => {
   for (const option in options) {
     if (option !== "keyInQueryParams") {
-      console.warn(
-        `[RLL Client]: RLL Client options do not accept a "${option}" property. This property will be ignored.`
+      warn(
+        `RLL Client options do not accept a "${option}" property. This property will be ignored.`
       );
     } else {
       if (typeof options[option] !== "boolean") {
-        throw new Error(
-          "[RLL Client]: RLL Client configuration option 'keyInQueryParams' must be a boolean."
+        error(
+          "RLL Client configuration option 'keyInQueryParams' must be a boolean.",
+          "type"
         );
       }
     }
@@ -46,37 +47,43 @@ const validators = {
   string: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
       if (typeof option !== "string") {
-        reject("Must be a string");
+        return reject("Must be a string");
       }
       if (option.length <= 0) {
-        reject("String must have length greater than 0");
+        return reject("String must have length greater than 0");
       }
       resolve(option);
     });
   },
-  boolean: (option: any): Promise<boolean> => {
+  boolean: (option: any): Promise<number> => {
     return new Promise((resolve, reject) => {
       if (typeof option !== "boolean") {
-        reject("Must be a boolean");
+        return reject("Must be a boolean");
       }
-      resolve(option);
+      resolve(option === true ? 1 : 0);
     });
   },
   number: (option: any): Promise<number> => {
     return new Promise((resolve, reject) => {
-      if (typeof option !== "number") {
-        reject("Must be a number");
+      if (typeof option === "number") {
+        return resolve(option);
       }
-      resolve(option);
+      if (typeof option !== "string" || isNaN(Number(option))) {
+        return reject("Must be a number");
+      } else {
+        resolve(Number(option));
+      }
     });
   },
   countryCode: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
       if (typeof option !== "string") {
-        reject("Must be a string");
+        return reject("Must be a string");
       }
-      if (option.length !== 2) {
-        reject("Countries codes are two letters only (ie. RU, US)");
+      if (!countryCodes[option]) {
+        return reject(
+          "Invalid country code. Country codes should follow ISO 3166-1 A2 convention."
+        );
       }
       resolve(option);
     });
@@ -84,10 +91,12 @@ const validators = {
   stateCode: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
       if (typeof option !== "string") {
-        reject("Must be a string");
+        return reject("Must be a string");
       }
-      if (option.length !== 2) {
-        reject("US state codes are two letters only (ie. FL, CA)");
+      if (!usStateCodes[option]) {
+        return reject(
+          "Invalid United States State Code. State Codes should follow ISO 3166-2 convention."
+        );
       }
       resolve(option);
     });
@@ -95,55 +104,48 @@ const validators = {
   cosparId: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
       if (typeof option !== "string") {
-        reject("Must be a string");
+        return reject("Must be a string");
       }
       if (!option.match(/^\d{4}\-\d{3}$/g)) {
-        reject("Cospar IDs must be in the format of YYYY-NNN (eg. 2023-123)");
+        return reject(
+          "Cospar IDs must be in the format of YYYY-NNN (eg. 2023-123)"
+        );
       }
       resolve(option);
     });
   },
   shortDate: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
-      if (typeof option !== "string") {
-        reject("Must be a string");
+      if (!(option instanceof Date)) {
+        return reject("Must be a Date");
       }
-      if (
-        !option.match(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/g)
-      ) {
-        reject("Cospar IDs must be in the format of YYYY-NNN (eg. 2023-123)");
-      }
-      resolve(option);
+      resolve(
+        `${option.getUTCFullYear()}-${option.getUTCMonth()}-${option.getUTCDate()}`
+      );
     });
   },
   isoDate: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
-      if (typeof option !== "string") {
-        reject("Must be a string");
+      if (!(option instanceof Date)) {
+        return reject("Must be a Date");
       }
-      if (
-        !option.match(
-          /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])\T(0[0-9]|1[0-9]|2[0-3])\:(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])\:(0[0-9]|1[0-9]|2[0-9]|3[0-9]|4[0-9]|5[0-9])\Z$/g
-        )
-      ) {
-        reject("Cospar IDs must be in the format of YYYY-NNN (eg. 2023-123)");
-      }
-      resolve(option);
+      resolve(option.toISOString());
     });
   },
 };
 
 const optionsMap = {
   companies: {
+    page: validators.number,
     id: validators.number,
     name: validators.string,
     country_code: validators.countryCode,
-    slug: validators.string,
     inactive: validators.boolean,
   },
   launches: {
+    page: validators.number,
     id: validators.number,
-    cospar_id: validators.string,
+    cospar_id: validators.cosparId,
     after_date: validators.shortDate,
     before_date: validators.shortDate,
     modified_since: validators.isoDate,
@@ -158,26 +160,31 @@ const optionsMap = {
     slug: validators.string,
   },
   locations: {
+    page: validators.number,
     id: validators.number,
     name: validators.string,
     state_abbr: validators.stateCode,
     country_code: validators.countryCode,
   },
   missions: {
+    page: validators.number,
     id: validators.number,
     name: validators.string,
   },
   pads: {
+    page: validators.number,
     id: validators.number,
     name: validators.string,
     state_abbr: validators.stateCode,
     country_code: validators.countryCode,
   },
   tags: {
+    page: validators.number,
     id: validators.number,
     text: validators.string,
   },
   vehicles: {
+    page: validators.number,
     id: validators.number,
     name: validators.string,
   },
@@ -185,29 +192,64 @@ const optionsMap = {
 
 export const queryOptionsValidator = (
   resource: RLLEndPoint,
-  options?: RLLQueryConfig.Companies
+  options?: RLLQueryConfig.All
 ): Promise<URLSearchParams> => {
   const params = new URLSearchParams();
   const paramsPromises = [];
 
+  if (!options) {
+    return Promise.resolve(params);
+  }
+
+  if (
+    (options.id || options.slug || options.cospar_id) &&
+    Object.keys(options).length > 1
+  ) {
+    warn(
+      "Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
+    );
+  }
+
   for (const option in options) {
     if (!optionsMap[resource][option]) {
-      console.warn(
-        `[RLL Client]: Parameter "${option}" is not a valid option for the ${resource} endpoint. It will be ignored.`
+      warn(
+        `Parameter "${option}" is not a valid option for the ${resource} endpoint. It will be ignored.`
       );
+      continue;
+    }
+
+    if (options[option] === undefined) {
+      warn(`Parameter "${option}" is undefined and will be ignored.`);
       continue;
     }
 
     const promise = optionsMap[resource][option](options[option])
       .then((o) => params.set(option, o))
-      .catch((err) =>
-        console.warn(
-          `[RLL Client]: Malfored query parameter for resource "${resource}" and parameter: "${option}": ${err}.`
-        )
-      );
+      .catch((err) => {
+        throw `Malformed query parameter for resource "${resource}" and parameter: "${option}": ${err}.`;
+      });
 
     paramsPromises.push(promise);
   }
 
-  return Promise.allSettled(paramsPromises).then(() => params);
+  return Promise.all(paramsPromises).then(() => params);
+};
+
+export const warn = (msg: string) => console.warn(`[RLL Client]: ${msg}`);
+
+export const error = (
+  msg: string,
+  type: "type" | "range" | "error" = "error"
+) => {
+  switch (type) {
+    case "error": {
+      throw new Error(`[RLL Client]: ${msg}`);
+    }
+    case "type": {
+      throw new TypeError(`[RLL Client]: ${msg}`);
+    }
+    case "range": {
+      throw new RangeError(`[RLL Client]: ${msg}`);
+    }
+  }
 };

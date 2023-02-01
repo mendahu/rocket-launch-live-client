@@ -121,15 +121,39 @@ const options = {
   // Also accepts any date string which can be used to create a valid Date object in JavaScript
   modified_since: new Date("2023-01-31T06:00:00Z")
 
-
+  // Launch location id
+  // Also accepts number parseable strings like "1"
   location_id: 1,
+
+  // Launch pad id
+  // Also accepts number parseable strings like "1"
   pad_id: 1,
+
+  // Launch provider id
+  // Also accepts number parseable strings like "1"
   provider_id: 1,
+
+  // Launch tag id
+  // Also accepts number parseable strings like "1"
   tag_id: 1,
+
+  // Launch vehicle id
+  // Also accepts number parseable strings like "1"
   vehicle_id: 1,
-  state_abbr: "FL", //ISO 3166-2 US State Code Abbreviation
-  country_code: "US", // ISO 3166-1 Alpha 2 Country Code
+
+  // US State
+  // ISO 3166-2 US State Code Abbreviation
+  state_abbr: "FL",
+
+  // Country of launch
+  // ISO 3166-1 Alpha 2 Country Code
+  country_code: "US",
+
+  // Search string
+  // Also accepts numbers like 2020
   search: "Starlink",
+
+  // Unique launch slug as used on RocketLaunch.live
   slug: "ses-20-ses-21"
 };
 ```

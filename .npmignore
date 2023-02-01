@@ -7,6 +7,7 @@ node_modules/
 # source code and tests
 src
 test
+tsconfig.json
 
 # Other
 notes.md

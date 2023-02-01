@@ -113,8 +113,8 @@ export namespace RLLEntity {
 }
 
 interface RLLBaseQueryConfig {
-  id?: number;
-  page?: number;
+  id?: number | string;
+  page?: number | string;
 }
 
 export namespace RLLQueryConfig {
@@ -126,9 +126,9 @@ export namespace RLLQueryConfig {
 
   export interface Launches extends RLLBaseQueryConfig {
     cospar_id?: string;
-    after_date?: Date;
-    before_date?: Date;
-    modified_since?: Date;
+    after_date?: Date | string;
+    before_date?: Date | string;
+    modified_since?: Date | string;
     location_id?: number;
     pad_id?: number;
     provider_id?: number;

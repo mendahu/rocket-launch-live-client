@@ -435,54 +435,106 @@ describe("launches method", () => {
     it("should reject on malformed number after_date", async () => {
       return assert.isRejected(
         client.launches({ after_date: 5 }),
-        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
+      );
+    });
+
+    it("should reject on malformed string after_date", async () => {
+      return assert.isRejected(
+        client.launches({ after_date: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be an ISO 8601 Date String`
+      );
+    });
+
+    it("should reject on malformed string after_date", async () => {
+      return assert.isRejected(
+        client.launches({ after_date: "banana" }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be an ISO 8601 Date String`
+      );
+    });
+
+    it("should reject on malformed string after_date", async () => {
+      return assert.isRejected(
+        client.launches({ after_date: "22-01-34" }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be an ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed array after_date", () => {
       return assert.isRejected(
         client.launches({ after_date: [] }),
-        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
-      );
-    });
-
-    it("should reject on malformed string after_date", () => {
-      return assert.isRejected(
-        client.launches({ after_date: "2022-10-10T00:30:30Z" }),
-        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed object after_date", () => {
       return assert.isRejected(
         client.launches({ after_date: {} }),
-        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed boolean after_date", () => {
       return assert.isRejected(
         client.launches({ after_date: false }),
-        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed null after_date", () => {
       return assert.isRejected(
         client.launches({ after_date: null }),
-        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed function after_date", () => {
       return assert.isRejected(
-        client.launches({ after_date: () => "2022-123" }),
-        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object.`
+        client.launches({ after_date: () => new Date("2023-01-02T12:00:00Z") }),
+        `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should execute correctly with after_date", async () => {
+    it("should execute correctly with Date after_date", async () => {
       const testParams = { after_date: new Date("2023-01-02T12:00:00Z") };
+
+      const params = new URLSearchParams({ after_date: "2023-01-02" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should execute correctly with full string after_date", async () => {
+      const testParams = { after_date: "2023-01-02T12:00:00Z" };
+
+      const params = new URLSearchParams({ after_date: "2023-01-02" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should execute correctly with partial string after_date", async () => {
+      const testParams = { after_date: "2023-01-02" };
 
       const params = new URLSearchParams({ after_date: "2023-01-02" });
 
@@ -530,54 +582,106 @@ describe("launches method", () => {
     it("should reject on malformed number before_date", async () => {
       return assert.isRejected(
         client.launches({ before_date: 5 }),
-        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
+      );
+    });
+
+    it("should reject on malformed string before_date", async () => {
+      return assert.isRejected(
+        client.launches({ before_date: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be an ISO 8601 Date String`
+      );
+    });
+
+    it("should reject on malformed string before_date", async () => {
+      return assert.isRejected(
+        client.launches({ before_date: "banana" }),
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be an ISO 8601 Date String`
+      );
+    });
+
+    it("should reject on malformed string before_date", async () => {
+      return assert.isRejected(
+        client.launches({ before_date: "22-01-34" }),
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be an ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed array before_date", () => {
       return assert.isRejected(
         client.launches({ before_date: [] }),
-        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
-      );
-    });
-
-    it("should reject on malformed string before_date", () => {
-      return assert.isRejected(
-        client.launches({ before_date: "2022-10-10T00:30:30Z" }),
-        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed object before_date", () => {
       return assert.isRejected(
         client.launches({ before_date: {} }),
-        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed boolean before_date", () => {
       return assert.isRejected(
         client.launches({ before_date: false }),
-        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed null before_date", () => {
       return assert.isRejected(
         client.launches({ before_date: null }),
-        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed function before_date", () => {
       return assert.isRejected(
         client.launches({ before_date: () => "2022-123" }),
-        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should execute correctly with before_date", async () => {
       const testParams = { before_date: new Date("2023-11-22T12:00:00Z") };
+
+      const params = new URLSearchParams({ before_date: "2023-11-22" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should execute correctly with before_date", async () => {
+      const testParams = { before_date: "2023-11-22T12:00:00Z" };
+
+      const params = new URLSearchParams({ before_date: "2023-11-22" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should execute correctly with before_date", async () => {
+      const testParams = { before_date: "2023-11-22" };
 
       const params = new URLSearchParams({ before_date: "2023-11-22" });
 
@@ -625,49 +729,63 @@ describe("launches method", () => {
     it("should reject on malformed number modified_since", async () => {
       return assert.isRejected(
         client.launches({ modified_since: 5 }),
-        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed array modified_since", () => {
       return assert.isRejected(
         client.launches({ modified_since: [] }),
-        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed string modified_since", () => {
       return assert.isRejected(
-        client.launches({ modified_since: "2022-10-10T00:30:30Z" }),
-        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+        client.launches({ modified_since: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be an ISO 8601 Date String`
+      );
+    });
+
+    it("should reject on malformed string modified_since", () => {
+      return assert.isRejected(
+        client.launches({ modified_since: "banana" }),
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be an ISO 8601 Date String`
+      );
+    });
+
+    it("should reject on malformed string modified_since", () => {
+      return assert.isRejected(
+        client.launches({ modified_since: "2022-33-33" }),
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be an ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed object modified_since", () => {
       return assert.isRejected(
         client.launches({ modified_since: {} }),
-        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed boolean modified_since", () => {
       return assert.isRejected(
         client.launches({ modified_since: false }),
-        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed null modified_since", () => {
       return assert.isRejected(
         client.launches({ modified_since: null }),
-        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
     it("should reject on malformed function modified_since", () => {
       return assert.isRejected(
         client.launches({ modified_since: () => "2022-123" }),
-        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
@@ -676,6 +794,48 @@ describe("launches method", () => {
 
       const params = new URLSearchParams({
         modified_since: "2023-11-22T12:00:00Z",
+      });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should execute correctly with modified_since", async () => {
+      const testParams = { modified_since: "2023-11-22T12:00:00Z" };
+
+      const params = new URLSearchParams({
+        modified_since: "2023-11-22T12:00:00Z",
+      });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should execute correctly with modified_since", async () => {
+      const testParams = { modified_since: "2023-11-22" };
+
+      const params = new URLSearchParams({
+        modified_since: "2023-11-22T00:00:00Z",
       });
 
       const scope = nock("https://fdo.rocketlaunch.live", {

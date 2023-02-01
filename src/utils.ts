@@ -121,23 +121,47 @@ const validators = {
   },
   shortDate: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
-      if (!(option instanceof Date)) {
-        return reject("Must be a JavaScript Date Object");
+      if (typeof option === "string" || option instanceof Date) {
+        let date: Date;
+
+        if (typeof option === "string") {
+          const parsed = Date.parse(option);
+          if (isNaN(parsed)) {
+            return reject("Must be an ISO 8601 Date String");
+          }
+          date = new Date(parsed);
+        } else {
+          date = option;
+        }
+
+        resolve(
+          `${date.getUTCFullYear()}-${getLeadingZero(
+            date.getUTCMonth(),
+            1
+          )}-${getLeadingZero(date.getUTCDate())}`
+        );
       }
-      resolve(
-        `${option.getUTCFullYear()}-${getLeadingZero(
-          option.getUTCMonth(),
-          1
-        )}-${getLeadingZero(option.getUTCDate())}`
-      );
+      return reject("Must be a JavaScript Date Object or ISO 8601 Date String");
     });
   },
   isoDate: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
-      if (!(option instanceof Date)) {
-        return reject("Must be a JavaScript Date Object");
+      if (typeof option === "string" || option instanceof Date) {
+        let date: Date;
+
+        if (typeof option === "string") {
+          const parsed = Date.parse(option);
+          if (isNaN(parsed)) {
+            return reject("Must be an ISO 8601 Date String");
+          }
+          date = new Date(parsed);
+        } else {
+          date = option;
+        }
+
+        resolve(date.toISOString().slice(0, 19).concat("Z"));
       }
-      resolve(option.toISOString().slice(0, 19).concat("Z"));
+      return reject("Must be a JavaScript Date Object or ISO 8601 Date String");
     });
   },
 };

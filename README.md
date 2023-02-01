@@ -56,6 +56,7 @@ All endpoints return a maximum of 25 results per page. A `page` param can be pas
 
 ```js
 const response = await client.launches({ page: 2 });
+// Also accepts page number as a number-parseable string like "2"
 ```
 
 For complete API Documentation on parameters, be sure to visit [RocketLaunch.Live](https://www.rocketlaunch.live/api)
@@ -70,10 +71,19 @@ Optional search parameters:
 
 ```js
 const options = {
+  // Company numeric id
+  // Also accepts number parseable strings like "1"
   id: 1,
+
+  // Company name
   name: "SpaceX",
-  country_code: "US", // ISO 3166 Alpha 2 Country Code
-  inactive: true, // for defunct companies
+
+  // Company country
+  // ISO 3166 Alpha 2 Country Code
+  country_code: "US",
+
+  // For defunct companies
+  inactive: true,
 };
 ```
 
@@ -87,11 +97,31 @@ Optional search parameters:
 
 ```js
 const options = {
+  // Launch numeric id
+  // Also accepts number parseable strings like "1"
   id: 1,
-  cospar_id: "2022-123", // Format YYYY-NNN
-  before_date: new Date("2023-01-31") // JS Date Object - Anything more precise than day is ignored
-  after_date: new Date("2023-01-31") // JS Date Object - Anything more precise than day is ignored
-  modified_since: new Date("2023-01-31T06:00:00Z") // JS Date Object
+
+  // COSPAR
+  // Format YYYY-NNN
+  cospar_id: "2022-123",
+
+  // Show launches only before this date
+  // JS Date Object - Anything more precise than day is ignored
+  // Also accepts any date string which can be used to create a valid Date object in JavaScript
+  before_date: new Date("2023-01-31")
+
+  // Show launches only after this date
+  // JS Date Object - Anything more precise than day is ignored
+  // Also accepts any date string which can be used to create a valid Date object in JavaScript
+  after_date: new Date("2023-01-31")
+
+  // Show launches that have had data updated since this date
+  // Useful for checking for changes since your last API call
+  // JS Date Object
+  // Also accepts any date string which can be used to create a valid Date object in JavaScript
+  modified_since: new Date("2023-01-31T06:00:00Z")
+
+
   location_id: 1,
   pad_id: 1,
   provider_id: 1,

@@ -1,10 +1,24 @@
 # rocket-launch-live-client
 
-This package is a JavaScript library for interacting with the [RocketLaunch.Live](https://www.rocketlaunch.live) API.
+## Table of Contents
 
-_This project is currently a work in progress._
+- [Simple Usage](#simple)
+- [Client Configuration](#config)
+- [Endpoints](#endpoints)
+  - [Response Types](#types)
+  - [Companies](#companies)
+  - [Launches](#launches)
+  - [Locations](#locations)
+  - [Missions](#missions)
+  - [Pads](#pads)
+  - [Tags](#tags)
+  - [Vehicles](#vehicles)
 
-Simple usage:
+This package is a fully-typed, promise-based, zero-dependency Node.JS JavaScript/TypeScript library for interacting with the [RocketLaunch.Live](https://www.rocketlaunch.live) API.
+
+<a name="simple"></a>
+
+## Simple usage
 
 ```js
 // Import package
@@ -20,6 +34,8 @@ const client = rllc(RLL_API_KEY);
 const launches = await client.launches();
 ```
 
+<a name="config"></a>
+
 ## Client Configuration
 
 RLL Clients require an API key as the first parameter, and will throw if one is not present.
@@ -28,13 +44,16 @@ The client can be configured with an optional second parameter using the followi
 
 ```js
 const options = {
-  keyInQueryParams: true,
   // Defaults to false.
-  // Set to true to pass your API key as a query parameter instead of an authorization header (not recommended)
+  // API Key is normally passed in the Authorization Bearer header
+  // Set to true to pass your API key as a query parameter instead (not recommended)
+  keyInQueryParams: true,
 };
 
 const client = rllc(RLL_API_KEY, options);
 ```
+
+<a name="endpoints"></a>
 
 ## Endpoints
 
@@ -52,7 +71,7 @@ type RLLResponse<T> = {
 };
 ```
 
-All endpoints return a maximum of 25 results per page. A `page` param can be passed to retrieve incremental results.
+All endpoints return a maximum of 25 results per page. A `page` argument can be passed to retrieve incremental results.
 
 ```js
 const response = await client.launches({ page: 2 });
@@ -60,6 +79,14 @@ const response = await client.launches({ page: 2 });
 ```
 
 For complete API Documentation on parameters, be sure to visit [RocketLaunch.Live](https://www.rocketlaunch.live/api)
+
+<a name="types"></a>
+
+### Response Types
+
+All entity response types are browseable in the [GitHub Repository](https://github.com/mendahu/rocket-launch-live-client/tree/main/src/types).
+
+<a name="companies"></a>
 
 ### Companies
 
@@ -86,6 +113,8 @@ const options = {
   inactive: true,
 };
 ```
+
+<a name="launches"></a>
 
 ### Launches
 
@@ -158,6 +187,8 @@ const options = {
 };
 ```
 
+<a name="locations"></a>
+
 ### Locations
 
 ```js
@@ -185,6 +216,8 @@ const options = {
 };
 ```
 
+<a name="missions"></a>
+
 ### Missions
 
 ```js
@@ -203,6 +236,8 @@ const options = {
   name: "Juno",
 };
 ```
+
+<a name="pads"></a>
 
 ### Pads
 
@@ -231,6 +266,8 @@ const options = {
 };
 ```
 
+<a name="tags"></a>
+
 ### Tags
 
 ```js
@@ -249,6 +286,8 @@ const options = {
   text: "Crewed",
 };
 ```
+
+<a name="vehicles"></a>
 
 ### Vehicles
 

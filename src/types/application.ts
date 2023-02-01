@@ -12,7 +12,6 @@ export enum RLLEndPoint {
 
 interface RLLRecord {
   id: number;
-  name: string;
 }
 
 export namespace RLLEntity {
@@ -39,7 +38,7 @@ export namespace RLLEntity {
     IN_FLIGHT_ABORT_CREWED = 3,
   }
 
-  interface Media extends Omit<RLLRecord, "name"> {
+  interface Media extends RLLRecord {
     media_url: string | null;
     youtube_vidid: string | null;
     featured: boolean;
@@ -48,6 +47,7 @@ export namespace RLLEntity {
   }
 
   export interface Launch extends RLLRecord {
+    name: string;
     cospar_id: string;
     sort_date: string;
     provider: Omit<Company, "inactive" | "country">;
@@ -80,6 +80,7 @@ export namespace RLLEntity {
   }
 
   export interface Location extends RLLRecord {
+    name: string;
     latitute: string; // original API had a typo which was preserved for backwards compatibility
     latitude: string;
     longitude: string;
@@ -91,22 +92,25 @@ export namespace RLLEntity {
   }
 
   export interface Mission extends RLLRecord {
+    name: string;
     description: string | null;
     launch_id: number;
     company: Omit<Company, "slug" | "inactive" | "country">;
   }
 
   export interface Pad extends RLLRecord {
+    name: string;
     full_name: string;
     location: Omit<Location, "pads" | "utc_offset" | "latitute">;
   }
 
-  export interface Tag extends Omit<RLLRecord, "name"> {
+  export interface Tag extends RLLRecord {
     text: string;
     slug: string;
   }
 
   export interface Vehicle extends RLLRecord {
+    name: string;
     company_id?: number;
     company: Omit<Company, "slug" | "inactive" | "country">;
   }

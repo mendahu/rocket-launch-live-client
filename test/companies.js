@@ -435,14 +435,14 @@ describe("companies method", () => {
     it("should reject on malformed empty string country_code", async () => {
       return assert.isRejected(
         client.companies({ country_code: "" }),
-        `Malformed query parameter for resource "companies" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention.`
+        `Malformed query parameter for resource "companies" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
     it("should reject on malformed nonexistant country_code", async () => {
       return assert.isRejected(
         client.companies({ country_code: "XX" }),
-        `Malformed query parameter for resource "companies" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention.`
+        `Malformed query parameter for resource "companies" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
@@ -489,9 +489,9 @@ describe("companies method", () => {
     });
 
     it("should execute correctly with good country code", async () => {
-      const testParams = { country_code: "CA" };
+      const testParams = { country_code: "US" };
 
-      const params = new URLSearchParams({ country_code: "CA" });
+      const params = new URLSearchParams({ country_code: "US" });
 
       const scope = nock("https://fdo.rocketlaunch.live", {
         reqheaders: {

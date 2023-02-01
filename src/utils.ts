@@ -73,7 +73,11 @@ const validators = {
       if (typeof option === "number") {
         return resolve(option);
       }
-      if (typeof option !== "string" || isNaN(Number(option))) {
+      if (
+        typeof option !== "string" ||
+        option === "" ||
+        isNaN(Number(option))
+      ) {
         return reject("Must be a number");
       } else {
         resolve(Number(option));
@@ -87,7 +91,7 @@ const validators = {
       }
       if (!countryCodes[option]) {
         return reject(
-          "Invalid country code. Country codes should follow ISO 3166-1 A2 convention."
+          "Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'."
         );
       }
       resolve(option);
@@ -100,7 +104,7 @@ const validators = {
       }
       if (!usStateCodes[option]) {
         return reject(
-          "Invalid United States State Code. State Codes should follow ISO 3166-2 convention."
+          "Invalid United States State Code. State Codes should follow ISO 3166-2 convention, like 'FL'."
         );
       }
       resolve(option);

@@ -102,6 +102,13 @@ describe("launches method", () => {
       );
     });
 
+    it("should reject on malformed empty string page", async () => {
+      return assert.isRejected(
+        client.launches({ page: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
+      );
+    });
+
     it("should reject on malformed array page", () => {
       return assert.isRejected(
         client.launches({ page: [] }),
@@ -212,6 +219,13 @@ describe("launches method", () => {
     it("should reject on malformed string id", async () => {
       return assert.isRejected(
         client.launches({ id: "banana" }),
+        `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed empty string id", async () => {
+      return assert.isRejected(
+        client.launches({ id: "" }),
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
@@ -878,6 +892,720 @@ describe("launches method", () => {
     });
   });
 
+  describe("location_id parameter", () => {
+    it("should reject on malformed string location_id", async () => {
+      return assert.isRejected(
+        client.launches({ location_id: "banana" }),
+        `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed empty string location_id", async () => {
+      return assert.isRejected(
+        client.launches({ location_id: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed array location_id", () => {
+      return assert.isRejected(
+        client.launches({ location_id: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed object location_id", () => {
+      return assert.isRejected(
+        client.launches({ location_id: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed date location_id", () => {
+      return assert.isRejected(
+        client.launches({ location_id: new Date() }),
+        `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed boolean location_id", () => {
+      return assert.isRejected(
+        client.launches({ location_id: false }),
+        `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed null location_id", () => {
+      return assert.isRejected(
+        client.launches({ location_id: null }),
+        `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed function location_id", () => {
+      return assert.isRejected(
+        client.launches({ location_id: () => 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
+      );
+    });
+
+    it("should execute correctly with location_id number", async () => {
+      const testParams = { location_id: 3 };
+
+      const params = new URLSearchParams({ location_id: 3 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should convert string location_id to number", async () => {
+      const testParams = { location_id: "8" };
+
+      const params = new URLSearchParams({ location_id: 8 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should ignore undefined location_id", async () => {
+      sandbox.spy(utils, "warn");
+
+      const testParams = { location_id: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(utils.warn.getCall(0).args[0]).to.equal(
+        'Parameter "location_id" is undefined and will be ignored.'
+      );
+    });
+  });
+
+  describe("pad_id parameter", () => {
+    it("should reject on malformed string pad_id", async () => {
+      return assert.isRejected(
+        client.launches({ pad_id: "banana" }),
+        `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed empty string pad_id", async () => {
+      return assert.isRejected(
+        client.launches({ pad_id: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed array pad_id", () => {
+      return assert.isRejected(
+        client.launches({ pad_id: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed object pad_id", () => {
+      return assert.isRejected(
+        client.launches({ pad_id: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed date pad_id", () => {
+      return assert.isRejected(
+        client.launches({ pad_id: new Date() }),
+        `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed boolean pad_id", () => {
+      return assert.isRejected(
+        client.launches({ pad_id: false }),
+        `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed null pad_id", () => {
+      return assert.isRejected(
+        client.launches({ pad_id: null }),
+        `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed function pad_id", () => {
+      return assert.isRejected(
+        client.launches({ pad_id: () => 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
+      );
+    });
+
+    it("should execute correctly with pad_id number", async () => {
+      const testParams = { pad_id: 3 };
+
+      const params = new URLSearchParams({ pad_id: 3 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should convert string pad_id to number", async () => {
+      const testParams = { pad_id: "8" };
+
+      const params = new URLSearchParams({ pad_id: 8 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should ignore undefined pad_id", async () => {
+      sandbox.spy(utils, "warn");
+
+      const testParams = { pad_id: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(utils.warn.getCall(0).args[0]).to.equal(
+        'Parameter "pad_id" is undefined and will be ignored.'
+      );
+    });
+  });
+
+  describe("provider_id parameter", () => {
+    it("should reject on malformed string provider_id", async () => {
+      return assert.isRejected(
+        client.launches({ provider_id: "banana" }),
+        `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed empty string provider_id", async () => {
+      return assert.isRejected(
+        client.launches({ provider_id: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed array provider_id", () => {
+      return assert.isRejected(
+        client.launches({ provider_id: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed object provider_id", () => {
+      return assert.isRejected(
+        client.launches({ provider_id: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed date provider_id", () => {
+      return assert.isRejected(
+        client.launches({ provider_id: new Date() }),
+        `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed boolean provider_id", () => {
+      return assert.isRejected(
+        client.launches({ provider_id: false }),
+        `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed null provider_id", () => {
+      return assert.isRejected(
+        client.launches({ provider_id: null }),
+        `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed function provider_id", () => {
+      return assert.isRejected(
+        client.launches({ provider_id: () => 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
+      );
+    });
+
+    it("should execute correctly with provider_id number", async () => {
+      const testParams = { provider_id: 3 };
+
+      const params = new URLSearchParams({ provider_id: 3 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should convert string provider_id to number", async () => {
+      const testParams = { provider_id: "8" };
+
+      const params = new URLSearchParams({ provider_id: 8 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should ignore undefined provider_id", async () => {
+      sandbox.spy(utils, "warn");
+
+      const testParams = { provider_id: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(utils.warn.getCall(0).args[0]).to.equal(
+        'Parameter "provider_id" is undefined and will be ignored.'
+      );
+    });
+  });
+
+  describe("tag_id parameter", () => {
+    it("should reject on malformed string tag_id", async () => {
+      return assert.isRejected(
+        client.launches({ tag_id: "banana" }),
+        `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed empty string tag_id", async () => {
+      return assert.isRejected(
+        client.launches({ tag_id: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed array tag_id", () => {
+      return assert.isRejected(
+        client.launches({ tag_id: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed object tag_id", () => {
+      return assert.isRejected(
+        client.launches({ tag_id: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed date tag_id", () => {
+      return assert.isRejected(
+        client.launches({ tag_id: new Date() }),
+        `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed boolean tag_id", () => {
+      return assert.isRejected(
+        client.launches({ tag_id: false }),
+        `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed null tag_id", () => {
+      return assert.isRejected(
+        client.launches({ tag_id: null }),
+        `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed function tag_id", () => {
+      return assert.isRejected(
+        client.launches({ tag_id: () => 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
+      );
+    });
+
+    it("should execute correctly with tag_id number", async () => {
+      const testParams = { tag_id: 3 };
+
+      const params = new URLSearchParams({ tag_id: 3 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should convert string tag_id to number", async () => {
+      const testParams = { tag_id: "8" };
+
+      const params = new URLSearchParams({ tag_id: 8 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should ignore undefined tag_id", async () => {
+      sandbox.spy(utils, "warn");
+
+      const testParams = { tag_id: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(utils.warn.getCall(0).args[0]).to.equal(
+        'Parameter "tag_id" is undefined and will be ignored.'
+      );
+    });
+  });
+
+  describe("vehicle_id parameter", () => {
+    it("should reject on malformed string vehicle_id", async () => {
+      return assert.isRejected(
+        client.launches({ vehicle_id: "banana" }),
+        `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed empty string vehicle_id", async () => {
+      return assert.isRejected(
+        client.launches({ vehicle_id: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed array vehicle_id", () => {
+      return assert.isRejected(
+        client.launches({ vehicle_id: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed object vehicle_id", () => {
+      return assert.isRejected(
+        client.launches({ vehicle_id: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed date vehicle_id", () => {
+      return assert.isRejected(
+        client.launches({ vehicle_id: new Date() }),
+        `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed boolean vehicle_id", () => {
+      return assert.isRejected(
+        client.launches({ vehicle_id: false }),
+        `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed null vehicle_id", () => {
+      return assert.isRejected(
+        client.launches({ vehicle_id: null }),
+        `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed function vehicle_id", () => {
+      return assert.isRejected(
+        client.launches({ vehicle_id: () => 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
+      );
+    });
+
+    it("should execute correctly with vehicle_id number", async () => {
+      const testParams = { vehicle_id: 3 };
+
+      const params = new URLSearchParams({ vehicle_id: 3 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should convert string vehicle_id to number", async () => {
+      const testParams = { vehicle_id: "8" };
+
+      const params = new URLSearchParams({ vehicle_id: 8 });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should ignore undefined vehicle_id", async () => {
+      sandbox.spy(utils, "warn");
+
+      const testParams = { vehicle_id: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(utils.warn.getCall(0).args[0]).to.equal(
+        'Parameter "vehicle_id" is undefined and will be ignored.'
+      );
+    });
+  });
+
+  describe("state_abbr parameter", () => {
+    it("should reject on malformed number state_abbr", async () => {
+      return assert.isRejected(
+        client.launches({ state_abbr: 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed empty string state_abbr", async () => {
+      return assert.isRejected(
+        client.launches({ state_abbr: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "state_abbr": Invalid United States State Code. State Codes should follow ISO 3166-2 convention, like 'FL'.`
+      );
+    });
+
+    it("should reject on malformed nonexistant state_abbr", async () => {
+      return assert.isRejected(
+        client.launches({ state_abbr: "XX" }),
+        `Malformed query parameter for resource "launches" and parameter: "state_abbr": Invalid United States State Code. State Codes should follow ISO 3166-2 convention, like 'FL'.`
+      );
+    });
+
+    it("should reject on malformed array state_abbr", () => {
+      return assert.isRejected(
+        client.launches({ state_abbr: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed object state_abbr", () => {
+      return assert.isRejected(
+        client.launches({ state_abbr: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed date state_abbr", () => {
+      return assert.isRejected(
+        client.launches({ state_abbr: new Date() }),
+        `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed boolean state_abbr", () => {
+      return assert.isRejected(
+        client.launches({ state_abbr: false }),
+        `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed null state_abbr", () => {
+      return assert.isRejected(
+        client.launches({ state_abbr: null }),
+        `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed function state_abbr", () => {
+      return assert.isRejected(
+        client.launches({ state_abbr: () => "FL" }),
+        `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
+    it("should execute correctly with good state code", async () => {
+      const testParams = { state_abbr: "FL" };
+
+      const params = new URLSearchParams({ state_abbr: "FL" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should ignore undefined state_abbr", async () => {
+      sandbox.spy(utils, "warn");
+
+      const testParams = { state_abbr: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(utils.warn.getCall(0).args[0]).to.equal(
+        'Parameter "state_abbr" is undefined and will be ignored.'
+      );
+    });
+  });
+
   describe("country_code parameter", () => {
     it("should reject on malformed number country_code", async () => {
       return assert.isRejected(
@@ -889,14 +1617,14 @@ describe("launches method", () => {
     it("should reject on malformed empty string country_code", async () => {
       return assert.isRejected(
         client.launches({ country_code: "" }),
-        `Malformed query parameter for resource "launches" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention.`
+        `Malformed query parameter for resource "launches" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
     it("should reject on malformed nonexistant country_code", async () => {
       return assert.isRejected(
         client.launches({ country_code: "XX" }),
-        `Malformed query parameter for resource "launches" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention.`
+        `Malformed query parameter for resource "launches" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
@@ -940,6 +1668,25 @@ describe("launches method", () => {
         client.launches({ country_code: () => "US" }),
         `Malformed query parameter for resource "launches" and parameter: "country_code": Must be a string.`
       );
+    });
+
+    it("should execute correctly with good country code", async () => {
+      const testParams = { country_code: "US" };
+
+      const params = new URLSearchParams({ country_code: "US" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/companies")
+        .query(params)
+        .reply(200, {});
+
+      await client.companies(testParams);
+
+      scope.done();
     });
 
     it("should ignore undefined country_code", async () => {
@@ -1025,6 +1772,25 @@ describe("launches method", () => {
       );
     });
 
+    it("should execute correctly with good string", async () => {
+      const testParams = { search: "mars" };
+
+      const params = new URLSearchParams({ search: "mars" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
     it("should ignore undefined search", async () => {
       sandbox.spy(utils, "warn");
 
@@ -1047,6 +1813,107 @@ describe("launches method", () => {
 
       expect(utils.warn.getCall(0).args[0]).to.equal(
         'Parameter "search" is undefined and will be ignored.'
+      );
+    });
+  });
+
+  describe("slug parameter", () => {
+    it("should reject on malformed number slug", async () => {
+      return assert.isRejected(
+        client.launches({ slug: 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed empty string slug", async () => {
+      return assert.isRejected(
+        client.launches({ slug: "" }),
+        `Malformed query parameter for resource "launches" and parameter: "slug": String must have length greater than 0`
+      );
+    });
+
+    it("should reject on malformed array slug", () => {
+      return assert.isRejected(
+        client.launches({ slug: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed object slug", () => {
+      return assert.isRejected(
+        client.launches({ slug: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed date slug", () => {
+      return assert.isRejected(
+        client.launches({ slug: new Date() }),
+        `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed boolean slug", () => {
+      return assert.isRejected(
+        client.launches({ slug: false }),
+        `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed null slug", () => {
+      return assert.isRejected(
+        client.launches({ slug: null }),
+        `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed function slug", () => {
+      return assert.isRejected(
+        client.launches({ slug: () => "spacex" }),
+        `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
+      );
+    });
+
+    it("should execute correctly with a good string", async () => {
+      const testParams = { slug: "ses-12-ses-13" };
+
+      const params = new URLSearchParams({ slug: "ses-12-ses-13" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+    it("should ignore undefined slug", async () => {
+      sandbox.spy(utils, "warn");
+
+      const testParams = { slug: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(utils.warn.getCall(0).args[0]).to.equal(
+        'Parameter "slug" is undefined and will be ignored.'
       );
     });
   });

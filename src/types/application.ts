@@ -129,11 +129,11 @@ export namespace RLLQueryConfig {
     after_date?: Date | string;
     before_date?: Date | string;
     modified_since?: Date | string;
-    location_id?: number;
-    pad_id?: number;
-    provider_id?: number;
-    tag_id?: number;
-    vehicle_id?: number;
+    location_id?: number | string;
+    pad_id?: number | string;
+    provider_id?: number | string;
+    tag_id?: number | string;
+    vehicle_id?: number | string;
     state_abbr?: ISO3166Alpha2.StateCodeUS;
     country_code?: ISO3166Alpha2.CountryCode;
     search?: string;

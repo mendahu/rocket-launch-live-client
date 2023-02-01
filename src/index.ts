@@ -19,9 +19,7 @@ import { RLLClientOptions } from "./types/application";
  *
  * const client = clientGenerator(MY_KEY, { keyInQueryParams: true })
  */
-export default function (
-  apiKey: string,
-  options?: RLLClientOptions
-): RLLClient {
-  return new RLLClient(apiKey, options);
-}
+const rllc = (apiKey: string, options?: RLLClientOptions): RLLClient =>
+  new RLLClient(apiKey, options);
+
+export default { rllc };

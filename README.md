@@ -22,7 +22,7 @@ This package is a fully-typed, promise-based, zero-dependency Node.JS JavaScript
 
 ```js
 // Import package
-import rllc from "rocket-launch-live-client";
+import { rllc } from "rocket-launch-live-client";
 
 // Get API Key
 const RLL_API_KEY = process.env.RLL_API_KEY;

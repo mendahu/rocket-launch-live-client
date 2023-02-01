@@ -157,3 +157,114 @@ const options = {
   slug: "ses-20-ses-21"
 };
 ```
+
+### Locations
+
+```js
+const response = await client.locations(options);
+```
+
+Optional search parameters:
+
+```js
+const options = {
+  // Location numeric id
+  // Also accepts number parseable strings like "1"
+  id: 1,
+
+  // Location name
+  name: "Cape Canaveral",
+
+  // Location State (US)
+  // ISO 3166-2 US State Code Abbreviation
+  state_abbr: "FL",
+
+  // Location country
+  // ISO 3166 Alpha 2 Country Code
+  country_code: "US",
+};
+```
+
+### Missions
+
+```js
+const response = await client.missions(options);
+```
+
+Optional search parameters:
+
+```js
+const options = {
+  // Mission numeric id
+  // Also accepts number parseable strings like "1"
+  id: 1,
+
+  // Mission name
+  name: "Juno",
+};
+```
+
+### Pads
+
+```js
+const response = await client.pads(options);
+```
+
+Optional search parameters:
+
+```js
+const options = {
+  // Pad numeric id
+  // Also accepts number parseable strings like "1"
+  id: 1,
+
+  // Pad name
+  name: "SpaceX",
+
+  // Pad State (US)
+  // ISO 3166-2 US State Code Abbreviation
+  state_abbr: "FL",
+
+  // Pad country
+  // ISO 3166 Alpha 2 Country Code
+  country_code: "US",
+};
+```
+
+### Tags
+
+```js
+const response = await client.tags(options);
+```
+
+Optional search parameters:
+
+```js
+const options = {
+  // Tag numeric id
+  // Also accepts number parseable strings like "1"
+  id: 1,
+
+  // Tag text
+  text: "Crewed",
+};
+```
+
+### Vehicles
+
+```js
+const response = await client.vehicles(options);
+```
+
+Optional search parameters:
+
+```js
+const options = {
+  // Vehicle numeric id
+  // Also accepts number parseable strings like "1"
+  id: 1,
+
+  // Vehicle name
+  name: "Atlas V",
+};
+```

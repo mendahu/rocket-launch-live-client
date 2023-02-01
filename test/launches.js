@@ -69,6 +69,56 @@ describe("launches method", () => {
     );
   });
 
+  it("should warn if combining cospar_id with another param", async () => {
+    sandbox.spy(utils, "warn");
+
+    const testParams = { cospar_id: "2022-123", search: "banana" };
+
+    const params = new URLSearchParams(testParams);
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+      },
+    })
+      .get("/json/launches")
+      .query(params)
+      .reply(200, {});
+
+    await client.launches(testParams);
+
+    scope.done();
+
+    expect(utils.warn.getCall(0).args[0]).to.equal(
+      "Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
+    );
+  });
+
+  it("should warn if combining slug with another param", async () => {
+    sandbox.spy(utils, "warn");
+
+    const testParams = { slug: "ses-12-ses-13", search: "banana" };
+
+    const params = new URLSearchParams(testParams);
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+      },
+    })
+      .get("/json/launches")
+      .query(params)
+      .reply(200, {});
+
+    await client.launches(testParams);
+
+    scope.done();
+
+    expect(utils.warn.getCall(0).args[0]).to.equal(
+      "Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
+    );
+  });
+
   it("should warn if using invalid query params", async () => {
     sandbox.spy(utils, "warn");
 
@@ -1716,13 +1766,6 @@ describe("launches method", () => {
   });
 
   describe("search parameter", () => {
-    it("should reject on malformed number search", async () => {
-      return assert.isRejected(
-        client.launches({ search: 5 }),
-        `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
-      );
-    });
-
     it("should reject on malformed empty string search", async () => {
       return assert.isRejected(
         client.launches({ search: "" }),
@@ -1791,6 +1834,25 @@ describe("launches method", () => {
       scope.done();
     });
 
+    it("should execute correctly with good number", async () => {
+      const testParams = { search: 2020 };
+
+      const params = new URLSearchParams({ search: "2020" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
     it("should ignore undefined search", async () => {
       sandbox.spy(utils, "warn");
 
@@ -1818,13 +1880,6 @@ describe("launches method", () => {
   });
 
   describe("slug parameter", () => {
-    it("should reject on malformed number slug", async () => {
-      return assert.isRejected(
-        client.launches({ slug: 5 }),
-        `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
-      );
-    });
-
     it("should reject on malformed empty string slug", async () => {
       return assert.isRejected(
         client.launches({ slug: "" }),
@@ -1892,6 +1947,26 @@ describe("launches method", () => {
 
       scope.done();
     });
+
+    it("should execute correctly with a good number", async () => {
+      const testParams = { slug: 13 };
+
+      const params = new URLSearchParams({ slug: "13" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
     it("should ignore undefined slug", async () => {
       sandbox.spy(utils, "warn");
 

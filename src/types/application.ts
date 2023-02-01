@@ -119,7 +119,7 @@ interface RLLBaseQueryConfig {
 
 export namespace RLLQueryConfig {
   export interface Companies extends RLLBaseQueryConfig {
-    name?: string;
+    name?: string | number;
     country_code?: ISO3166Alpha2.CountryCode;
     inactive?: boolean;
   }
@@ -136,32 +136,32 @@ export namespace RLLQueryConfig {
     vehicle_id?: number | string;
     state_abbr?: ISO3166Alpha2.StateCodeUS;
     country_code?: ISO3166Alpha2.CountryCode;
-    search?: string;
-    slug?: string;
+    search?: string | number;
+    slug?: string | number;
   }
 
   export interface Locations extends RLLBaseQueryConfig {
-    name?: string;
+    name?: string | number;
     state_abbr?: ISO3166Alpha2.StateCodeUS;
     country_code?: ISO3166Alpha2.CountryCode;
   }
 
   export interface Missions extends RLLBaseQueryConfig {
-    name?: string;
+    name?: string | number;
   }
 
   export interface Pads extends RLLBaseQueryConfig {
-    name?: string;
+    name?: string | number;
     state_abbr?: ISO3166Alpha2.StateCodeUS;
     country_code?: ISO3166Alpha2.CountryCode;
   }
 
   export interface Tags extends RLLBaseQueryConfig {
-    text?: string;
+    text?: string | number;
   }
 
   export interface Vehicles extends RLLBaseQueryConfig {
-    name?: string;
+    name?: string | number;
   }
 
   export interface All

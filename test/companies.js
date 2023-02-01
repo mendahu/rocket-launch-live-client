@@ -323,13 +323,6 @@ describe("companies method", () => {
   });
 
   describe("name parameter", () => {
-    it("should reject on malformed number name", async () => {
-      return assert.isRejected(
-        client.companies({ name: 5 }),
-        `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
-      );
-    });
-
     it("should reject on malformed empty string name", async () => {
       return assert.isRejected(
         client.companies({ name: "" }),
@@ -383,6 +376,25 @@ describe("companies method", () => {
       const testParams = { name: "SpaceX" };
 
       const params = new URLSearchParams({ name: "SpaceX" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/companies")
+        .query(params)
+        .reply(200, {});
+
+      await client.companies(testParams);
+
+      scope.done();
+    });
+
+    it("should excute correctly with name number", async () => {
+      const testParams = { name: 5 };
+
+      const params = new URLSearchParams({ name: "5" });
 
       const scope = nock("https://fdo.rocketlaunch.live", {
         reqheaders: {

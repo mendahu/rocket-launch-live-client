@@ -51,6 +51,9 @@ export const optionsValidator = (options: {}): void => {
 const validators = {
   string: (option: any): Promise<string> => {
     return new Promise((resolve, reject) => {
+      if (typeof option === "number") {
+        resolve(option.toString());
+      }
       if (typeof option !== "string") {
         return reject("Must be a string");
       }

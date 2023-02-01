@@ -34,7 +34,12 @@ const query = <T>(url: URL, headers?: HeadersInit): Promise<T> => {
           const response = Buffer.concat(data).toString();
           resolve(JSON.parse(response));
         } else if (res.statusCode === 404) {
-          reject({ error: "Resource not found", statusCode: 404 });
+          reject({
+            error: "Resource not found",
+            statusCode: 404,
+            message:
+              "The server returned a 404 Not Found response. Check that your API key is valid, and that you are not requesting a page number beyond the available results.",
+          });
         } else {
           reject(res);
         }

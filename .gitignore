@@ -7,10 +7,9 @@ node_modules/
 # dist
 dist/
 
-.DS_Store
-
 # test code
 src/test.ts
 
-# Project notes
+# Other
+.DS_Store
 notes.md

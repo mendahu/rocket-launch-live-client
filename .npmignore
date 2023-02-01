@@ -4,11 +4,10 @@
 # node modules
 node_modules/
 
-.DS_Store
-
-src/test.ts
-
+# source code and tests
+src
 test
 
-# Project notes
+# Other
 notes.md
+.DS_Store

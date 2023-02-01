@@ -12,12 +12,24 @@ import {
   queryOptionsValidator,
 } from "./utils";
 
+/**
+ * Class representing a RocketLaunch.Live client
+ * @class
+ */
 class RLLClient {
   private apiKey: string;
   private config = {
     keyInQueryParams: false,
   };
 
+  /**
+   * Create a new RocketLaunch.live Client
+   *
+   * @param {string} apiKey - Your RocketLaunch.Live API Key
+   * @param {Object} [options] - Optional Client Configuration options
+   * @param {boolean} options.keyInQueryParams - Set to true to send your API Key via Query parameters instead of Authorization Header (not recommended)
+   *
+   */
   constructor(apiKey: string, options?: RLLClientOptions) {
     // Validate API Key is a valid UUID format
     // Constructor throws if not

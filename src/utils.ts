@@ -137,7 +137,7 @@ const validators = {
       if (!(option instanceof Date)) {
         return reject("Must be a JavaScript Date Object");
       }
-      resolve(option.toISOString());
+      resolve(option.toISOString().slice(0, 19).concat("Z"));
     });
   },
 };

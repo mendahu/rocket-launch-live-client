@@ -526,6 +526,198 @@ describe("launches method", () => {
     });
   });
 
+  describe("before_date parameter", () => {
+    it("should reject on malformed number before_date", async () => {
+      return assert.isRejected(
+        client.launches({ before_date: 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed array before_date", () => {
+      return assert.isRejected(
+        client.launches({ before_date: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed string before_date", () => {
+      return assert.isRejected(
+        client.launches({ before_date: "2022-10-10T00:30:30Z" }),
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed object before_date", () => {
+      return assert.isRejected(
+        client.launches({ before_date: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed boolean before_date", () => {
+      return assert.isRejected(
+        client.launches({ before_date: false }),
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed null before_date", () => {
+      return assert.isRejected(
+        client.launches({ before_date: null }),
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed function before_date", () => {
+      return assert.isRejected(
+        client.launches({ before_date: () => "2022-123" }),
+        `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should execute correctly with before_date", async () => {
+      const testParams = { before_date: new Date("2023-11-22T12:00:00Z") };
+
+      const params = new URLSearchParams({ before_date: "2023-11-22" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should ignore undefined before_date", async () => {
+      sandbox.spy(utils, "warn");
+
+      const testParams = { before_date: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(utils.warn.getCall(0).args[0]).to.equal(
+        'Parameter "before_date" is undefined and will be ignored.'
+      );
+    });
+  });
+
+  describe("modified_since parameter", () => {
+    it("should reject on malformed number modified_since", async () => {
+      return assert.isRejected(
+        client.launches({ modified_since: 5 }),
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed array modified_since", () => {
+      return assert.isRejected(
+        client.launches({ modified_since: [] }),
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed string modified_since", () => {
+      return assert.isRejected(
+        client.launches({ modified_since: "2022-10-10T00:30:30Z" }),
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed object modified_since", () => {
+      return assert.isRejected(
+        client.launches({ modified_since: {} }),
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed boolean modified_since", () => {
+      return assert.isRejected(
+        client.launches({ modified_since: false }),
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed null modified_since", () => {
+      return assert.isRejected(
+        client.launches({ modified_since: null }),
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should reject on malformed function modified_since", () => {
+      return assert.isRejected(
+        client.launches({ modified_since: () => "2022-123" }),
+        `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object.`
+      );
+    });
+
+    it("should execute correctly with modified_since", async () => {
+      const testParams = { modified_since: new Date("2023-11-22T12:00:00Z") };
+
+      const params = new URLSearchParams({
+        modified_since: "2023-11-22T12:00:00Z",
+      });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should ignore undefined modified_since", async () => {
+      sandbox.spy(utils, "warn");
+
+      const testParams = { modified_since: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(utils.warn.getCall(0).args[0]).to.equal(
+        'Parameter "modified_since" is undefined and will be ignored.'
+      );
+    });
+  });
+
   describe("country_code parameter", () => {
     it("should reject on malformed number country_code", async () => {
       return assert.isRejected(

@@ -33,8 +33,7 @@ export class RLLClient {
   constructor(apiKey: string, options?: RLLClientOptions) {
     // Validate API Key is a valid UUID format
     // Constructor throws if not
-    apiKeyValidator(apiKey);
-    this.apiKey = apiKey;
+    this.apiKey = apiKeyValidator(apiKey);
 
     if (!options) {
       return;

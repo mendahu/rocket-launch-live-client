@@ -1,15 +1,5 @@
-import {
-  RLLBaseQueryConfig,
-  RLLEndPoint,
-  RLLQueryConfig,
-  RLLQueryParams,
-} from "./types/application";
-import {
-  countryCodes,
-  isValidCountryCode,
-  isValidStateCode,
-  usStateCodes,
-} from "./types/standards";
+import { RLLEndPoint, RLLQueryConfig } from "./types/application";
+import { isValidCountryCode, isValidStateCode } from "./types/standards";
 
 const getLeadingZero = (month: number, offset: number = 0): string => {
   const str = "0".concat((month + offset).toString());

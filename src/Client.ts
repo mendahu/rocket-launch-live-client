@@ -16,7 +16,7 @@ import {
  * Class representing a RocketLaunch.Live client
  * @class
  */
-class RLLClient {
+export class RLLClient {
   private apiKey: string;
   private config = {
     keyInQueryParams: false,
@@ -270,5 +270,3 @@ class RLLClient {
     );
   }
 }
-
-export default RLLClient;

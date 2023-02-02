@@ -9,7 +9,7 @@
     "declaration": true,
     "declarationMap": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["mocha", "chai"]
+    "types": ["mocha", "chai", "node"]
   },
   "files": ["../src/index.ts"]
 }

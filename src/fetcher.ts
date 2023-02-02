@@ -1,5 +1,5 @@
-import { OutgoingHttpHeaders } from "node:http";
-import https from "node:https";
+import { OutgoingHttpHeaders } from "http";
+import https from "https";
 
 const BASE_URL = "https://fdo.rocketlaunch.live";
 

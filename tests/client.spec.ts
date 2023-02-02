@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import Sinon from "sinon";
 import nock from "nock";
-import rllc from "../src/index";
+import { rllc } from "../src/index";
 import { RLLClientOptions } from "../src/types/application";
 import * as utils from "../src/utils";
 import "mocha";

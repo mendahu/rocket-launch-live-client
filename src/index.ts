@@ -1,5 +1,15 @@
-import RLLClient from "./Client";
+import { RLLClient } from "./Client";
 import { RLLClientOptions } from "./types/application";
+
+export {
+  RLLEndPoint,
+  RLLResponse,
+  RLLClientOptions,
+  RLLQueryConfig,
+  RLLEntity,
+} from "./types/application";
+export { ISO3166Alpha2 } from "./types/standards";
+export { RLLClient } from "./Client";
 
 /**
  * Generate a RocketLaunch.Live client
@@ -16,10 +26,7 @@ import { RLLClientOptions } from "./types/application";
  * @example
  *
  * const MY_KEY = process.env.ROCKETLAUNCH_LIVE_API_KEY
- *
- * const client = clientGenerator(MY_KEY, { keyInQueryParams: true })
+ * const client = rllc(MY_KEY, { keyInQueryParams: true })
  */
-const rllc = (apiKey: string, options?: RLLClientOptions): RLLClient =>
+export const rllc = (apiKey: string, options?: RLLClientOptions): RLLClient =>
   new RLLClient(apiKey, options);
-
-export default rllc;

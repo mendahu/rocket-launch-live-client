@@ -10,17 +10,17 @@ export enum RLLEndPoint {
   VEHICLES = "vehicles",
 }
 
-interface RLLRecord {
-  id: number;
-}
-
 export namespace RLLEntity {
-  interface Country {
+  interface RLLRecord {
+    id: number;
+  }
+
+  export interface Country {
     name: string;
     code: ISO3166Alpha2.CountryCode;
   }
 
-  interface State {
+  export interface State {
     name: string;
     abbr: ISO3166Alpha2.StateCodeUS;
   }
@@ -30,7 +30,7 @@ export namespace RLLEntity {
     inactive: boolean | null;
   }
 
-  enum LaunchResult {
+  export enum LaunchResult {
     NOT_SET = -1,
     FAILURE = 0,
     SUCCESS = 1,
@@ -38,7 +38,7 @@ export namespace RLLEntity {
     IN_FLIGHT_ABORT_CREWED = 3,
   }
 
-  interface Media extends RLLRecord {
+  export interface Media extends RLLRecord {
     media_url: string | null;
     youtube_vidid: string | null;
     featured: boolean;
@@ -137,19 +137,19 @@ export const RLLQueryParams = {
   text: true,
 };
 
-export interface RLLBaseQueryConfig {
-  id?: number | string;
-  page?: number | string;
-}
-
 export namespace RLLQueryConfig {
-  export interface Companies extends RLLBaseQueryConfig {
+  interface Base {
+    id?: number | string;
+    page?: number | string;
+  }
+
+  export interface Companies extends Base {
     name?: string | number;
     country_code?: ISO3166Alpha2.CountryCode;
     inactive?: boolean;
   }
 
-  export interface Launches extends RLLBaseQueryConfig {
+  export interface Launches extends Base {
     cospar_id?: string;
     after_date?: Date | string;
     before_date?: Date | string;
@@ -165,27 +165,27 @@ export namespace RLLQueryConfig {
     slug?: string | number;
   }
 
-  export interface Locations extends RLLBaseQueryConfig {
+  export interface Locations extends Base {
     name?: string | number;
     state_abbr?: ISO3166Alpha2.StateCodeUS;
     country_code?: ISO3166Alpha2.CountryCode;
   }
 
-  export interface Missions extends RLLBaseQueryConfig {
+  export interface Missions extends Base {
     name?: string | number;
   }
 
-  export interface Pads extends RLLBaseQueryConfig {
+  export interface Pads extends Base {
     name?: string | number;
     state_abbr?: ISO3166Alpha2.StateCodeUS;
     country_code?: ISO3166Alpha2.CountryCode;
   }
 
-  export interface Tags extends RLLBaseQueryConfig {
+  export interface Tags extends Base {
     text?: string | number;
   }
 
-  export interface Vehicles extends RLLBaseQueryConfig {
+  export interface Vehicles extends Base {
     name?: string | number;
   }
 }

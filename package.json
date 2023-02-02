@@ -13,7 +13,8 @@
     "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
     "start": "node ./lib/test.js",
     "prepublish": "npm run build",
-    "test": "mocha --watch"
+    "test": "mocha",
+    "test:watch": "mocha --watch"
   },
   "repository": {
     "type": "git",

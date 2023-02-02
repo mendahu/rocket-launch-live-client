@@ -2,14 +2,17 @@
   "name": "rocket-launch-live-client",
   "version": "0.1.5",
   "description": "A Node.JS client for interacting with the RocketLaunch.Live API",
-  "main": "dist/index.js",
+  "types": "./lib/cjs/types/index.d.ts",
+  "main": "./lib/cjs/index.js",
   "scripts": {
-    "clear": "rm -rf ./dist",
-    "dev": "nodemon ./dist/test.js --ignore 'dist/**' -e ts --exec \"npm run compile\"",
-    "compile": "npm run clear && tsc && node ./dist/test.js",
-    "build": "tsc",
-    "start": "node ./dist/test.js",
-    "prepublish": "npm run clear && tsc",
+    "clear": "rm -rf ./lib",
+    "dev": "nodemon ./lib/test.js --ignore 'lib/**' -e ts --exec \"npm run compile\"",
+    "compile": "npm run clear && tsc && node ./lib/test.js",
+    "build": "npm run clear && npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
+    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+    "start": "node ./lib/test.js",
+    "prepublish": "npm run build",
     "test": "mocha --watch"
   },
   "repository": {
@@ -29,7 +32,11 @@
   },
   "homepage": "https://github.com/mendahu/rocket-launch-live-client#readme",
   "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/chai-as-promised": "^7.1.5",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^18.11.18",
+    "@types/sinon": "^10.0.13",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
     "dotenv": "^16.0.3",
@@ -40,5 +47,19 @@
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
   },
-  "types": "dist/index.d.ts"
+  "files": [
+    "lib/**/*"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./lib/esm/types/index.d.ts",
+        "default": "./lib/esm/index.mjs"
+      },
+      "require": {
+        "types": "./lib/cjs/types/index.d.ts",
+        "default": "./lib/cjs/index.js"
+      }
+    }
+  }
 }

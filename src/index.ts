@@ -22,4 +22,4 @@ import { RLLClientOptions } from "./types/application";
 const rllc = (apiKey: string, options?: RLLClientOptions): RLLClient =>
   new RLLClient(apiKey, options);
 
-export { rllc };
+export default rllc;

@@ -1,73 +1,82 @@
-const { expect } = require("chai");
-const sinon = require("sinon");
-const nock = require("nock");
-const utils = require("../dist/utils");
-
-const rllc = require("../dist/index");
-const clientGen = rllc.default;
+import { expect } from "chai";
+import Sinon from "sinon";
+import nock from "nock";
+import rllc from "../src/index";
+import { RLLClientOptions } from "../src/types/application";
+import * as utils from "../src/utils";
+import "mocha";
+import "sinon";
 
 describe("rllc Client", () => {
-  let sandbox;
+  let sandbox: Sinon.SinonSandbox;
+  let spy: Sinon.SinonSpy;
+
   before(() => {
-    sandbox = sinon.createSandbox();
+    sandbox = Sinon.createSandbox();
   });
 
   beforeEach(() => {
     sandbox.restore();
   });
 
+  after(() => {
+    spy.restore();
+  });
+
   it("should throw error with no API key", () => {
-    expect(clientGen).to.throw("[RLL Client]: RLL Client requires API Key");
+    expect(rllc).to.throw("[RLL Client]: RLL Client requires API Key");
   });
 
   it("should throw error with a non-string API Key", () => {
-    expect(() => clientGen(5)).to.throw(
+    expect(() => rllc(5 as unknown as string)).to.throw(
       "[RLL Client]: RLL Client API Key must be a string"
     );
-    expect(() => clientGen(true)).to.throw(
+    expect(() => rllc(true as unknown as string)).to.throw(
       "[RLL Client]: RLL Client API Key must be a string"
     );
-    expect(() => clientGen(null)).to.throw(
+    expect(() => rllc(null as unknown as string)).to.throw(
       "[RLL Client]: RLL Client API Key must be a string"
     );
-    expect(() => clientGen(["api key"])).to.throw(
+    expect(() => rllc(["api key"] as unknown as string)).to.throw(
       "[RLL Client]: RLL Client API Key must be a string"
     );
-    expect(() => clientGen({ key: "api" })).to.throw(
+    expect(() => rllc({ key: "api" } as unknown as string)).to.throw(
       "[RLL Client]: RLL Client API Key must be a string"
     );
   });
 
   it("should throw error with a non-uuid string", () => {
-    expect(() => clientGen("")).to.throw(
+    expect(() => rllc("")).to.throw(
       "[RLL Client]: RLL Client API Key cannot be an empty string"
     );
-    expect(() => clientGen("sdf-sdf-2424-dfs-34243")).to.throw(
+    expect(() => rllc("sdf-sdf-2424-dfs-34243")).to.throw(
       "[RLL Client]: RLL Client API Key appears malformed. RLL Client API Keys are in UUID format."
     );
-    expect(() => clientGen("sdsdf-123-sdfsdfsdf-sdfsdfsd-fsdfsdf")).to.throw(
+    expect(() => rllc("sdsdf-123-sdfsdfsdf-sdfsdfsd-fsdfsdf")).to.throw(
       "[RLL Client]: RLL Client API Key appears malformed. RLL Client API Keys are in UUID format."
     );
   });
 
   it("should not throw with properly formed uuid", () => {
-    clientGen("aac004f6-07ab-4f82-bff2-71d977072c56");
+    rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
   });
 
   it("should not throw with random options, but should warn", () => {
-    sandbox.spy(utils, "warn");
+    spy = sandbox.spy(utils, "warn");
 
-    clientGen("aac004f6-07ab-4f82-bff2-71d977072c56", { banana: true });
+    rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
+      banana: true,
+    } as RLLClientOptions);
 
-    expect(utils.warn.getCall(0).args[0]).to.equal(
+    expect(spy.getCall(0).args[0]).to.equal(
       'RLL Client options do not accept a "banana" property. This property will be ignored.'
     );
   });
 
   it("should throw if keyInQueryParams is not a boolean", () => {
     expect(() =>
-      clientGen("aac004f6-07ab-4f82-bff2-71d977072c56", {
-        keyInQueryParams: "banana",
+      rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
+        keyInQueryParams: "banana" as unknown as boolean,
       })
     ).to.throw(
       "[RLL Client]: RLL Client configuration option 'keyInQueryParams' must be a boolean."
@@ -86,7 +95,7 @@ describe("rllc Client", () => {
       })
       .reply(200, {});
 
-    const client = clientGen("aac004f6-07ab-4f82-bff2-71d977072c56");
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
     await client.launches();
 
     scope.done();
@@ -99,7 +108,7 @@ describe("rllc Client", () => {
       .get("/json/launches?key=aac004f6-07ab-4f82-bff2-71d977072c56")
       .reply(200, {});
 
-    const client = clientGen("aac004f6-07ab-4f82-bff2-71d977072c56", {
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
       keyInQueryParams: true,
     });
     await client.launches();

@@ -310,6 +310,18 @@ export const usStateCodes = {
   VI: "VI",
 };
 
+export const isValidCountryCode = (
+  code: string
+): code is keyof typeof countryCodes => {
+  return !!countryCodes[code as keyof typeof countryCodes];
+};
+
+export const isValidStateCode = (
+  code: string
+): code is keyof typeof usStateCodes => {
+  return !!usStateCodes[code as keyof typeof usStateCodes];
+};
+
 export namespace ISO3166Alpha2 {
   export type CountryCode = keyof typeof countryCodes;
 

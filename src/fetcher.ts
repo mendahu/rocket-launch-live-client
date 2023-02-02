@@ -1,4 +1,5 @@
-const https = require("node:https");
+import { OutgoingHttpHeaders } from "node:http";
+import https from "node:https";
 
 const BASE_URL = "https://fdo.rocketlaunch.live";
 
@@ -9,7 +10,7 @@ export const fetcher = <T>(
   keyInQueryParams: boolean
 ): Promise<T> => {
   const url = new URL("json/" + endpoint, BASE_URL);
-  let headers: HeadersInit | undefined;
+  let headers: OutgoingHttpHeaders | undefined;
 
   if (keyInQueryParams) {
     params.set("key", apiKey);
@@ -22,10 +23,10 @@ export const fetcher = <T>(
   return query<T>(url, headers);
 };
 
-const query = <T>(url: URL, headers?: HeadersInit): Promise<T> => {
+const query = <T>(url: URL, headers?: OutgoingHttpHeaders): Promise<T> => {
   return new Promise((resolve, reject) => {
     const req = https.get(url, { headers }, (res) => {
-      let data = [];
+      let data: Uint8Array[] = [];
 
       res.on("data", (chunk) => data.push(chunk));
 

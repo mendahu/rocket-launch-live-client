@@ -4,8 +4,8 @@
 # node modules
 node_modules/
 
-# dist
-dist/
+# lib
+lib/
 
 # test code
 src/test.ts

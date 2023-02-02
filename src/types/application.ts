@@ -116,7 +116,28 @@ export namespace RLLEntity {
   }
 }
 
-interface RLLBaseQueryConfig {
+export const RLLQueryParams = {
+  id: true,
+  page: true,
+  name: true,
+  country_code: true,
+  inactive: true,
+  cospar_id: true,
+  after_date: true,
+  before_date: true,
+  modified_since: true,
+  location_id: true,
+  pad_id: true,
+  provider_id: true,
+  tag_id: true,
+  vehicle_id: true,
+  state_abbr: true,
+  search: true,
+  slug: true,
+  text: true,
+};
+
+export interface RLLBaseQueryConfig {
   id?: number | string;
   page?: number | string;
 }
@@ -167,15 +188,6 @@ export namespace RLLQueryConfig {
   export interface Vehicles extends RLLBaseQueryConfig {
     name?: string | number;
   }
-
-  export interface All
-    extends Companies,
-      Launches,
-      Locations,
-      Missions,
-      Pads,
-      Tags,
-      Vehicles {}
 }
 
 export type RLLClientOptions = {

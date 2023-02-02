@@ -1,30 +1,31 @@
-const nock = require("nock");
-const sinon = require("sinon");
-const chai = require("chai");
-const chaiAsPromised = require("chai-as-promised");
-chai.use(chaiAsPromised);
-const utils = require("../dist/utils");
+import chaiAsPromised from "chai-as-promised";
+import nock from "nock";
+import chai from "chai";
+import Sinon from "sinon";
+import RLLClient from "../src/Client";
+import rllc from "../src/index";
+import { RLLQueryConfig } from "../src/types/application";
+import * as utils from "../src/utils";
 
+chai.use(chaiAsPromised);
 const { expect, assert } = chai;
 
-const rllc = require("../dist/index");
-const clientGen = rllc.default;
-
 describe("companies method", () => {
-  let sandbox;
-  let client;
+  let sandbox: Sinon.SinonSandbox;
+  let client: RLLClient;
+  let spy: Sinon.SinonSpy;
 
   before(() => {
-    sandbox = sinon.createSandbox();
+    sandbox = Sinon.createSandbox();
   });
 
   beforeEach(() => {
-    client = clientGen("aac004f6-07ab-4f82-bff2-71d977072c56");
+    client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
     sandbox.restore();
   });
 
   after(() => {
-    utils.warn.restore();
+    spy.restore();
   });
 
   it("should execute a query with no args", async () => {
@@ -45,11 +46,13 @@ describe("companies method", () => {
   });
 
   it("should warn if combining id with another param", async () => {
-    sandbox.spy(utils, "warn");
+    spy = sandbox.spy(utils, "warn");
 
     const testParams = { id: 5, name: "banana" };
 
-    const params = new URLSearchParams(testParams);
+    const params = new URLSearchParams(
+      testParams as unknown as Record<string, string>
+    );
 
     const scope = nock("https://fdo.rocketlaunch.live", {
       reqheaders: {
@@ -64,13 +67,13 @@ describe("companies method", () => {
 
     scope.done();
 
-    expect(utils.warn.getCall(0).args[0]).to.equal(
+    expect(spy.getCall(0).args[0]).to.equal(
       "Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
     );
   });
 
   it("should warn if using invalid query params", async () => {
-    sandbox.spy(utils, "warn");
+    spy = sandbox.spy(utils, "warn");
 
     const testParams = { location_id: 5 };
 
@@ -85,11 +88,11 @@ describe("companies method", () => {
       .query(params)
       .reply(200, {});
 
-    await client.companies(testParams);
+    await client.companies(testParams as RLLQueryConfig.Companies);
 
     scope.done();
 
-    expect(utils.warn.getCall(0).args[0]).to.equal(
+    expect(spy.getCall(0).args[0]).to.equal(
       'Parameter "location_id" is not a valid option for the companies endpoint. It will be ignored.'
     );
   });
@@ -104,42 +107,48 @@ describe("companies method", () => {
 
     it("should reject on malformed array page", () => {
       return assert.isRejected(
-        client.companies({ page: [] }),
+        client.companies({ page: [] } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
     it("should reject on malformed object page", () => {
       return assert.isRejected(
-        client.companies({ page: {} }),
+        client.companies({ page: {} } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
     it("should reject on malformed date page", () => {
       return assert.isRejected(
-        client.companies({ page: new Date() }),
+        client.companies({
+          page: new Date(),
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
     it("should reject on malformed boolean page", () => {
       return assert.isRejected(
-        client.companies({ page: false }),
+        client.companies({
+          page: false,
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
     it("should reject on malformed null page", () => {
       return assert.isRejected(
-        client.companies({ page: null }),
+        client.companies({ page: null } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
     it("should reject on malformed function page", () => {
       return assert.isRejected(
-        client.companies({ page: () => 5 }),
+        client.companies({
+          page: () => 5,
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
@@ -147,7 +156,10 @@ describe("companies method", () => {
     it("should execute corectly with page number", async () => {
       const testParams = { page: 6 };
 
-      const params = new URLSearchParams({ page: 6 });
+      const params = new URLSearchParams({ page: 6 } as unknown as Record<
+        string,
+        string
+      >);
 
       const scope = nock("https://fdo.rocketlaunch.live", {
         reqheaders: {
@@ -166,7 +178,10 @@ describe("companies method", () => {
     it("should convert string page to number", async () => {
       const testParams = { page: "5" };
 
-      const params = new URLSearchParams({ page: 5 });
+      const params = new URLSearchParams({ page: 5 } as unknown as Record<
+        string,
+        string
+      >);
 
       const scope = nock("https://fdo.rocketlaunch.live", {
         reqheaders: {
@@ -183,7 +198,7 @@ describe("companies method", () => {
     });
 
     it("should ignore undefined page", async () => {
-      sandbox.spy(utils, "warn");
+      spy = sandbox.spy(utils, "warn");
 
       const testParams = { page: undefined };
 
@@ -202,7 +217,7 @@ describe("companies method", () => {
 
       scope.done();
 
-      expect(utils.warn.getCall(0).args[0]).to.equal(
+      expect(spy.getCall(0).args[0]).to.equal(
         'Parameter "page" is undefined and will be ignored.'
       );
     });
@@ -218,42 +233,46 @@ describe("companies method", () => {
 
     it("should reject on malformed array id", () => {
       return assert.isRejected(
-        client.companies({ id: [] }),
+        client.companies({ id: [] } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
     it("should reject on malformed object id", () => {
       return assert.isRejected(
-        client.companies({ id: {} }),
+        client.companies({ id: {} } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
     it("should reject on malformed date id", () => {
       return assert.isRejected(
-        client.companies({ id: new Date() }),
+        client.companies({
+          id: new Date(),
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
     it("should reject on malformed boolean id", () => {
       return assert.isRejected(
-        client.companies({ id: false }),
+        client.companies({ id: false } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
     it("should reject on malformed null id", () => {
       return assert.isRejected(
-        client.companies({ id: null }),
+        client.companies({ id: null } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
     it("should reject on malformed function id", () => {
       return assert.isRejected(
-        client.companies({ id: () => 5 }),
+        client.companies({
+          id: () => 5,
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
@@ -261,7 +280,10 @@ describe("companies method", () => {
     it("should execute correctly with id number", async () => {
       const testParams = { id: 6 };
 
-      const params = new URLSearchParams({ id: 6 });
+      const params = new URLSearchParams({ id: 6 } as unknown as Record<
+        string,
+        string
+      >);
 
       const scope = nock("https://fdo.rocketlaunch.live", {
         reqheaders: {
@@ -280,7 +302,10 @@ describe("companies method", () => {
     it("should convert string id to number", async () => {
       const testParams = { id: "5" };
 
-      const params = new URLSearchParams({ id: 5 });
+      const params = new URLSearchParams({ id: 5 } as unknown as Record<
+        string,
+        string
+      >);
 
       const scope = nock("https://fdo.rocketlaunch.live", {
         reqheaders: {
@@ -297,7 +322,7 @@ describe("companies method", () => {
     });
 
     it("should ignore undefined id", async () => {
-      sandbox.spy(utils, "warn");
+      spy = sandbox.spy(utils, "warn");
 
       const testParams = { id: undefined };
 
@@ -316,7 +341,7 @@ describe("companies method", () => {
 
       scope.done();
 
-      expect(utils.warn.getCall(0).args[0]).to.equal(
+      expect(spy.getCall(0).args[0]).to.equal(
         'Parameter "id" is undefined and will be ignored.'
       );
     });
@@ -332,42 +357,48 @@ describe("companies method", () => {
 
     it("should reject on malformed array name", () => {
       return assert.isRejected(
-        client.companies({ name: [] }),
+        client.companies({ name: [] } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
 
     it("should reject on malformed object name", () => {
       return assert.isRejected(
-        client.companies({ name: {} }),
+        client.companies({ name: {} } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
 
     it("should reject on malformed date name", () => {
       return assert.isRejected(
-        client.companies({ name: new Date() }),
+        client.companies({
+          name: new Date(),
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
 
     it("should reject on malformed boolean name", () => {
       return assert.isRejected(
-        client.companies({ name: false }),
+        client.companies({
+          name: false,
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
 
     it("should reject on malformed null name", () => {
       return assert.isRejected(
-        client.companies({ name: null }),
+        client.companies({ name: null } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
 
     it("should reject on malformed function name", () => {
       return assert.isRejected(
-        client.companies({ name: () => "spacex" }),
+        client.companies({
+          name: () => "spacex",
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
@@ -411,7 +442,7 @@ describe("companies method", () => {
     });
 
     it("should ignore undefined name", async () => {
-      sandbox.spy(utils, "warn");
+      spy = sandbox.spy(utils, "warn");
 
       const testParams = { name: undefined };
 
@@ -430,7 +461,7 @@ describe("companies method", () => {
 
       scope.done();
 
-      expect(utils.warn.getCall(0).args[0]).to.equal(
+      expect(spy.getCall(0).args[0]).to.equal(
         'Parameter "name" is undefined and will be ignored.'
       );
     });
@@ -439,69 +470,87 @@ describe("companies method", () => {
   describe("country_code parameter", () => {
     it("should reject on malformed number country_code", async () => {
       return assert.isRejected(
-        client.companies({ country_code: 5 }),
+        client.companies({
+          country_code: 5,
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
     it("should reject on malformed empty string country_code", async () => {
       return assert.isRejected(
-        client.companies({ country_code: "" }),
+        client.companies({
+          country_code: "",
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
     it("should reject on malformed nonexistant country_code", async () => {
       return assert.isRejected(
-        client.companies({ country_code: "XX" }),
+        client.companies({
+          country_code: "XX",
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
     it("should reject on malformed array country_code", () => {
       return assert.isRejected(
-        client.companies({ country_code: [] }),
+        client.companies({
+          country_code: [],
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
     it("should reject on malformed object country_code", () => {
       return assert.isRejected(
-        client.companies({ country_code: {} }),
+        client.companies({
+          country_code: {},
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
     it("should reject on malformed date country_code", () => {
       return assert.isRejected(
-        client.companies({ country_code: new Date() }),
+        client.companies({
+          country_code: new Date(),
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
     it("should reject on malformed boolean country_code", () => {
       return assert.isRejected(
-        client.companies({ country_code: false }),
+        client.companies({
+          country_code: false,
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
     it("should reject on malformed null country_code", () => {
       return assert.isRejected(
-        client.companies({ country_code: null }),
+        client.companies({
+          country_code: null,
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
     it("should reject on malformed function country_code", () => {
       return assert.isRejected(
-        client.companies({ country_code: () => "US" }),
+        client.companies({
+          country_code: () => "US",
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
     it("should execute correctly with good country code", async () => {
-      const testParams = { country_code: "US" };
+      const testParams: RLLQueryConfig.Companies = { country_code: "US" };
 
       const params = new URLSearchParams({ country_code: "US" });
 
@@ -520,7 +569,7 @@ describe("companies method", () => {
     });
 
     it("should ignore undefined country_code", async () => {
-      sandbox.spy(utils, "warn");
+      spy = sandbox.spy(utils, "warn");
 
       const testParams = { country_code: undefined };
 
@@ -539,7 +588,7 @@ describe("companies method", () => {
 
       scope.done();
 
-      expect(utils.warn.getCall(0).args[0]).to.equal(
+      expect(spy.getCall(0).args[0]).to.equal(
         'Parameter "country_code" is undefined and will be ignored.'
       );
     });
@@ -548,49 +597,63 @@ describe("companies method", () => {
   describe("inactive parameter", () => {
     it("should reject on malformed number inactive", async () => {
       return assert.isRejected(
-        client.companies({ inactive: 5 }),
+        client.companies({
+          inactive: 5,
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
     it("should reject on malformed array inactive", () => {
       return assert.isRejected(
-        client.companies({ inactive: [] }),
+        client.companies({
+          inactive: [],
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
     it("should reject on malformed object inactive", () => {
       return assert.isRejected(
-        client.companies({ inactive: {} }),
+        client.companies({
+          inactive: {},
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
     it("should reject on malformed date inactive", () => {
       return assert.isRejected(
-        client.companies({ inactive: new Date() }),
+        client.companies({
+          inactive: new Date(),
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
     it("should reject on malformed string inactive", () => {
       return assert.isRejected(
-        client.companies({ inactive: "true" }),
+        client.companies({
+          inactive: "true",
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
     it("should reject on malformed null inactive", () => {
       return assert.isRejected(
-        client.companies({ inactive: null }),
+        client.companies({
+          inactive: null,
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
     it("should reject on malformed function inactive", () => {
       return assert.isRejected(
-        client.companies({ inactive: () => true }),
+        client.companies({
+          inactive: () => true,
+        } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
@@ -598,7 +661,10 @@ describe("companies method", () => {
     it("should execute correctly with inactive parameter", async () => {
       const testParams = { inactive: true };
 
-      const params = new URLSearchParams({ inactive: 1 });
+      const params = new URLSearchParams({ inactive: 1 } as unknown as Record<
+        string,
+        string
+      >);
 
       const scope = nock("https://fdo.rocketlaunch.live", {
         reqheaders: {
@@ -615,7 +681,7 @@ describe("companies method", () => {
     });
 
     it("should ignore undefined inactive", async () => {
-      sandbox.spy(utils, "warn");
+      spy = sandbox.spy(utils, "warn");
 
       const testParams = { inactive: undefined };
 
@@ -634,7 +700,7 @@ describe("companies method", () => {
 
       scope.done();
 
-      expect(utils.warn.getCall(0).args[0]).to.equal(
+      expect(spy.getCall(0).args[0]).to.equal(
         'Parameter "inactive" is undefined and will be ignored.'
       );
     });

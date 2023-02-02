@@ -1,5 +1,15 @@
-import { RLLEndPoint, RLLQueryConfig } from "./types/application";
-import { countryCodes, usStateCodes } from "./types/standards";
+import {
+  RLLBaseQueryConfig,
+  RLLEndPoint,
+  RLLQueryConfig,
+  RLLQueryParams,
+} from "./types/application";
+import {
+  countryCodes,
+  isValidCountryCode,
+  isValidStateCode,
+  usStateCodes,
+} from "./types/standards";
 
 const getLeadingZero = (month: number, offset: number = 0): string => {
   const str = "0".concat((month + offset).toString());
@@ -31,7 +41,9 @@ export const apiKeyValidator = (apiKey: any): void => {
   }
 };
 
-export const optionsValidator = (options: {}): void => {
+export const optionsValidator = (options: {
+  [key: string | number | symbol]: any;
+}): void => {
   for (const option in options) {
     if (option !== "keyInQueryParams") {
       warn(
@@ -92,7 +104,7 @@ const validators = {
       if (typeof option !== "string") {
         return reject("Must be a string");
       }
-      if (!countryCodes[option]) {
+      if (!isValidCountryCode(option)) {
         return reject(
           "Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'."
         );
@@ -105,7 +117,7 @@ const validators = {
       if (typeof option !== "string") {
         return reject("Must be a string");
       }
-      if (!usStateCodes[option]) {
+      if (!isValidStateCode(option)) {
         return reject(
           "Invalid United States State Code. State Codes should follow ISO 3166-2 convention, like 'FL'."
         );
@@ -173,7 +185,7 @@ const validators = {
   },
 };
 
-const optionsMap = {
+const optionsMap: Record<RLLEndPoint, any> = {
   companies: {
     page: validators.number,
     id: validators.number,
@@ -231,17 +243,24 @@ const optionsMap = {
 
 export const queryOptionsValidator = (
   resource: RLLEndPoint,
-  options?: RLLQueryConfig.All
+  options?:
+    | RLLQueryConfig.Companies
+    | RLLQueryConfig.Launches
+    | RLLQueryConfig.Locations
+    | RLLQueryConfig.Missions
+    | RLLQueryConfig.Pads
+    | RLLQueryConfig.Tags
+    | RLLQueryConfig.Vehicles
 ): Promise<URLSearchParams> => {
   const params = new URLSearchParams();
-  const paramsPromises = [];
+  const paramsPromises: Promise<any>[] = [];
 
   if (!options) {
     return Promise.resolve(params);
   }
 
   if (
-    (options.id || options.slug || options.cospar_id) &&
+    (options.id || "slug" in options || "cospar_id" in options) &&
     Object.keys(options).length > 1
   ) {
     warn(
@@ -250,21 +269,23 @@ export const queryOptionsValidator = (
   }
 
   for (const option in options) {
-    if (!optionsMap[resource][option]) {
+    if (!(option in optionsMap[resource])) {
       warn(
         `Parameter "${option}" is not a valid option for the ${resource} endpoint. It will be ignored.`
       );
       continue;
     }
 
-    if (options[option] === undefined) {
+    if (options[option as keyof typeof options] === undefined) {
       warn(`Parameter "${option}" is undefined and will be ignored.`);
       continue;
     }
 
-    const promise = optionsMap[resource][option](options[option])
-      .then((o) => params.set(option, o))
-      .catch((err) => {
+    const promise = optionsMap[resource][option](
+      options[option as keyof typeof options]
+    )
+      .then((o: string) => params.set(option, o))
+      .catch((err: string) => {
         throw `Malformed query parameter for resource "${resource}" and parameter: "${option}": ${err}.`;
       });
 
@@ -279,7 +300,7 @@ export const warn = (msg: string) => console.warn(`[RLL Client]: ${msg}`);
 export const error = (
   msg: string,
   type: "type" | "range" | "error" = "error"
-) => {
+): void => {
   switch (type) {
     case "error": {
       throw new Error(`[RLL Client]: ${msg}`);

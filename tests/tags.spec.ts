@@ -2,10 +2,8 @@ import chaiAsPromised from "chai-as-promised";
 import nock from "nock";
 import chai from "chai";
 import Sinon from "sinon";
-import RLLClient from "../src/Client";
-import rllc from "../src/index";
-import { RLLQueryConfig } from "../src/types/application";
 import * as utils from "../src/utils";
+import { rllc, RLLClient, RLLQueryConfig } from "../src";
 
 chai.use(chaiAsPromised);
 const { expect, assert } = chai;

@@ -6,7 +6,7 @@ const getLeadingZero = (month: number, offset: number = 0): string => {
   return str.slice(-2);
 };
 
-export const apiKeyValidator = (apiKey: any): void => {
+export const apiKeyValidator = (apiKey: any): string => {
   if (apiKey === undefined) {
     error("RLL Client requires API Key", "type");
   }
@@ -15,11 +15,13 @@ export const apiKeyValidator = (apiKey: any): void => {
     error("RLL Client API Key must be a string", "type");
   }
 
-  if (apiKey === "") {
+  const trimmedKey = apiKey.trim();
+
+  if (trimmedKey === "") {
     error("RLL Client API Key cannot be an empty string", "type");
   }
 
-  const validator = apiKey.match(
+  const validator = trimmedKey.match(
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i
   );
 
@@ -29,6 +31,8 @@ export const apiKeyValidator = (apiKey: any): void => {
       "type"
     );
   }
+
+  return trimmedKey;
 };
 
 export const optionsValidator = (options: {

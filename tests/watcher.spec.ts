@@ -46,7 +46,7 @@ describe("rllc Watcher", () => {
       "[RLL Client]: RLLWatcher interval must be a number."
     );
 
-    expect(() => client.watch(18n as unknown as number)).to.throw(
+    expect(() => client.watch(BigInt(5) as unknown as number)).to.throw(
       "[RLL Client]: RLLWatcher interval must be a number."
     );
 

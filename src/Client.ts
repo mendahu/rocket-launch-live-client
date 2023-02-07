@@ -3,6 +3,7 @@ import {
   RLLEndPoint,
   RLLEntity,
   RLLQueryConfig,
+  RLLQueryParams,
   RLLResponse,
 } from "./types/application";
 import { fetcher } from "./fetcher";
@@ -11,6 +12,7 @@ import {
   optionsValidator,
   queryOptionsValidator,
 } from "./utils";
+import { RLLWatcher } from "./Watcher";
 
 /**
  * Class representing a RocketLaunch.Live client
@@ -66,6 +68,29 @@ export class RLLClient {
       params,
       this.config.keyInQueryParams
     );
+  }
+
+  private queryWatch(
+    params: URLSearchParams
+  ): Promise<RLLResponse<RLLEntity.Launch[]>> {
+    return this.query<RLLResponse<RLLEntity.Launch[]>>("/launches", params);
+  }
+
+  /**
+   * Instantiat a new RLL Watcher which will continually query the API for changes
+   *
+   * @public
+   *
+   * @param {number} interval - Interval in minutes to query the API for changes. Defaults to 5 minutes.
+   * @param {RLLQueryConfig.Launches} options - Query options, same as calling the launches method
+   *
+   * @returns {RLLWatcher}
+   */
+  public watch(
+    interval?: number,
+    options?: RLLQueryConfig.Launches
+  ): RLLWatcher {
+    return new RLLWatcher(this.queryWatch, interval, options);
   }
 
   /**

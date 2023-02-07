@@ -6,6 +6,10 @@ const getLeadingZero = (month: number, offset: number = 0): string => {
   return str.slice(-2);
 };
 
+export const formatToRLLISODate = (date: Date): string => {
+  return date.toISOString().slice(0, 19).concat("Z");
+};
+
 export const apiKeyValidator = (apiKey: any): string => {
   if (apiKey === undefined) {
     error("RLL Client requires API Key", "type");
@@ -172,7 +176,7 @@ const validators = {
           date = option;
         }
 
-        resolve(date.toISOString().slice(0, 19).concat("Z"));
+        resolve(formatToRLLISODate(date));
       }
       return reject("Must be a JavaScript Date Object or ISO 8601 Date String");
     });

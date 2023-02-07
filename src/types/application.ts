@@ -203,3 +203,10 @@ export type RLLResponse<T> = {
   last_page: number;
   result: T;
 };
+
+export type RLLError = {
+  error: string;
+  statusCode: number | null;
+  message: string;
+  server_response: string | null;
+};

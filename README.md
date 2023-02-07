@@ -13,6 +13,8 @@
   - [Pads](#pads)
   - [Tags](#tags)
   - [Vehicles](#vehicles)
+- [Watcher](#watcher)
+  - [Options](#watcher_options)
 
 This package is a fully-typed, promise-based, zero-dependency Node.JS JavaScript/TypeScript library for interacting with the [RocketLaunch.Live](https://www.rocketlaunch.live) API.
 
@@ -307,3 +309,84 @@ const options = {
   name: "Atlas V",
 };
 ```
+
+<a name="watcher"></a>
+
+## Watcher
+
+The `rocket-launch-live-client` has the ability to monitor the `launches` endpoint on a regular basis and return changes as they happen live.
+
+```js
+// Instantiate a new watcher
+const watcher = client.watch()
+
+// Define event handlers
+watcher.on("new", (newLaunch) => {
+  // handle new launch
+})
+
+watcher.on("change", (oldLaunch, newLaunch) => {
+  // handle change to existing launch
+}
+
+watcher.on("error", (err) => {
+  //handle errors
+})
+
+// Start monitoring
+watcher.watch()
+
+// Stop monitoring
+watcher.stop()
+```
+
+<a name="watcher_options"></a>
+
+### Watcher Options
+
+A new watcher takes up to two arguments:
+
+1. Interval - (optional) (default: 5) - a duration, in minutes, between calls to the API. Adjust this based on the frequency you wish to stay up to date. To avoid needlessly querying the API, this client will now allow any option less than 1 minute.
+2. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint.
+
+<a name="watcher_events"></a>
+
+### Watcher Events
+
+Watcher events are triggered when the client recieves a response to a query to `launches` using the `modified_since` parameter. The client will compare the changes to a cached version of the launch and trigger the appropriate event.
+
+If there are multiple changes on a single API call, the appropriate events will be triggered more than one, so have your callbacks handle a single event.
+
+If you are using typescript, the watcher events are available in an enum called `RLLWatcherEvent`
+
+```ts
+enum RLLWatcherEvent {
+  NEW = "new",
+  CHANGE = "change",
+  ERROR = "error",
+}
+```
+
+#### New
+
+A new launch has been added! The Watcher will provide the new launch data as the first argument to your callback.
+
+```js
+watcher.on("new", (newLaunch) => {
+  // Handle the new addition here
+});
+```
+
+The `newLaunch` argument will be an `RLLEntity.Launch` object, the same shape as what is received from the `launches` endpoint (but not wrapped in the standard response).
+
+#### Change
+
+An existing launch has had information change. The Watcher will provide the old and new versions of the launch object to do your own comparisons.
+
+```js
+watcher.on("change", (oldLaunch, newLaunch) => {
+  // Handle changes here
+});
+```
+
+The `oldLaunch` and `newLaunch` will be the cached version and the new version of an `RLLEntity.Launch` object, the same shape as what is received from the `launches` endpoint (but not wrapped in the standard response).

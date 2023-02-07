@@ -105,7 +105,9 @@ describe("pads method", () => {
     expect(() => client.pads(null as unknown as RLLQueryConfig.Pads)).to.throw(
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
-    expect(() => client.pads(5n as unknown as RLLQueryConfig.Pads)).to.throw(
+    expect(() =>
+      client.pads(BigInt(5) as unknown as RLLQueryConfig.Pads)
+    ).to.throw(
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
     expect(() =>
@@ -185,7 +187,7 @@ describe("pads method", () => {
 
     it("should reject on malformed bigint page", () => {
       return assert.isRejected(
-        client.pads({ page: 5n } as unknown as RLLQueryConfig.Pads),
+        client.pads({ page: BigInt(5) } as unknown as RLLQueryConfig.Pads),
         `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
       );
     });
@@ -321,7 +323,7 @@ describe("pads method", () => {
 
     it("should reject on malformed bigint id", () => {
       return assert.isRejected(
-        client.pads({ id: 5n } as unknown as RLLQueryConfig.Pads),
+        client.pads({ id: BigInt(5) } as unknown as RLLQueryConfig.Pads),
         `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
       );
     });
@@ -457,7 +459,7 @@ describe("pads method", () => {
 
     it("should reject on malformed bigint name", () => {
       return assert.isRejected(
-        client.pads({ name: 5n } as unknown as RLLQueryConfig.Pads),
+        client.pads({ name: BigInt(5) } as unknown as RLLQueryConfig.Pads),
         `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
       );
     });
@@ -611,7 +613,7 @@ describe("pads method", () => {
     it("should reject on malformed bigint state_abbr", () => {
       return assert.isRejected(
         client.pads({
-          state_abbr: 5n,
+          state_abbr: BigInt(5),
         } as unknown as RLLQueryConfig.Pads),
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
       );
@@ -746,7 +748,7 @@ describe("pads method", () => {
     it("should reject on malformed bigint country_code", () => {
       return assert.isRejected(
         client.pads({
-          country_code: 5n,
+          country_code: BigInt(5),
         } as unknown as RLLQueryConfig.Pads),
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );

@@ -43,7 +43,7 @@ describe("rllc Client", () => {
     expect(() => rllc({ key: "api" } as unknown as string)).to.throw(
       "[RLL Client]: RLL Client API Key must be a string"
     );
-    expect(() => rllc(18n as unknown as string)).to.throw(
+    expect(() => rllc(BigInt(5) as unknown as string)).to.throw(
       "[RLL Client]: RLL Client API Key must be a string"
     );
     expect(() => rllc(Symbol() as unknown as string)).to.throw(

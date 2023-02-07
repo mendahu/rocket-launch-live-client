@@ -112,7 +112,7 @@ describe("missions method", () => {
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
     expect(() =>
-      client.missions(5n as unknown as RLLQueryConfig.Missions)
+      client.missions(BigInt(5) as unknown as RLLQueryConfig.Missions)
     ).to.throw(
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
@@ -206,7 +206,7 @@ describe("missions method", () => {
     it("should reject on malformed bigint page", () => {
       return assert.isRejected(
         client.missions({
-          page: 5n,
+          page: BigInt(5),
         } as unknown as RLLQueryConfig.Missions),
         `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
       );
@@ -345,7 +345,9 @@ describe("missions method", () => {
 
     it("should reject on malformed bigint id", () => {
       return assert.isRejected(
-        client.missions({ id: 5n } as unknown as RLLQueryConfig.Missions),
+        client.missions({
+          id: BigInt(5),
+        } as unknown as RLLQueryConfig.Missions),
         `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
       );
     });
@@ -488,7 +490,7 @@ describe("missions method", () => {
     it("should reject on malformed bigint name", () => {
       return assert.isRejected(
         client.missions({
-          name: 5n,
+          name: BigInt(5),
         } as unknown as RLLQueryConfig.Missions),
         `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
       );

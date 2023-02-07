@@ -112,7 +112,7 @@ describe("locations method", () => {
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
     expect(() =>
-      client.locations(5n as unknown as RLLQueryConfig.Locations)
+      client.locations(BigInt(5) as unknown as RLLQueryConfig.Locations)
     ).to.throw(
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
@@ -208,7 +208,7 @@ describe("locations method", () => {
     it("should reject on malformed bigint page", () => {
       return assert.isRejected(
         client.locations({
-          page: 5n,
+          page: BigInt(5),
         } as unknown as RLLQueryConfig.Locations),
         `Malformed query parameter for resource "locations" and parameter: "page": Must be a number.`
       );
@@ -352,7 +352,7 @@ describe("locations method", () => {
     it("should reject on malformed bigint id", () => {
       return assert.isRejected(
         client.locations({
-          id: 5n,
+          id: BigInt(5),
         } as unknown as RLLQueryConfig.Locations),
         `Malformed query parameter for resource "locations" and parameter: "id": Must be a number.`
       );
@@ -496,7 +496,7 @@ describe("locations method", () => {
     it("should reject on malformed function name", () => {
       return assert.isRejected(
         client.locations({
-          name: 5n,
+          name: BigInt(5),
         } as unknown as RLLQueryConfig.Locations),
         `Malformed query parameter for resource "locations" and parameter: "name": Must be a string.`
       );
@@ -660,7 +660,7 @@ describe("locations method", () => {
     it("should reject on malformed bigint state_abbr", () => {
       return assert.isRejected(
         client.locations({
-          state_abbr: 5n,
+          state_abbr: BigInt(5),
         } as unknown as RLLQueryConfig.Locations),
         `Malformed query parameter for resource "locations" and parameter: "state_abbr": Must be a string.`
       );
@@ -805,7 +805,7 @@ describe("locations method", () => {
     it("should reject on malformed bigint country_code", () => {
       return assert.isRejected(
         client.locations({
-          country_code: 5n,
+          country_code: BigInt(5),
         } as unknown as RLLQueryConfig.Locations),
         `Malformed query parameter for resource "locations" and parameter: "country_code": Must be a string.`
       );

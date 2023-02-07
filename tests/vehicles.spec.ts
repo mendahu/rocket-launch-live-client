@@ -112,7 +112,7 @@ describe("vehicles method", () => {
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
     expect(() =>
-      client.vehicles(5n as unknown as RLLQueryConfig.Vehicles)
+      client.vehicles(BigInt(5) as unknown as RLLQueryConfig.Vehicles)
     ).to.throw(
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
@@ -206,7 +206,7 @@ describe("vehicles method", () => {
     it("should reject on malformed bigint page", () => {
       return assert.isRejected(
         client.vehicles({
-          page: 5n,
+          page: BigInt(5),
         } as unknown as RLLQueryConfig.Vehicles),
         `Malformed query parameter for resource "vehicles" and parameter: "page": Must be a number.`
       );
@@ -345,7 +345,9 @@ describe("vehicles method", () => {
 
     it("should reject on malformed bigint id", () => {
       return assert.isRejected(
-        client.vehicles({ id: 5n } as unknown as RLLQueryConfig.Vehicles),
+        client.vehicles({
+          id: BigInt(5),
+        } as unknown as RLLQueryConfig.Vehicles),
         `Malformed query parameter for resource "vehicles" and parameter: "id": Must be a number.`
       );
     });
@@ -488,7 +490,7 @@ describe("vehicles method", () => {
     it("should reject on malformed bigint name", () => {
       return assert.isRejected(
         client.vehicles({
-          name: 5n,
+          name: BigInt(5),
         } as unknown as RLLQueryConfig.Vehicles),
         `Malformed query parameter for resource "vehicles" and parameter: "name": Must be a string.`
       );

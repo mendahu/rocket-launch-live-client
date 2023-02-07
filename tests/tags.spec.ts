@@ -105,7 +105,9 @@ describe("tags method", () => {
     expect(() => client.tags(null as unknown as RLLQueryConfig.Tags)).to.throw(
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
-    expect(() => client.tags(5n as unknown as RLLQueryConfig.Tags)).to.throw(
+    expect(() =>
+      client.tags(BigInt(5) as unknown as RLLQueryConfig.Tags)
+    ).to.throw(
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
     expect(() =>
@@ -185,7 +187,7 @@ describe("tags method", () => {
 
     it("should reject on malformed bigint page", () => {
       return assert.isRejected(
-        client.tags({ page: 5n } as unknown as RLLQueryConfig.Tags),
+        client.tags({ page: BigInt(5) } as unknown as RLLQueryConfig.Tags),
         `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
       );
     });
@@ -321,7 +323,7 @@ describe("tags method", () => {
 
     it("should reject on malformed bigint id", () => {
       return assert.isRejected(
-        client.tags({ id: 5n } as unknown as RLLQueryConfig.Tags),
+        client.tags({ id: BigInt(5) } as unknown as RLLQueryConfig.Tags),
         `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
       );
     });
@@ -457,7 +459,7 @@ describe("tags method", () => {
 
     it("should reject on malformed bigint text", () => {
       return assert.isRejected(
-        client.tags({ text: 5n } as unknown as RLLQueryConfig.Tags),
+        client.tags({ text: BigInt(5) } as unknown as RLLQueryConfig.Tags),
         `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
       );
     });

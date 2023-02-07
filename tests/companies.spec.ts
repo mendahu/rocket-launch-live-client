@@ -112,7 +112,7 @@ describe("companies method", () => {
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
     expect(() =>
-      client.companies(5n as unknown as RLLQueryConfig.Companies)
+      client.companies(BigInt(5) as unknown as RLLQueryConfig.Companies)
     ).to.throw(
       "[RLL Client]: Invalid type for query options. Must be an object."
     );
@@ -206,7 +206,7 @@ describe("companies method", () => {
     it("should reject on malformed bigint page", () => {
       return assert.isRejected(
         client.companies({
-          page: 5n,
+          page: BigInt(5),
         } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
@@ -348,7 +348,7 @@ describe("companies method", () => {
     it("should reject on malformed bigint id", () => {
       return assert.isRejected(
         client.companies({
-          id: 5n,
+          id: BigInt(5),
         } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
@@ -492,7 +492,7 @@ describe("companies method", () => {
     it("should reject on malformed bigint name", () => {
       return assert.isRejected(
         client.companies({
-          name: 5n,
+          name: BigInt(5),
         } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
@@ -656,7 +656,7 @@ describe("companies method", () => {
     it("should reject on malformed bigint country_code", () => {
       return assert.isRejected(
         client.companies({
-          country_code: 5n,
+          country_code: BigInt(5),
         } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
@@ -783,7 +783,7 @@ describe("companies method", () => {
     it("should reject on malformed bigint inactive", () => {
       return assert.isRejected(
         client.companies({
-          inactive: 5n,
+          inactive: BigInt(5),
         } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );

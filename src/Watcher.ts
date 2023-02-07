@@ -51,7 +51,7 @@ export class RLLWatcher extends EventEmitter {
   private launches: Record<number, RLLEntity.Launch> = {};
   private interval: number;
   private params: Promise<URLSearchParams>;
-  private timer: NodeJS.Timer;
+  private timer: NodeJS.Timer | undefined;
   private fetcher: (
     params: URLSearchParams
   ) => Promise<RLLResponse<RLLEntity.Launch[]>>;
@@ -64,6 +64,7 @@ export class RLLWatcher extends EventEmitter {
     options?: RLLQueryConfig.Launches
   ) {
     super();
+    this.last_call = new Date();
     this.fetcher = fetcher;
 
     this.interval = intervalValidator(interval);
@@ -109,7 +110,7 @@ export class RLLWatcher extends EventEmitter {
     let page = 1;
     let params: URLSearchParams;
 
-    const fetchLaunchesForCache = () => {
+    const fetchLaunchesForCache = (): Promise<void> => {
       return this.fetcher(params).then((res) => {
         for (const launch of res.result) {
           this.launches[launch.id] = launch;

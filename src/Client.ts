@@ -87,7 +87,7 @@ export class RLLClient {
    * @returns {RLLWatcher}
    */
   public watch(
-    interval?: number,
+    interval?: number | string,
     options?: RLLQueryConfig.Launches
   ): RLLWatcher {
     return new RLLWatcher(this.queryWatch, interval, options);

@@ -36,6 +36,13 @@ const intervalValidator = (interval: any): number => {
 
   const typedInterval = Number(interval);
 
+  if (typedInterval <= 0) {
+    error(
+      "RLLWatcher interval cannot be a negative number or zero. Watcher intervals should be greater than or equal to 1 minute."
+    );
+    return 5;
+  }
+
   if (typedInterval < 1) {
     warn(
       "RLLWatcher does not accept intervals less than 1. Your watcher will default to 5 minute intervals unless corrected."
@@ -60,7 +67,7 @@ export class RLLWatcher extends EventEmitter {
     fetcher: (
       params: URLSearchParams
     ) => Promise<RLLResponse<RLLEntity.Launch[]>>,
-    interval: number = 5,
+    interval: number | string = 5,
     options?: RLLQueryConfig.Launches
   ) {
     super();

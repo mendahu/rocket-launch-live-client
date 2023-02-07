@@ -95,6 +95,49 @@ describe("locations method", () => {
     );
   });
 
+  it("should throw if passed invalid query params object", () => {
+    expect(() =>
+      client.locations(5 as unknown as RLLQueryConfig.Locations)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.locations("5" as unknown as RLLQueryConfig.Locations)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.locations(null as unknown as RLLQueryConfig.Locations)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.locations(5n as unknown as RLLQueryConfig.Locations)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.locations(Symbol() as unknown as RLLQueryConfig.Locations)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.locations([] as unknown as RLLQueryConfig.Locations)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.locations(false as unknown as RLLQueryConfig.Locations)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.locations((() => 5) as unknown as RLLQueryConfig.Locations)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+  });
+
   describe("page parameter", () => {
     it("should reject on malformed string page", async () => {
       return assert.isRejected(

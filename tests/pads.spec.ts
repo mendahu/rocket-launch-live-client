@@ -95,6 +95,37 @@ describe("pads method", () => {
     );
   });
 
+  it("should throw if passed invalid query params object", () => {
+    expect(() => client.pads(5 as unknown as RLLQueryConfig.Pads)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.pads("5" as unknown as RLLQueryConfig.Pads)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.pads(null as unknown as RLLQueryConfig.Pads)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.pads(5n as unknown as RLLQueryConfig.Pads)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.pads(Symbol() as unknown as RLLQueryConfig.Pads)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.pads([] as unknown as RLLQueryConfig.Pads)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.pads(false as unknown as RLLQueryConfig.Pads)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.pads((() => 5) as unknown as RLLQueryConfig.Pads)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+  });
+
   describe("page parameter", () => {
     it("should reject on malformed string page", async () => {
       return assert.isRejected(

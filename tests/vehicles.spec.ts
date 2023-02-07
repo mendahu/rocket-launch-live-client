@@ -95,6 +95,49 @@ describe("vehicles method", () => {
     );
   });
 
+  it("should throw if passed invalid query params object", () => {
+    expect(() =>
+      client.vehicles(5 as unknown as RLLQueryConfig.Vehicles)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.vehicles("5" as unknown as RLLQueryConfig.Vehicles)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.vehicles(null as unknown as RLLQueryConfig.Vehicles)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.vehicles(5n as unknown as RLLQueryConfig.Vehicles)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.vehicles(Symbol() as unknown as RLLQueryConfig.Vehicles)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.vehicles([] as unknown as RLLQueryConfig.Vehicles)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.vehicles(false as unknown as RLLQueryConfig.Vehicles)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.vehicles((() => 5) as unknown as RLLQueryConfig.Vehicles)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+  });
+
   describe("page parameter", () => {
     it("should reject on malformed string page", async () => {
       return assert.isRejected(

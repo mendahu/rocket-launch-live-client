@@ -95,6 +95,37 @@ describe("tags method", () => {
     );
   });
 
+  it("should throw if passed invalid query params object", () => {
+    expect(() => client.tags(5 as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.tags("5" as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.tags(null as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.tags(5n as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.tags(Symbol() as unknown as RLLQueryConfig.Tags)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.tags([] as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.tags(false as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.tags((() => 5) as unknown as RLLQueryConfig.Tags)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+  });
+
   describe("page parameter", () => {
     it("should reject on malformed string page", async () => {
       return assert.isRejected(

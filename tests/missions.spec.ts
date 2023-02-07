@@ -95,6 +95,49 @@ describe("missions method", () => {
     );
   });
 
+  it("should throw if passed invalid query params object", () => {
+    expect(() =>
+      client.missions(5 as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions("5" as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions(null as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions(5n as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions(Symbol() as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions([] as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions(false as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions((() => 5) as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+  });
+
   describe("page parameter", () => {
     it("should reject on malformed string page", async () => {
       return assert.isRejected(

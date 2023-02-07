@@ -253,8 +253,21 @@ export const queryOptionsValidator = (
   const params = new URLSearchParams();
   const paramsPromises: Promise<any>[] = [];
 
-  if (!options) {
+  if (options === undefined) {
     return Promise.resolve(params);
+  }
+
+  if (
+    typeof options === "string" ||
+    typeof options === "number" ||
+    typeof options === "boolean" ||
+    typeof options === "bigint" ||
+    typeof options === "symbol" ||
+    typeof options === "function" ||
+    options === null ||
+    Array.isArray(options)
+  ) {
+    error("Invalid type for query options. Must be an object.");
   }
 
   if (

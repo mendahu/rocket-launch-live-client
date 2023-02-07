@@ -153,6 +153,24 @@ describe("locations method", () => {
       );
     });
 
+    it("should reject on malformed symbol page", () => {
+      return assert.isRejected(
+        client.locations({
+          page: Symbol(),
+        } as unknown as RLLQueryConfig.Locations),
+        `Malformed query parameter for resource "locations" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint page", () => {
+      return assert.isRejected(
+        client.locations({
+          page: 5n,
+        } as unknown as RLLQueryConfig.Locations),
+        `Malformed query parameter for resource "locations" and parameter: "page": Must be a number.`
+      );
+    });
+
     it("should execute corectly with page number", async () => {
       const testParams = { page: 6 };
 
@@ -279,6 +297,24 @@ describe("locations method", () => {
       );
     });
 
+    it("should reject on malformed Symbol id", () => {
+      return assert.isRejected(
+        client.locations({
+          id: Symbol(),
+        } as unknown as RLLQueryConfig.Locations),
+        `Malformed query parameter for resource "locations" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint id", () => {
+      return assert.isRejected(
+        client.locations({
+          id: 5n,
+        } as unknown as RLLQueryConfig.Locations),
+        `Malformed query parameter for resource "locations" and parameter: "id": Must be a number.`
+      );
+    });
+
     it("should execute correctly with id number", async () => {
       const testParams = { id: 6 };
 
@@ -400,6 +436,24 @@ describe("locations method", () => {
       return assert.isRejected(
         client.locations({
           name: () => "spacex",
+        } as unknown as RLLQueryConfig.Locations),
+        `Malformed query parameter for resource "locations" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed Symbol name", () => {
+      return assert.isRejected(
+        client.locations({
+          name: Symbol(),
+        } as unknown as RLLQueryConfig.Locations),
+        `Malformed query parameter for resource "locations" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed function name", () => {
+      return assert.isRejected(
+        client.locations({
+          name: 5n,
         } as unknown as RLLQueryConfig.Locations),
         `Malformed query parameter for resource "locations" and parameter: "name": Must be a string.`
       );
@@ -551,6 +605,24 @@ describe("locations method", () => {
       );
     });
 
+    it("should reject on malformed Symbol() state_abbr", () => {
+      return assert.isRejected(
+        client.locations({
+          state_abbr: Symbol(),
+        } as unknown as RLLQueryConfig.Locations),
+        `Malformed query parameter for resource "locations" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed bigint state_abbr", () => {
+      return assert.isRejected(
+        client.locations({
+          state_abbr: 5n,
+        } as unknown as RLLQueryConfig.Locations),
+        `Malformed query parameter for resource "locations" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
     it("should execute correctly with good state code", async () => {
       const testParams = { state_abbr: "FL" };
 
@@ -673,6 +745,24 @@ describe("locations method", () => {
       return assert.isRejected(
         client.locations({
           country_code: () => "US",
+        } as unknown as RLLQueryConfig.Locations),
+        `Malformed query parameter for resource "locations" and parameter: "country_code": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed Symbol country_code", () => {
+      return assert.isRejected(
+        client.locations({
+          country_code: Symbol(),
+        } as unknown as RLLQueryConfig.Locations),
+        `Malformed query parameter for resource "locations" and parameter: "country_code": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed bigint country_code", () => {
+      return assert.isRejected(
+        client.locations({
+          country_code: 5n,
         } as unknown as RLLQueryConfig.Locations),
         `Malformed query parameter for resource "locations" and parameter: "country_code": Must be a string.`
       );

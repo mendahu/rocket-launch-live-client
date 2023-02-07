@@ -151,6 +151,24 @@ describe("companies method", () => {
       );
     });
 
+    it("should reject on malformed symbol page", () => {
+      return assert.isRejected(
+        client.companies({
+          page: Symbol(),
+        } as unknown as RLLQueryConfig.Companies),
+        `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint page", () => {
+      return assert.isRejected(
+        client.companies({
+          page: 5n,
+        } as unknown as RLLQueryConfig.Companies),
+        `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+      );
+    });
+
     it("should execute corectly with page number", async () => {
       const testParams = { page: 6 };
 
@@ -270,6 +288,24 @@ describe("companies method", () => {
       return assert.isRejected(
         client.companies({
           id: () => 5,
+        } as unknown as RLLQueryConfig.Companies),
+        `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed Symbol id", () => {
+      return assert.isRejected(
+        client.companies({
+          id: Symbol(),
+        } as unknown as RLLQueryConfig.Companies),
+        `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint id", () => {
+      return assert.isRejected(
+        client.companies({
+          id: 5n,
         } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
@@ -396,6 +432,24 @@ describe("companies method", () => {
       return assert.isRejected(
         client.companies({
           name: () => "spacex",
+        } as unknown as RLLQueryConfig.Companies),
+        `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed symbol name", () => {
+      return assert.isRejected(
+        client.companies({
+          name: Symbol(),
+        } as unknown as RLLQueryConfig.Companies),
+        `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed bigint name", () => {
+      return assert.isRejected(
+        client.companies({
+          name: 5n,
         } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
@@ -547,6 +601,24 @@ describe("companies method", () => {
       );
     });
 
+    it("should reject on malformed symbol country_code", () => {
+      return assert.isRejected(
+        client.companies({
+          country_code: Symbol(),
+        } as unknown as RLLQueryConfig.Companies),
+        `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed bigint country_code", () => {
+      return assert.isRejected(
+        client.companies({
+          country_code: 5n,
+        } as unknown as RLLQueryConfig.Companies),
+        `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
+      );
+    });
+
     it("should execute correctly with good country code", async () => {
       const testParams: RLLQueryConfig.Companies = { country_code: "US" };
 
@@ -651,6 +723,24 @@ describe("companies method", () => {
       return assert.isRejected(
         client.companies({
           inactive: () => true,
+        } as unknown as RLLQueryConfig.Companies),
+        `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
+      );
+    });
+
+    it("should reject on malformed symbol inactive", () => {
+      return assert.isRejected(
+        client.companies({
+          inactive: Symbol(),
+        } as unknown as RLLQueryConfig.Companies),
+        `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
+      );
+    });
+
+    it("should reject on malformed bigint inactive", () => {
+      return assert.isRejected(
+        client.companies({
+          inactive: 5n,
         } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );

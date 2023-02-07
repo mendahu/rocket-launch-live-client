@@ -151,6 +151,24 @@ describe("vehicles method", () => {
       );
     });
 
+    it("should reject on malformed symbol page", () => {
+      return assert.isRejected(
+        client.vehicles({
+          page: Symbol(),
+        } as unknown as RLLQueryConfig.Vehicles),
+        `Malformed query parameter for resource "vehicles" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint page", () => {
+      return assert.isRejected(
+        client.vehicles({
+          page: 5n,
+        } as unknown as RLLQueryConfig.Vehicles),
+        `Malformed query parameter for resource "vehicles" and parameter: "page": Must be a number.`
+      );
+    });
+
     it("should execute corectly with page number", async () => {
       const testParams = { page: 6 };
 
@@ -271,6 +289,20 @@ describe("vehicles method", () => {
     it("should reject on malformed function id", () => {
       return assert.isRejected(
         client.vehicles({ id: () => 5 } as unknown as RLLQueryConfig.Vehicles),
+        `Malformed query parameter for resource "vehicles" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed symbol id", () => {
+      return assert.isRejected(
+        client.vehicles({ id: Symbol() } as unknown as RLLQueryConfig.Vehicles),
+        `Malformed query parameter for resource "vehicles" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint id", () => {
+      return assert.isRejected(
+        client.vehicles({ id: 5n } as unknown as RLLQueryConfig.Vehicles),
         `Malformed query parameter for resource "vehicles" and parameter: "id": Must be a number.`
       );
     });
@@ -396,6 +428,24 @@ describe("vehicles method", () => {
       return assert.isRejected(
         client.vehicles({
           name: () => "spacex",
+        } as unknown as RLLQueryConfig.Vehicles),
+        `Malformed query parameter for resource "vehicles" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed symbol name", () => {
+      return assert.isRejected(
+        client.vehicles({
+          name: Symbol(),
+        } as unknown as RLLQueryConfig.Vehicles),
+        `Malformed query parameter for resource "vehicles" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed bigint name", () => {
+      return assert.isRejected(
+        client.vehicles({
+          name: 5n,
         } as unknown as RLLQueryConfig.Vehicles),
         `Malformed query parameter for resource "vehicles" and parameter: "name": Must be a string.`
       );

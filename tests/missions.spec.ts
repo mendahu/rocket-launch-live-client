@@ -151,6 +151,24 @@ describe("missions method", () => {
       );
     });
 
+    it("should reject on malformed symbol() page", () => {
+      return assert.isRejected(
+        client.missions({
+          page: Symbol(),
+        } as unknown as RLLQueryConfig.Missions),
+        `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint page", () => {
+      return assert.isRejected(
+        client.missions({
+          page: 5n,
+        } as unknown as RLLQueryConfig.Missions),
+        `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
+      );
+    });
+
     it("should execute corectly with page number", async () => {
       const testParams = { page: 6 };
 
@@ -271,6 +289,20 @@ describe("missions method", () => {
     it("should reject on malformed function id", () => {
       return assert.isRejected(
         client.missions({ id: () => 5 } as unknown as RLLQueryConfig.Missions),
+        `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed symbol id", () => {
+      return assert.isRejected(
+        client.missions({ id: Symbol() } as unknown as RLLQueryConfig.Missions),
+        `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint id", () => {
+      return assert.isRejected(
+        client.missions({ id: 5n } as unknown as RLLQueryConfig.Missions),
         `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
       );
     });
@@ -396,6 +428,24 @@ describe("missions method", () => {
       return assert.isRejected(
         client.missions({
           name: () => "spacex",
+        } as unknown as RLLQueryConfig.Missions),
+        `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed symbol name", () => {
+      return assert.isRejected(
+        client.missions({
+          name: Symbol(),
+        } as unknown as RLLQueryConfig.Missions),
+        `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed bigint name", () => {
+      return assert.isRejected(
+        client.missions({
+          name: 5n,
         } as unknown as RLLQueryConfig.Missions),
         `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
       );

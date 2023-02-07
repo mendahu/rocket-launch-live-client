@@ -145,6 +145,20 @@ describe("pads method", () => {
       );
     });
 
+    it("should reject on malformed Symbol page", () => {
+      return assert.isRejected(
+        client.pads({ page: Symbol() } as unknown as RLLQueryConfig.Pads),
+        `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint page", () => {
+      return assert.isRejected(
+        client.pads({ page: 5n } as unknown as RLLQueryConfig.Pads),
+        `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
+      );
+    });
+
     it("should execute corectly with page number", async () => {
       const testParams = { page: 6 };
 
@@ -267,6 +281,20 @@ describe("pads method", () => {
       );
     });
 
+    it("should reject on malformed Symbol() id", () => {
+      return assert.isRejected(
+        client.pads({ id: Symbol() } as unknown as RLLQueryConfig.Pads),
+        `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint id", () => {
+      return assert.isRejected(
+        client.pads({ id: 5n } as unknown as RLLQueryConfig.Pads),
+        `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
+      );
+    });
+
     it("should execute correctly with id number", async () => {
       const testParams = { id: 6 };
 
@@ -385,6 +413,20 @@ describe("pads method", () => {
     it("should reject on malformed function name", () => {
       return assert.isRejected(
         client.pads({ name: () => "spacex" } as unknown as RLLQueryConfig.Pads),
+        `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed symbol name", () => {
+      return assert.isRejected(
+        client.pads({ name: Symbol() } as unknown as RLLQueryConfig.Pads),
+        `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed bigint name", () => {
+      return assert.isRejected(
+        client.pads({ name: 5n } as unknown as RLLQueryConfig.Pads),
         `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
       );
     });
@@ -528,6 +570,22 @@ describe("pads method", () => {
       );
     });
 
+    it("should reject on malformed symbol state_abbr", () => {
+      return assert.isRejected(
+        client.pads({ state_abbr: Symbol() } as unknown as RLLQueryConfig.Pads),
+        `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed bigint state_abbr", () => {
+      return assert.isRejected(
+        client.pads({
+          state_abbr: 5n,
+        } as unknown as RLLQueryConfig.Pads),
+        `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
+      );
+    });
+
     it("should execute correctly with good state code", async () => {
       const testParams: RLLQueryConfig.Pads = { state_abbr: "FL" };
 
@@ -640,6 +698,24 @@ describe("pads method", () => {
       return assert.isRejected(
         client.pads({
           country_code: () => "US",
+        } as unknown as RLLQueryConfig.Pads),
+        `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed Symbol() country_code", () => {
+      return assert.isRejected(
+        client.pads({
+          country_code: Symbol(),
+        } as unknown as RLLQueryConfig.Pads),
+        `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed bigint country_code", () => {
+      return assert.isRejected(
+        client.pads({
+          country_code: 5n,
         } as unknown as RLLQueryConfig.Pads),
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );

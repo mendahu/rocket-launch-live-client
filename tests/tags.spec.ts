@@ -145,6 +145,20 @@ describe("tags method", () => {
       );
     });
 
+    it("should reject on malformed symbol page", () => {
+      return assert.isRejected(
+        client.tags({ page: Symbol() } as unknown as RLLQueryConfig.Tags),
+        `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint page", () => {
+      return assert.isRejected(
+        client.tags({ page: 5n } as unknown as RLLQueryConfig.Tags),
+        `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
+      );
+    });
+
     it("should execute corectly with page number", async () => {
       const testParams = { page: 6 };
 
@@ -267,6 +281,20 @@ describe("tags method", () => {
       );
     });
 
+    it("should reject on malformed symbol id", () => {
+      return assert.isRejected(
+        client.tags({ id: Symbol() } as unknown as RLLQueryConfig.Tags),
+        `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint id", () => {
+      return assert.isRejected(
+        client.tags({ id: 5n } as unknown as RLLQueryConfig.Tags),
+        `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
+      );
+    });
+
     it("should execute correctly with id number", async () => {
       const testParams = { id: 6 };
 
@@ -385,6 +413,20 @@ describe("tags method", () => {
     it("should reject on malformed function text", () => {
       return assert.isRejected(
         client.tags({ text: () => "spacex" } as unknown as RLLQueryConfig.Tags),
+        `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed symbol text", () => {
+      return assert.isRejected(
+        client.tags({ text: Symbol() } as unknown as RLLQueryConfig.Tags),
+        `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
+      );
+    });
+
+    it("should reject on malformed bigint text", () => {
+      return assert.isRejected(
+        client.tags({ text: 5n } as unknown as RLLQueryConfig.Tags),
         `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
       );
     });

@@ -43,6 +43,15 @@ describe("rllc Client", () => {
     expect(() => rllc({ key: "api" } as unknown as string)).to.throw(
       "[RLL Client]: RLL Client API Key must be a string"
     );
+    expect(() => rllc(18n as unknown as string)).to.throw(
+      "[RLL Client]: RLL Client API Key must be a string"
+    );
+    expect(() => rllc(Symbol() as unknown as string)).to.throw(
+      "[RLL Client]: RLL Client API Key must be a string"
+    );
+    expect(() => rllc((() => "key") as unknown as string)).to.throw(
+      "[RLL Client]: RLL Client API Key must be a string"
+    );
   });
 
   it("should throw error with a non-uuid string", () => {

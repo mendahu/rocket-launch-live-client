@@ -77,7 +77,7 @@ export class RLLClient {
   }
 
   /**
-   * Instantiat a new RLL Watcher which will continually query the API for changes
+   * Instantiate a new RLL Watcher which will continually query the API for changes
    *
    * @public
    *

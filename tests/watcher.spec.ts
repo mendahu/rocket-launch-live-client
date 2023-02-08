@@ -2,10 +2,15 @@ import { expect } from "chai";
 import Sinon from "sinon";
 import nock from "nock";
 import { rllc } from "../src/index";
-import { RLLClientOptions, RLLQueryConfig } from "../src/types/application";
+import {
+  RLLEntity,
+  RLLQueryConfig,
+  RLLResponse,
+} from "../src/types/application";
 import * as utils from "../src/utils";
 import "mocha";
 import "sinon";
+import { launches1 } from "./fixtures/launches";
 
 describe("rllc Watcher", () => {
   let sandbox: Sinon.SinonSandbox;
@@ -91,6 +96,7 @@ describe("rllc Watcher", () => {
 
   it("should throw if malformed search params are submitted", () => {
     // Not testing every possible parameter input here as it is well covered in the launches endpoint
+    // This uses the same validator function under the hood
     // Adding just this one test to ensure the error is thrown through
 
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
@@ -98,5 +104,29 @@ describe("rllc Watcher", () => {
     expect(() => client.watch(10, [] as RLLQueryConfig.Launches)).to.throw(
       "Invalid type for query options. Must be an object."
     );
+  });
+
+  it("should recursively query the API to fetch all results for initial cache", async () => {
+    const response1: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 25,
+      limit: 25,
+      total: 51,
+      last_page: 3,
+      result: launches1,
+    };
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+      },
+    })
+      .get("/json/launches")
+      .reply(200, response1);
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
+    await client.launches();
+
+    scope.done();
   });
 });

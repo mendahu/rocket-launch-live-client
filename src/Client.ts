@@ -70,6 +70,15 @@ export class RLLClient {
     );
   }
 
+  /**
+   * Used internally to make API query for Launch Watcher
+   *
+   * @private
+   *
+   * @param {URLSearchParams} params - API Search Params
+   *
+   * @returns {Promise<RLLResponse<RLLEntity.Launch[]>>}
+   */
   private queryWatch(
     params: URLSearchParams
   ): Promise<RLLResponse<RLLEntity.Launch[]>> {
@@ -77,11 +86,11 @@ export class RLLClient {
   }
 
   /**
-   * Instantiate a new RLL Watcher which will continually query the API for changes
+   * Instantiate a new RLL Watcher which will continually query the API for changes to the launches endpoint
    *
    * @public
    *
-   * @param {number} interval - Interval in minutes to query the API for changes. Defaults to 5 minutes.
+   * @param {number} interval - Interval in minutes to query the API for changes. Defaults to 5 minutes, cannot be less than 1 minute
    * @param {RLLQueryConfig.Launches} options - Query options, same as calling the launches method
    *
    * @returns {RLLWatcher}

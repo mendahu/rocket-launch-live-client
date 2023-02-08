@@ -53,6 +53,10 @@ const intervalValidator = (interval: any): number => {
   return typedInterval;
 };
 
+/**
+ * Class representing a RocketLaunch.Live Client Watcher
+ * @class
+ */
 export class RLLWatcher extends EventEmitter {
   private last_call: Date;
   private launches: Record<number, RLLEntity.Launch> = {};
@@ -63,6 +67,29 @@ export class RLLWatcher extends EventEmitter {
     params: URLSearchParams
   ) => Promise<RLLResponse<RLLEntity.Launch[]>>;
 
+  /**
+   * Create a new RocketLaunch.live Client Watcher
+   *
+   * @param {function(params: URLSearchParams): Promise<RLLResponse<RLLEntity.Launch[]>>} fetcher - fetcher function to make API calls
+   * @param {number | string} [interval] - Optional Client Configuration options
+   * @param {Object} [options] - Launch Search Options
+   * @param {number | string} options.id - Launch id
+   * @param {number | string} options.page - Page number of results
+   * @param {string} options.cospar_id - Launch COSPAR ID (ie. 2022-123)
+   * @param {Date | string} options.before_date - Only return launches before this date
+   * @param {Date | string} options.after_date - Only return launches after this date
+   * @param {Date | string} options.modified_since - Only return launches with API changes after this date
+   * @param {number | string} options.location_id - Launches from this Location
+   * @param {number | string} options.pad_id - Launches from this Pad
+   * @param {number | string} options.provider_id - Launches from this Company
+   * @param {number | string} options.tag_id - Launches with this Tag
+   * @param {number | string} options.vehicle_id - Launches on this Vehicle
+   * @param {ISO3166Alpha2.StateCodeUS} options.state_abbr - ISO 3166 Alpha 2 US State Code
+   * @param {ISO3166Alpha2.CountryCode} options.country_code - ISO 3166 Alpha 2 Country Code
+   * @param {number | string} options.search - Launches matching this search string
+   * @param {number | string} options.slug - Launches matching this unique slug
+   *
+   */
   constructor(
     fetcher: (
       params: URLSearchParams
@@ -84,6 +111,14 @@ export class RLLWatcher extends EventEmitter {
     );
   }
 
+  /**
+   * Query wrapper to trigger events
+   *
+   * @private
+   * @function
+   *
+   * @returns {void}
+   */
   private query(): void {
     this.params
       .then((p) => {
@@ -113,6 +148,14 @@ export class RLLWatcher extends EventEmitter {
       });
   }
 
+  /**
+   * Begin monitoring API using the configured query parameters.
+   *
+   * @public
+   * @function
+   *
+   * @returns {void}
+   */
   public watch(): void {
     let page = 1;
     let params: URLSearchParams;
@@ -149,7 +192,17 @@ export class RLLWatcher extends EventEmitter {
       });
   }
 
+  /**
+   * Stop monitoring API
+   *
+   * @public
+   * @function
+   *
+   * @returns {void}
+   */
   public stop(): void {
-    clearInterval(this.timer);
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 }

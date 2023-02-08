@@ -349,13 +349,15 @@ A new watcher takes up to two arguments:
 1. Interval - (optional) (default: 5) - a duration, in minutes, between calls to the API. Adjust this based on the frequency you wish to stay up to date. To avoid needlessly querying the API, this client will now allow any option less than 1 minute.
 2. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint.
 
+Query options cannot be altered on a running watcher. In order to change your search conditions, you'll need to stop the watcher and start a new one.
+
 <a name="watcher_events"></a>
 
 ### Watcher Events
 
 Watcher events are triggered when the client recieves a response to a query to `launches` using the `modified_since` parameter. The client will compare the changes to a cached version of the launch and trigger the appropriate event.
 
-If there are multiple changes on a single API call, the appropriate events will be triggered more than one, so have your callbacks handle a single event.
+If there are multiple changes on a single API call, the appropriate events will be triggered more than once, so have your callbacks handle a single event.
 
 If you are using typescript, the watcher events are available in an enum called `RLLWatcherEvent`
 
@@ -366,6 +368,8 @@ enum RLLWatcherEvent {
   ERROR = "error",
 }
 ```
+
+<a name="watcher_events_new"></a>
 
 #### New
 
@@ -379,6 +383,8 @@ watcher.on("new", (newLaunch) => {
 
 The `newLaunch` argument will be an `RLLEntity.Launch` object, the same shape as what is received from the `launches` endpoint (but not wrapped in the standard response).
 
+<a name="watcher_events_change"></a>
+
 #### Change
 
 An existing launch has had information change. The Watcher will provide the old and new versions of the launch object to do your own comparisons.
@@ -390,3 +396,26 @@ watcher.on("change", (oldLaunch, newLaunch) => {
 ```
 
 The `oldLaunch` and `newLaunch` will be the cached version and the new version of an `RLLEntity.Launch` object, the same shape as what is received from the `launches` endpoint (but not wrapped in the standard response).
+
+<a name="watcher_events_error"></a>
+
+#### Error
+
+There was an error on an API call. The error will be passed as the first argument of the callback.
+
+```js
+watcher.on("error", (err) => {
+  // Handle error here
+});
+```
+
+The `err` object will have the following shape, and is accessible via TypeScript as `RLLError`:
+
+```js
+const err = {
+  error: "Error title";
+  statusCode: 404; // HTTP status code or null if no response
+  message: "Could not find this resource"; //  Custom error string from RLLC
+  server_response: "Server Error Text" // error passed through from server, can be null if no response
+}
+```

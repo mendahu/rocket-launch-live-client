@@ -1,7 +1,9 @@
 import { expect } from "chai";
+import chaiAsPromised from "chai-as-promised";
 import Sinon from "sinon";
+import chai from "chai";
 import nock from "nock";
-import { rllc } from "../src/index";
+import { rllc, RLLWatcherEvent } from "../src/index";
 import {
   RLLEntity,
   RLLQueryConfig,
@@ -10,7 +12,10 @@ import {
 import * as utils from "../src/utils";
 import "mocha";
 import "sinon";
-import { launches1 } from "./fixtures/launches";
+import { launches1, launches2, launches3 } from "./fixtures/launches";
+
+chai.use(chaiAsPromised);
+const { assert } = chai;
 
 describe("rllc Watcher", () => {
   let sandbox: Sinon.SinonSandbox;
@@ -115,6 +120,22 @@ describe("rllc Watcher", () => {
       last_page: 3,
       result: launches1,
     };
+    const response2: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 25,
+      limit: 25,
+      total: 51,
+      last_page: 3,
+      result: launches2,
+    };
+    const response3: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 1,
+      limit: 25,
+      total: 51,
+      last_page: 3,
+      result: [launches3[0]],
+    };
 
     const scope = nock("https://fdo.rocketlaunch.live", {
       reqheaders: {
@@ -122,11 +143,35 @@ describe("rllc Watcher", () => {
       },
     })
       .get("/json/launches")
-      .reply(200, response1);
+      .reply(200, response1)
+      .get("/json/launches")
+      .query(new URLSearchParams({ page: "2" }))
+      .reply(200, response2)
+      .get("/json/launches")
+      .query(new URLSearchParams({ page: "3" }))
+      .reply(200, response3);
 
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
-    await client.launches();
+    const watcher = client.watch();
 
-    scope.done();
+    const promise = new Promise((resolve, reject) => {
+      watcher.start();
+
+      watcher.on(RLLWatcherEvent.READY, (launches) => {
+        expect(launches).to.have.length(51);
+        try {
+          scope.done();
+          resolve("Success");
+        } catch (err) {
+          reject("error");
+        }
+      });
+
+      watcher.on(RLLWatcherEvent.INITIALIZATION_ERROR, (err) => {
+        reject(err);
+      });
+    });
+
+    return assert.isFulfilled(promise);
   });
 });

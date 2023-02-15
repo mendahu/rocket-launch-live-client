@@ -12,18 +12,21 @@ import {
   formatToRLLISODate,
 } from "./utils";
 
+const DEFAULT_INTERVAL_IN_MINS = 5;
 const MS_IN_MIN = 60000;
 
 export enum RLLWatcherEvent {
   NEW = "new",
   CHANGE = "change",
   ERROR = "error",
+  READY = "ready",
+  INITIALIZATION_ERROR = "init_error",
 }
 
 const intervalValidator = (interval: any): number => {
   if (typeof interval !== "number" && typeof interval !== "string") {
     error("RLLWatcher interval must be a number.");
-    return 5;
+    return DEFAULT_INTERVAL_IN_MINS;
   }
 
   if (
@@ -31,7 +34,7 @@ const intervalValidator = (interval: any): number => {
     (isNaN(Number(interval)) || interval === "")
   ) {
     error("RLLWatcher interval must be a number.", "type");
-    return 5;
+    return DEFAULT_INTERVAL_IN_MINS;
   }
 
   const typedInterval = Number(interval);
@@ -40,14 +43,14 @@ const intervalValidator = (interval: any): number => {
     error(
       "RLLWatcher interval cannot be a negative number or zero. Watcher intervals should be greater than or equal to 1 minute."
     );
-    return 5;
+    return DEFAULT_INTERVAL_IN_MINS;
   }
 
   if (typedInterval < 1) {
     warn(
       "RLLWatcher does not accept intervals less than 1. Your watcher will default to 5 minute intervals unless corrected."
     );
-    return 5;
+    return DEFAULT_INTERVAL_IN_MINS;
   }
 
   return typedInterval;
@@ -94,7 +97,7 @@ export class RLLWatcher extends EventEmitter {
     fetcher: (
       params: URLSearchParams
     ) => Promise<RLLResponse<RLLEntity.Launch[]>>,
-    interval: number | string = 5,
+    interval: number | string = DEFAULT_INTERVAL_IN_MINS,
     options?: RLLQueryConfig.Launches
   ) {
     super();
@@ -156,7 +159,7 @@ export class RLLWatcher extends EventEmitter {
    *
    * @returns {void}
    */
-  public watch(): void {
+  public start(): void {
     let page = 1;
     let params: URLSearchParams;
 
@@ -165,7 +168,6 @@ export class RLLWatcher extends EventEmitter {
         for (const launch of res.result) {
           this.launches[launch.id] = launch;
         }
-
         if (res.last_page > page) {
           page++;
           params.set("page", page.toString());
@@ -181,14 +183,15 @@ export class RLLWatcher extends EventEmitter {
         params = p;
         return fetchLaunchesForCache();
       })
-      .catch((err) => {
-        error(err);
-      })
       .then(() => {
+        this.emit(RLLWatcherEvent.READY, Object.values(this.launches));
         this.last_call = new Date();
         this.timer = setInterval(() => {
           this.query();
         }, this.interval * MS_IN_MIN);
+      })
+      .catch((err) => {
+        this.emit(RLLWatcherEvent.INITIALIZATION_ERROR, err);
       });
   }
 

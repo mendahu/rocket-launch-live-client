@@ -334,7 +334,7 @@ watcher.on("error", (err) => {
 })
 
 // Start monitoring
-watcher.watch()
+watcher.start()
 
 // Stop monitoring
 watcher.stop()
@@ -366,6 +366,8 @@ enum RLLWatcherEvent {
   NEW = "new",
   CHANGE = "change",
   ERROR = "error",
+  READY = "ready",
+  INITIALIZATION_ERROR = "init_error",
 }
 ```
 
@@ -405,6 +407,37 @@ There was an error on an API call. The error will be passed as the first argumen
 
 ```js
 watcher.on("error", (err) => {
+  // Handle error here
+});
+```
+
+The `err` object will have the following shape, and is accessible via TypeScript as `RLLError`:
+
+```js
+const err = {
+  error: "Error title";
+  statusCode: 404; // HTTP status code or null if no response
+  message: "Could not find this resource"; //  Custom error string from RLLC
+  server_response: "Server Error Text" // error passed through from server, can be null if no response
+}
+```
+
+#### Ready
+
+The watcher has completed its initial API calls and built a cache of launches. The initial cache of launches is passed as the first argument.
+
+```js
+watcher.on("ready", (launches) => {
+  // Handle ready here
+});
+```
+
+#### Initialization Errors
+
+The watcher has experienced a problem setting up its initial cache and is has not started monitoring.
+
+```js
+watcher.on("init_error", (err) => {
   // Handle error here
 });
 ```

@@ -3,7 +3,6 @@ import {
   RLLEndPoint,
   RLLEntity,
   RLLQueryConfig,
-  RLLQueryParams,
   RLLResponse,
 } from "./types/application";
 import { fetcher } from "./fetcher";
@@ -112,7 +111,7 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.companies({ country_code: "US" })
+   * const response = await client.companies({ country_code: "US" })
    */
   public companies(
     options?: RLLQueryConfig.Companies
@@ -151,7 +150,7 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.launches({ after_date: new Date("2022-10-10") })
+   * const response = await client.launches({ after_date: new Date("2022-10-10") })
    */
   public launches(
     options?: RLLQueryConfig.Launches
@@ -180,7 +179,7 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.locations({ country_code: "US" })
+   * const response = await client.locations({ country_code: "US" })
    */
   public locations(
     options?: RLLQueryConfig.Locations
@@ -207,7 +206,7 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.missions({ name: "Mars 2020" })
+   * const response = await client.missions({ name: "Mars 2020" })
    */
   public missions(
     options?: RLLQueryConfig.Missions
@@ -236,7 +235,7 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.pads({ country_code: "US" })
+   * const response = await client.pads({ country_code: "US" })
    */
   public pads(
     options?: RLLQueryConfig.Pads
@@ -260,7 +259,7 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.tags({ text: "Crewed" })
+   * const response = await client.tags({ text: "Crewed" })
    */
   public tags(
     options?: RLLQueryConfig.Tags
@@ -284,7 +283,7 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.vehicles({ name: "Falcon 9" })
+   * const response = await client.vehicles({ name: "Falcon 9" })
    */
   public vehicles(
     options?: RLLQueryConfig.Vehicles

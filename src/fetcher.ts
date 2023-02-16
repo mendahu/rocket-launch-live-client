@@ -36,22 +36,13 @@ const query = <T>(url: URL, headers?: OutgoingHttpHeaders): Promise<T> => {
 
         if (res.statusCode === 200) {
           resolve(JSON.parse(response));
-        } else if (res.statusCode === 404) {
-          const error: RLLError = {
-            error: "Resource not found",
-            statusCode: 404,
-            message:
-              "The server returned a 404 Not Found response. Check that your API key is valid, and that you are not requesting a page number beyond the available results.",
-            server_response: response,
-          };
-          reject(error);
         } else {
           const error: RLLError = {
-            error: "Unknown server error",
+            error: "API Call Failed",
             statusCode: res.statusCode ?? null,
             message:
-              "RLLC recieved a response from the server but it is not one we're familiar with.",
-            server_response: response,
+              "RLLC recieved a response from the server but it did not complete as expected.",
+            server_response: JSON.parse(response),
           };
           reject(error);
         }

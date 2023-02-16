@@ -160,6 +160,15 @@ describe("rllc Watcher", () => {
       last_page: 1,
       result: [launches3[1]],
     };
+    const response6: RLLResponse<RLLEntity.Launch[]> = {
+      errors: ["Server Error"],
+      valid_auth: true,
+      count: 1,
+      limit: 1,
+      total: 1,
+      last_page: 1,
+      result: [],
+    };
 
     const scope = nock("https://fdo.rocketlaunch.live", {
       reqheaders: {
@@ -183,7 +192,12 @@ describe("rllc Watcher", () => {
       .query((queryObj) => {
         return !!queryObj.modified_since;
       })
-      .reply(200, response5);
+      .reply(200, response5)
+      .get("/json/launches")
+      .query((queryObj) => {
+        return !!queryObj.modified_since;
+      })
+      .reply(500, response6);
 
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
     const watcher = client.watch(1);
@@ -218,6 +232,19 @@ describe("rllc Watcher", () => {
       newFake();
     });
 
+    const errorFake = Sinon.fake();
+
+    watcher.on(RLLWatcherEvent.ERROR, (err) => {
+      expect(err).to.deep.equal({
+        error: "API Call Failed",
+        statusCode: 500,
+        message:
+          "RLLC recieved a response from the server but it did not complete as expected.",
+        server_response: response6,
+      });
+      errorFake();
+    });
+
     watcher.start();
 
     // events inside the watcher happen asynchronously but are not accessible via a promise, so artificial waits are included in these tests
@@ -229,17 +256,20 @@ describe("rllc Watcher", () => {
     assert.isFalse(newFake.called);
 
     clock.tick(60000);
-
     await wait(100);
 
     assert.isTrue(changeFake.calledOnce);
     assert.isFalse(newFake.called);
 
     clock.tick(60000);
-
     await wait(100);
 
     assert.isTrue(newFake.calledOnce);
+
+    clock.tick(60000);
+    await wait(100);
+
+    assert.isTrue(errorFake.calledOnce);
 
     scope.done();
 

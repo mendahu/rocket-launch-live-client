@@ -282,6 +282,7 @@ describe("rllc Watcher", () => {
       watcher.start();
 
       watcher.on(RLLWatcherEvent.READY, (launches) => {
+        scope.done();
         reject("error");
       });
 

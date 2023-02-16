@@ -115,6 +115,40 @@ export class RLLWatcher extends EventEmitter {
   }
 
   /**
+   * Recursive API Caller to iterate through pages
+   *
+   * @private
+   * @function
+   *
+   * @param {URLSearchParams} params - Search parameters
+   * @param {function(results: RLLResponse<RLLEntity.Launch[]>)} callback - To execute on each page
+   *
+   * @returns {Promise<void>}
+   */
+  private recursivelyFetch = (
+    params: URLSearchParams,
+    callback: (results: RLLResponse<RLLEntity.Launch[]>) => any
+  ): Promise<void> => {
+    let page = 1;
+
+    const recursiveFetcher = (): Promise<void> => {
+      return this.fetcher(params).then((results) => {
+        callback(results);
+
+        if (results.last_page > page) {
+          page++;
+          params.set("page", page.toString());
+          return recursiveFetcher();
+        }
+
+        return;
+      });
+    };
+
+    return recursiveFetcher();
+  };
+
+  /**
    * Query wrapper to trigger events
    *
    * @private
@@ -123,27 +157,25 @@ export class RLLWatcher extends EventEmitter {
    * @returns {void}
    */
   private query(): void {
+    const notify = (response: RLLResponse<RLLEntity.Launch[]>) => {
+      for (const changedLaunch of response.result) {
+        const { id } = changedLaunch;
+        const oldLaunch = this.launches[id];
+        if (oldLaunch) {
+          this.emit(RLLWatcherEvent.CHANGE, oldLaunch, changedLaunch);
+        } else {
+          this.emit(RLLWatcherEvent.NEW, changedLaunch);
+        }
+        this.launches[changedLaunch.id] = changedLaunch;
+      }
+    };
+
     this.params
       .then((p) => {
         p.set("modified_since", formatToRLLISODate(this.last_call));
-        return this.fetcher(p);
+        return this.recursivelyFetch(p, notify);
       })
-      .then((res) => {
-        for (const newLaunch of res.result) {
-          const { id } = newLaunch;
-          const oldLaunch = this.launches[id];
-          if (oldLaunch) {
-            this.emit(
-              RLLWatcherEvent.CHANGE,
-              this.launches[newLaunch.id],
-              newLaunch
-            );
-          } else {
-            this.emit(RLLWatcherEvent.NEW, newLaunch);
-          }
-          this.launches[newLaunch.id] = newLaunch;
-        }
-
+      .then(() => {
         this.last_call = new Date();
       })
       .catch((err) => {
@@ -160,28 +192,15 @@ export class RLLWatcher extends EventEmitter {
    * @returns {void}
    */
   public start(): void {
-    let page = 1;
-    let params: URLSearchParams;
-
-    const fetchLaunchesForCache = (): Promise<void> => {
-      return this.fetcher(params).then((res) => {
-        for (const launch of res.result) {
-          this.launches[launch.id] = launch;
-        }
-        if (res.last_page > page) {
-          page++;
-          params.set("page", page.toString());
-          return fetchLaunchesForCache();
-        }
-
-        return;
-      });
+    const buildCache = (response: RLLResponse<RLLEntity.Launch[]>) => {
+      for (const launch of response.result) {
+        this.launches[launch.id] = launch;
+      }
     };
 
     this.params
       .then((p) => {
-        params = new URLSearchParams(p);
-        return fetchLaunchesForCache();
+        return this.recursivelyFetch(new URLSearchParams(p), buildCache);
       })
       .then(() => {
         this.emit(RLLWatcherEvent.READY, Object.values(this.launches));

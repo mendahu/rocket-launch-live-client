@@ -174,4 +174,67 @@ describe("rllc Watcher", () => {
 
     return assert.isFulfilled(promise);
   });
+
+  it("should emit an initialization error on setup if API calls fail", async () => {
+    const response1: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 25,
+      limit: 25,
+      total: 51,
+      last_page: 3,
+      result: launches1,
+    };
+    const response2: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 25,
+      limit: 25,
+      total: 51,
+      last_page: 3,
+      result: launches2,
+    };
+    const response3: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 1,
+      limit: 25,
+      total: 51,
+      last_page: 3,
+      result: [launches3[0]],
+    };
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+      },
+    })
+      .get("/json/launches")
+      .reply(200, response1)
+      .get("/json/launches")
+      .query(new URLSearchParams({ page: "2" }))
+      .reply(500, response2);
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
+    const watcher = client.watch();
+
+    const promise = new Promise((resolve, reject) => {
+      watcher.start();
+
+      watcher.on(RLLWatcherEvent.READY, (launches) => {
+        watcher.stop();
+        reject("error");
+      });
+
+      watcher.on(RLLWatcherEvent.INITIALIZATION_ERROR, (err) => {
+        try {
+          scope.done();
+          watcher.stop();
+          resolve("success");
+        } catch (err) {
+          watcher.stop();
+          reject(err);
+        }
+      });
+    });
+
+    return assert.isFulfilled(promise);
+  });
 });

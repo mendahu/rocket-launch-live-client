@@ -161,13 +161,16 @@ describe("rllc Watcher", () => {
         expect(launches).to.have.length(51);
         try {
           scope.done();
+          watcher.stop();
           resolve("Success");
         } catch (err) {
+          watcher.stop();
           reject("error");
         }
       });
 
       watcher.on(RLLWatcherEvent.INITIALIZATION_ERROR, (err) => {
+        watcher.stop();
         reject(err);
       });
     });
@@ -219,17 +222,14 @@ describe("rllc Watcher", () => {
       watcher.start();
 
       watcher.on(RLLWatcherEvent.READY, (launches) => {
-        watcher.stop();
         reject("error");
       });
 
       watcher.on(RLLWatcherEvent.INITIALIZATION_ERROR, (err) => {
         try {
           scope.done();
-          watcher.stop();
           resolve("success");
         } catch (err) {
-          watcher.stop();
           reject(err);
         }
       });

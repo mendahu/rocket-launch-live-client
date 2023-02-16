@@ -180,7 +180,7 @@ export class RLLWatcher extends EventEmitter {
 
     this.params
       .then((p) => {
-        params = p;
+        params = new URLSearchParams(p);
         return fetchLaunchesForCache();
       })
       .then(() => {

@@ -17,6 +17,8 @@ import { launches1, launches2, launches3 } from "./fixtures/launches";
 chai.use(chaiAsPromised);
 const { assert } = chai;
 
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 describe("rllc Watcher", () => {
   let sandbox: Sinon.SinonSandbox;
   let spy: Sinon.SinonSpy;
@@ -111,7 +113,8 @@ describe("rllc Watcher", () => {
     );
   });
 
-  it("should recursively query the API to fetch all results for initial cache", async () => {
+  it("should recursively query the API to fetch all results for initial cache, then send a request every interval", async () => {
+    const clock = Sinon.useFakeTimers({ toFake: ["setInterval"] });
     const response1: RLLResponse<RLLEntity.Launch[]> = {
       valid_auth: true,
       count: 25,
@@ -136,6 +139,27 @@ describe("rllc Watcher", () => {
       last_page: 3,
       result: [launches3[0]],
     };
+    const response4: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 1,
+      limit: 1,
+      total: 1,
+      last_page: 1,
+      result: [
+        {
+          ...launches3[0],
+          mission_description: "This mission description has changed",
+        },
+      ],
+    };
+    const response5: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 1,
+      limit: 1,
+      total: 1,
+      last_page: 1,
+      result: [launches3[1]],
+    };
 
     const scope = nock("https://fdo.rocketlaunch.live", {
       reqheaders: {
@@ -149,33 +173,77 @@ describe("rllc Watcher", () => {
       .reply(200, response2)
       .get("/json/launches")
       .query(new URLSearchParams({ page: "3" }))
-      .reply(200, response3);
+      .reply(200, response3)
+      .get("/json/launches")
+      .query((queryObj) => {
+        return !!queryObj.modified_since;
+      })
+      .reply(200, response4)
+      .get("/json/launches")
+      .query((queryObj) => {
+        return !!queryObj.modified_since;
+      })
+      .reply(200, response5);
 
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
-    const watcher = client.watch();
+    const watcher = client.watch(1);
 
-    const promise = new Promise((resolve, reject) => {
-      watcher.start();
+    const readyFake = Sinon.fake();
 
-      watcher.on(RLLWatcherEvent.READY, (launches) => {
-        expect(launches).to.have.length(51);
-        try {
-          scope.done();
-          watcher.stop();
-          resolve("Success");
-        } catch (err) {
-          watcher.stop();
-          reject("error");
-        }
-      });
-
-      watcher.on(RLLWatcherEvent.INITIALIZATION_ERROR, (err) => {
-        watcher.stop();
-        reject(err);
-      });
+    watcher.on(RLLWatcherEvent.READY, (launches) => {
+      expect(launches).to.have.length(51);
+      readyFake();
     });
 
-    return assert.isFulfilled(promise);
+    const initErrorFake = Sinon.fake();
+
+    watcher.on(RLLWatcherEvent.INITIALIZATION_ERROR, (err) => {
+      initErrorFake();
+    });
+
+    const changeFake = Sinon.fake();
+
+    watcher.on(RLLWatcherEvent.CHANGE, (oldLaunch, newLaunch) => {
+      assert.isNull(oldLaunch.mission_description);
+      assert.isTrue(
+        newLaunch.mission_description === "This mission description has changed"
+      );
+      changeFake();
+    });
+
+    const newFake = Sinon.fake();
+
+    watcher.on(RLLWatcherEvent.NEW, (launch) => {
+      expect(launch).to.deep.equal(launches3[1]);
+      newFake();
+    });
+
+    watcher.start();
+
+    // events inside the watcher happen asynchronously but are not accessible via a promise, so artificial waits are included in these tests
+    await wait(100);
+
+    assert.isTrue(readyFake.calledOnce);
+    assert.isFalse(initErrorFake.called);
+    assert.isFalse(changeFake.called);
+    assert.isFalse(newFake.called);
+
+    clock.tick(60000);
+
+    await wait(100);
+
+    assert.isTrue(changeFake.calledOnce);
+    assert.isFalse(newFake.called);
+
+    clock.tick(60000);
+
+    await wait(100);
+
+    assert.isTrue(newFake.calledOnce);
+
+    scope.done();
+
+    clock.restore();
   });
 
   it("should emit an initialization error on setup if API calls fail", async () => {
@@ -194,14 +262,6 @@ describe("rllc Watcher", () => {
       total: 51,
       last_page: 3,
       result: launches2,
-    };
-    const response3: RLLResponse<RLLEntity.Launch[]> = {
-      valid_auth: true,
-      count: 1,
-      limit: 25,
-      total: 51,
-      last_page: 3,
-      result: [launches3[0]],
     };
 
     const scope = nock("https://fdo.rocketlaunch.live", {
@@ -227,7 +287,6 @@ describe("rllc Watcher", () => {
 
       watcher.on(RLLWatcherEvent.INITIALIZATION_ERROR, (err) => {
         try {
-          scope.done();
           resolve("success");
         } catch (err) {
           reject(err);

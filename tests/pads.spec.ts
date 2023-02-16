@@ -129,65 +129,74 @@ describe("pads method", () => {
   });
 
   describe("page parameter", () => {
-    it("should reject on malformed string page", async () => {
-      return assert.isRejected(
-        client.pads({ page: "banana" } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed string page", async () => {
+      expect(() =>
+        client.pads({ page: "banana" } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed array page", () => {
-      return assert.isRejected(
-        client.pads({ page: [] } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed array page", () => {
+      expect(() =>
+        client.pads({ page: [] } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed object page", () => {
-      return assert.isRejected(
-        client.pads({ page: {} } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed object page", () => {
+      expect(() =>
+        client.pads({ page: {} } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed date page", () => {
-      return assert.isRejected(
-        client.pads({ page: new Date() } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed date page", () => {
+      expect(() =>
+        client.pads({ page: new Date() } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean page", () => {
-      return assert.isRejected(
-        client.pads({ page: false } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed boolean page", () => {
+      expect(() =>
+        client.pads({ page: false } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed null page", () => {
-      return assert.isRejected(
-        client.pads({ page: null } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed null page", () => {
+      expect(() =>
+        client.pads({ page: null } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed function page", () => {
-      return assert.isRejected(
-        client.pads({ page: () => 5 } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed function page", () => {
+      expect(() =>
+        client.pads({ page: () => 5 } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed Symbol page", () => {
-      return assert.isRejected(
-        client.pads({ page: Symbol() } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed Symbol page", () => {
+      expect(() =>
+        client.pads({ page: Symbol() } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed bigint page", () => {
-      return assert.isRejected(
-        client.pads({ page: BigInt(5) } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed bigint page", () => {
+      expect(() =>
+        client.pads({ page: BigInt(5) } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "page": Must be a number.`
       );
     });
@@ -265,65 +274,74 @@ describe("pads method", () => {
   });
 
   describe("id parameter", () => {
-    it("should reject on malformed string id", async () => {
-      return assert.isRejected(
-        client.pads({ id: "banana" } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed string id", async () => {
+      expect(() =>
+        client.pads({ id: "banana" } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed array id", () => {
-      return assert.isRejected(
-        client.pads({ id: [] } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed array id", () => {
+      expect(() =>
+        client.pads({ id: [] } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed object id", () => {
-      return assert.isRejected(
-        client.pads({ id: {} } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed object id", () => {
+      expect(() =>
+        client.pads({ id: {} } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed date id", () => {
-      return assert.isRejected(
-        client.pads({ id: new Date() } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed date id", () => {
+      expect(() =>
+        client.pads({ id: new Date() } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean id", () => {
-      return assert.isRejected(
-        client.pads({ id: false } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed boolean id", () => {
+      expect(() =>
+        client.pads({ id: false } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed null id", () => {
-      return assert.isRejected(
-        client.pads({ id: null } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed null id", () => {
+      expect(() =>
+        client.pads({ id: null } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function id", () => {
-      return assert.isRejected(
-        client.pads({ id: () => 5 } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed function id", () => {
+      expect(() =>
+        client.pads({ id: () => 5 } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed Symbol() id", () => {
-      return assert.isRejected(
-        client.pads({ id: Symbol() } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed Symbol() id", () => {
+      expect(() =>
+        client.pads({ id: Symbol() } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed bigint id", () => {
-      return assert.isRejected(
-        client.pads({ id: BigInt(5) } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed bigint id", () => {
+      expect(() =>
+        client.pads({ id: BigInt(5) } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "id": Must be a number.`
       );
     });
@@ -401,65 +419,74 @@ describe("pads method", () => {
   });
 
   describe("name parameter", () => {
-    it("should reject on malformed empty string name", async () => {
-      return assert.isRejected(
-        client.pads({ name: "" } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed empty string name", async () => {
+      expect(() =>
+        client.pads({ name: "" } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "name": String must have length greater than 0`
       );
     });
 
-    it("should reject on malformed array name", () => {
-      return assert.isRejected(
-        client.pads({ name: [] } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed array name", () => {
+      expect(() =>
+        client.pads({ name: [] } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed object name", () => {
-      return assert.isRejected(
-        client.pads({ name: {} } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed object name", () => {
+      expect(() =>
+        client.pads({ name: {} } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed date name", () => {
-      return assert.isRejected(
-        client.pads({ name: new Date() } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed date name", () => {
+      expect(() =>
+        client.pads({ name: new Date() } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean name", () => {
-      return assert.isRejected(
-        client.pads({ name: false } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed boolean name", () => {
+      expect(() =>
+        client.pads({ name: false } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed null name", () => {
-      return assert.isRejected(
-        client.pads({ name: null } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed null name", () => {
+      expect(() =>
+        client.pads({ name: null } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed function name", () => {
-      return assert.isRejected(
-        client.pads({ name: () => "spacex" } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed function name", () => {
+      expect(() =>
+        client.pads({ name: () => "spacex" } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed symbol name", () => {
-      return assert.isRejected(
-        client.pads({ name: Symbol() } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed symbol name", () => {
+      expect(() =>
+        client.pads({ name: Symbol() } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed bigint name", () => {
-      return assert.isRejected(
-        client.pads({ name: BigInt(5) } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed bigint name", () => {
+      expect(() =>
+        client.pads({ name: BigInt(5) } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "name": Must be a string.`
       );
     });
@@ -536,85 +563,96 @@ describe("pads method", () => {
   });
 
   describe("state_abbr parameter", () => {
-    it("should reject on malformed number state_abbr", async () => {
-      return assert.isRejected(
-        client.pads({ state_abbr: 5 } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed number state_abbr", async () => {
+      expect(() =>
+        client.pads({ state_abbr: 5 } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed empty string state_abbr", async () => {
-      return assert.isRejected(
-        client.pads({ state_abbr: "" } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed empty string state_abbr", async () => {
+      expect(() =>
+        client.pads({ state_abbr: "" } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Invalid United States State Code. State Codes should follow ISO 3166-2 convention, like 'FL'.`
       );
     });
 
-    it("should reject on malformed nonexistant state_abbr", async () => {
-      return assert.isRejected(
-        client.pads({ state_abbr: "XX" } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed nonexistant state_abbr", async () => {
+      expect(() =>
+        client.pads({ state_abbr: "XX" } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Invalid United States State Code. State Codes should follow ISO 3166-2 convention, like 'FL'.`
       );
     });
 
-    it("should reject on malformed array state_abbr", () => {
-      return assert.isRejected(
-        client.pads({ state_abbr: [] } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed array state_abbr", () => {
+      expect(() =>
+        client.pads({ state_abbr: [] } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed object state_abbr", () => {
-      return assert.isRejected(
-        client.pads({ state_abbr: {} } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed object state_abbr", () => {
+      expect(() =>
+        client.pads({ state_abbr: {} } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed date state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed date state_abbr", () => {
+      expect(() =>
         client.pads({
           state_abbr: new Date(),
-        } as unknown as RLLQueryConfig.Pads),
+        } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean state_abbr", () => {
-      return assert.isRejected(
-        client.pads({ state_abbr: false } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed boolean state_abbr", () => {
+      expect(() =>
+        client.pads({ state_abbr: false } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed null state_abbr", () => {
-      return assert.isRejected(
-        client.pads({ state_abbr: null } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed null state_abbr", () => {
+      expect(() =>
+        client.pads({ state_abbr: null } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed function state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed function state_abbr", () => {
+      expect(() =>
         client.pads({
           state_abbr: () => "FL",
-        } as unknown as RLLQueryConfig.Pads),
+        } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed symbol state_abbr", () => {
-      return assert.isRejected(
-        client.pads({ state_abbr: Symbol() } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed symbol state_abbr", () => {
+      expect(() =>
+        client.pads({ state_abbr: Symbol() } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed bigint state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint state_abbr", () => {
+      expect(() =>
         client.pads({
           state_abbr: BigInt(5),
-        } as unknown as RLLQueryConfig.Pads),
+        } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "state_abbr": Must be a string.`
       );
     });
@@ -669,87 +707,98 @@ describe("pads method", () => {
   });
 
   describe("country_code parameter", () => {
-    it("should reject on malformed number country_code", async () => {
-      return assert.isRejected(
-        client.pads({ country_code: 5 } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed number country_code", async () => {
+      expect(() =>
+        client.pads({ country_code: 5 } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed empty string country_code", async () => {
-      return assert.isRejected(
-        client.pads({ country_code: "" } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed empty string country_code", async () => {
+      expect(() =>
+        client.pads({ country_code: "" } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
-    it("should reject on malformed nonexistant country_code", async () => {
-      return assert.isRejected(
-        client.pads({ country_code: "XX" } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed nonexistant country_code", async () => {
+      expect(() =>
+        client.pads({ country_code: "XX" } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
-    it("should reject on malformed array country_code", () => {
-      return assert.isRejected(
-        client.pads({ country_code: [] } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed array country_code", () => {
+      expect(() =>
+        client.pads({ country_code: [] } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed object country_code", () => {
-      return assert.isRejected(
-        client.pads({ country_code: {} } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed object country_code", () => {
+      expect(() =>
+        client.pads({ country_code: {} } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed date country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed date country_code", () => {
+      expect(() =>
         client.pads({
           country_code: new Date(),
-        } as unknown as RLLQueryConfig.Pads),
+        } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean country_code", () => {
-      return assert.isRejected(
-        client.pads({ country_code: false } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed boolean country_code", () => {
+      expect(() =>
+        client.pads({ country_code: false } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed null country_code", () => {
-      return assert.isRejected(
-        client.pads({ country_code: null } as unknown as RLLQueryConfig.Pads),
+    it("should throw on malformed null country_code", () => {
+      expect(() =>
+        client.pads({ country_code: null } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed function country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed function country_code", () => {
+      expect(() =>
         client.pads({
           country_code: () => "US",
-        } as unknown as RLLQueryConfig.Pads),
+        } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed Symbol() country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed Symbol() country_code", () => {
+      expect(() =>
         client.pads({
           country_code: Symbol(),
-        } as unknown as RLLQueryConfig.Pads),
+        } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed bigint country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint country_code", () => {
+      expect(() =>
         client.pads({
           country_code: BigInt(5),
-        } as unknown as RLLQueryConfig.Pads),
+        } as unknown as RLLQueryConfig.Pads)
+      ).to.throw(
         `Malformed query parameter for resource "pads" and parameter: "country_code": Must be a string.`
       );
     });

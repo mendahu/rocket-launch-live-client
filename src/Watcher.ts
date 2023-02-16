@@ -64,7 +64,7 @@ export class RLLWatcher extends EventEmitter {
   private last_call: Date;
   private launches: Record<number, RLLEntity.Launch> = {};
   private interval: number;
-  private params: Promise<URLSearchParams>;
+  private params: URLSearchParams;
   private timer: NodeJS.Timer | undefined;
   private fetcher: (
     params: URLSearchParams
@@ -105,13 +105,7 @@ export class RLLWatcher extends EventEmitter {
     this.fetcher = fetcher;
 
     this.interval = intervalValidator(interval);
-
-    this.params = queryOptionsValidator(RLLEndPoint.LAUNCHES, options).catch(
-      (err) => {
-        error(err);
-        throw err;
-      }
-    );
+    this.params = queryOptionsValidator(RLLEndPoint.LAUNCHES, options);
   }
 
   /**
@@ -170,11 +164,9 @@ export class RLLWatcher extends EventEmitter {
       }
     };
 
-    this.params
-      .then((p) => {
-        p.set("modified_since", formatToRLLISODate(this.last_call));
-        return this.recursivelyFetch(p, notify);
-      })
+    this.params.set("modified_since", formatToRLLISODate(this.last_call));
+
+    this.recursivelyFetch(new URLSearchParams(this.params), notify)
       .then(() => {
         this.last_call = new Date();
       })
@@ -198,10 +190,7 @@ export class RLLWatcher extends EventEmitter {
       }
     };
 
-    this.params
-      .then((p) => {
-        return this.recursivelyFetch(new URLSearchParams(p), buildCache);
-      })
+    this.recursivelyFetch(new URLSearchParams(this.params), buildCache)
       .then(() => {
         this.emit(RLLWatcherEvent.READY, Object.values(this.launches));
         this.last_call = new Date();

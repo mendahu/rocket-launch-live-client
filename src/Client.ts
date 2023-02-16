@@ -117,12 +117,10 @@ export class RLLClient {
   public companies(
     options?: RLLQueryConfig.Companies
   ): Promise<RLLResponse<RLLEntity.Company[]>> {
-    return queryOptionsValidator(RLLEndPoint.COMPANIES, options).then(
-      (params) =>
-        this.query<RLLResponse<RLLEntity.Company[]>>(
-          RLLEndPoint.COMPANIES,
-          params
-        )
+    const params = queryOptionsValidator(RLLEndPoint.COMPANIES, options);
+    return this.query<RLLResponse<RLLEntity.Company[]>>(
+      RLLEndPoint.COMPANIES,
+      params
     );
   }
 
@@ -158,8 +156,10 @@ export class RLLClient {
   public launches(
     options?: RLLQueryConfig.Launches
   ): Promise<RLLResponse<RLLEntity.Launch[]>> {
-    return queryOptionsValidator(RLLEndPoint.LAUNCHES, options).then((params) =>
-      this.query<RLLResponse<RLLEntity.Launch[]>>(RLLEndPoint.LAUNCHES, params)
+    const params = queryOptionsValidator(RLLEndPoint.LAUNCHES, options);
+    return this.query<RLLResponse<RLLEntity.Launch[]>>(
+      RLLEndPoint.LAUNCHES,
+      params
     );
   }
 
@@ -185,12 +185,10 @@ export class RLLClient {
   public locations(
     options?: RLLQueryConfig.Locations
   ): Promise<RLLResponse<RLLEntity.Location[]>> {
-    return queryOptionsValidator(RLLEndPoint.LOCATIONS, options).then(
-      (params) =>
-        this.query<RLLResponse<RLLEntity.Location[]>>(
-          RLLEndPoint.LOCATIONS,
-          params
-        )
+    const params = queryOptionsValidator(RLLEndPoint.LOCATIONS, options);
+    return this.query<RLLResponse<RLLEntity.Location[]>>(
+      RLLEndPoint.LOCATIONS,
+      params
     );
   }
 
@@ -214,8 +212,10 @@ export class RLLClient {
   public missions(
     options?: RLLQueryConfig.Missions
   ): Promise<RLLResponse<RLLEntity.Mission[]>> {
-    return queryOptionsValidator(RLLEndPoint.MISSIONS, options).then((params) =>
-      this.query<RLLResponse<RLLEntity.Mission[]>>(RLLEndPoint.MISSIONS, params)
+    const params = queryOptionsValidator(RLLEndPoint.MISSIONS, options);
+    return this.query<RLLResponse<RLLEntity.Mission[]>>(
+      RLLEndPoint.MISSIONS,
+      params
     );
   }
 
@@ -241,9 +241,8 @@ export class RLLClient {
   public pads(
     options?: RLLQueryConfig.Pads
   ): Promise<RLLResponse<RLLEntity.Pad[]>> {
-    return queryOptionsValidator(RLLEndPoint.PADS, options).then((params) =>
-      this.query<RLLResponse<RLLEntity.Pad[]>>(RLLEndPoint.PADS, params)
-    );
+    const params = queryOptionsValidator(RLLEndPoint.PADS, options);
+    return this.query<RLLResponse<RLLEntity.Pad[]>>(RLLEndPoint.PADS, params);
   }
 
   /**
@@ -266,9 +265,8 @@ export class RLLClient {
   public tags(
     options?: RLLQueryConfig.Tags
   ): Promise<RLLResponse<RLLEntity.Tag[]>> {
-    return queryOptionsValidator(RLLEndPoint.TAGS, options).then((params) =>
-      this.query<RLLResponse<RLLEntity.Tag[]>>(RLLEndPoint.TAGS, params)
-    );
+    const params = queryOptionsValidator(RLLEndPoint.TAGS, options);
+    return this.query<RLLResponse<RLLEntity.Tag[]>>(RLLEndPoint.TAGS, params);
   }
 
   /**
@@ -291,8 +289,10 @@ export class RLLClient {
   public vehicles(
     options?: RLLQueryConfig.Vehicles
   ): Promise<RLLResponse<RLLEntity.Vehicle[]>> {
-    return queryOptionsValidator(RLLEndPoint.VEHICLES, options).then((params) =>
-      this.query<RLLResponse<RLLEntity.Vehicle[]>>(RLLEndPoint.VEHICLES, params)
+    const params = queryOptionsValidator(RLLEndPoint.VEHICLES, options);
+    return this.query<RLLResponse<RLLEntity.Vehicle[]>>(
+      RLLEndPoint.VEHICLES,
+      params
     );
   }
 }

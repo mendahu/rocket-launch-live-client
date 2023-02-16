@@ -193,82 +193,92 @@ describe("launches method", () => {
   });
 
   describe("page parameter", () => {
-    it("should reject on malformed string page", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string page", async () => {
+      expect(() =>
         client.launches({
           page: "banana",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed empty string page", async () => {
-      return assert.isRejected(
-        client.launches({ page: "" } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed empty string page", async () => {
+      expect(() =>
+        client.launches({ page: "" } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed array page", () => {
-      return assert.isRejected(
-        client.launches({ page: [] } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed array page", () => {
+      expect(() =>
+        client.launches({ page: [] } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed object page", () => {
-      return assert.isRejected(
-        client.launches({ page: {} } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed object page", () => {
+      expect(() =>
+        client.launches({ page: {} } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed date page", () => {
-      return assert.isRejected(
+    it("should throw on malformed date page", () => {
+      expect(() =>
         client.launches({
           page: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean page", () => {
-      return assert.isRejected(
-        client.launches({ page: false } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed boolean page", () => {
+      expect(() =>
+        client.launches({ page: false } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed null page", () => {
-      return assert.isRejected(
-        client.launches({ page: null } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed null page", () => {
+      expect(() =>
+        client.launches({ page: null } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed function page", () => {
-      return assert.isRejected(
+    it("should throw on malformed function page", () => {
+      expect(() =>
         client.launches({
           page: () => 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed symbol page", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol page", () => {
+      expect(() =>
         client.launches({
           page: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed bigint page", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint page", () => {
+      expect(() =>
         client.launches({
           page: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "page": Must be a number.`
       );
     });
@@ -344,76 +354,86 @@ describe("launches method", () => {
   });
 
   describe("id parameter", () => {
-    it("should reject on malformed string id", async () => {
-      return assert.isRejected(
-        client.launches({ id: "banana" } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed string id", async () => {
+      expect(() =>
+        client.launches({ id: "banana" } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed empty string id", async () => {
-      return assert.isRejected(
-        client.launches({ id: "" } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed empty string id", async () => {
+      expect(() =>
+        client.launches({ id: "" } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed array id", () => {
-      return assert.isRejected(
-        client.launches({ id: [] } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed array id", () => {
+      expect(() =>
+        client.launches({ id: [] } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed object id", () => {
-      return assert.isRejected(
-        client.launches({ id: {} } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed object id", () => {
+      expect(() =>
+        client.launches({ id: {} } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed date id", () => {
-      return assert.isRejected(
+    it("should throw on malformed date id", () => {
+      expect(() =>
         client.launches({
           id: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean id", () => {
-      return assert.isRejected(
-        client.launches({ id: false } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed boolean id", () => {
+      expect(() =>
+        client.launches({ id: false } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed null id", () => {
-      return assert.isRejected(
-        client.launches({ id: null } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed null id", () => {
+      expect(() =>
+        client.launches({ id: null } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function id", () => {
-      return assert.isRejected(
-        client.launches({ id: () => 5 } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed function id", () => {
+      expect(() =>
+        client.launches({ id: () => 5 } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed symbol id", () => {
-      return assert.isRejected(
-        client.launches({ id: Symbol() } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed symbol id", () => {
+      expect(() =>
+        client.launches({ id: Symbol() } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed bigint id", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint id", () => {
+      expect(() =>
         client.launches({
           id: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "id": Must be a number.`
       );
     });
@@ -489,99 +509,106 @@ describe("launches method", () => {
   });
 
   describe("cospar_id parameter", () => {
-    it("should reject on malformed number cospar_id", async () => {
-      return assert.isRejected(
-        client.launches({ cospar_id: 5 } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed number cospar_id", async () => {
+      expect(() =>
+        client.launches({ cospar_id: 5 } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "cospar_id": Must be a string.`
       );
     });
 
-    it("should reject on malformed empty string cospar_id", async () => {
-      return assert.isRejected(
+    it("should throw on malformed empty string cospar_id", async () => {
+      expect(() =>
         client.launches({
           cospar_id: "",
-        } as unknown as RLLQueryConfig.Launches),
-        "Cospar IDs must be in the format of YYYY-NNN (eg. 2023-123)"
-      );
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw("Cospar IDs must be in the format of YYYY-NNN (eg. 2023-123)");
     });
 
-    it("should reject on malformed string cospar_id", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string cospar_id", async () => {
+      expect(() =>
         client.launches({
           cospar_id: "213-392",
-        } as unknown as RLLQueryConfig.Launches),
-        "Cospar IDs must be in the format of YYYY-NNN (eg. 2023-123)"
-      );
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw("Cospar IDs must be in the format of YYYY-NNN (eg. 2023-123)");
     });
 
-    it("should reject on malformed array cospar_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed array cospar_id", () => {
+      expect(() =>
         client.launches({
           cospar_id: [],
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "cospar_id": Must be a string.`
       );
     });
 
-    it("should reject on malformed object cospar_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed object cospar_id", () => {
+      expect(() =>
         client.launches({
           cospar_id: {},
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "cospar_id": Must be a string.`
       );
     });
 
-    it("should reject on malformed date cospar_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed date cospar_id", () => {
+      expect(() =>
         client.launches({
           cospar_id: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "cospar_id": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean cospar_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean cospar_id", () => {
+      expect(() =>
         client.launches({
           cospar_id: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "cospar_id": Must be a string.`
       );
     });
 
-    it("should reject on malformed null cospar_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed null cospar_id", () => {
+      expect(() =>
         client.launches({
           cospar_id: null,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "cospar_id": Must be a string.`
       );
     });
 
-    it("should reject on malformed function cospar_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed function cospar_id", () => {
+      expect(() =>
         client.launches({
           cospar_id: () => "2022-123",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "cospar_id": Must be a string.`
       );
     });
 
-    it("should reject on malformed symbol cospar_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol cospar_id", () => {
+      expect(() =>
         client.launches({
           cospar_id: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "cospar_id": Must be a string.`
       );
     });
 
-    it("should reject on malformed bigint cospar_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint cospar_id", () => {
+      expect(() =>
         client.launches({
           cospar_id: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "cospar_id": Must be a string.`
       );
     });
@@ -632,101 +659,112 @@ describe("launches method", () => {
   });
 
   describe("after_date parameter", () => {
-    it("should reject on malformed number after_date", async () => {
-      return assert.isRejected(
+    it("should throw on malformed number after_date", async () => {
+      expect(() =>
         client.launches({
           after_date: 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed string after_date", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string after_date", async () => {
+      expect(() =>
         client.launches({
           after_date: "",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be an ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed string after_date", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string after_date", async () => {
+      expect(() =>
         client.launches({
           after_date: "banana",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be an ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed string after_date", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string after_date", async () => {
+      expect(() =>
         client.launches({
           after_date: "22-01-34",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be an ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed array after_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed array after_date", () => {
+      expect(() =>
         client.launches({
           after_date: [],
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed object after_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed object after_date", () => {
+      expect(() =>
         client.launches({
           after_date: {},
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed boolean after_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean after_date", () => {
+      expect(() =>
         client.launches({
           after_date: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed null after_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed null after_date", () => {
+      expect(() =>
         client.launches({
           after_date: null,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed function after_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed function after_date", () => {
+      expect(() =>
         client.launches({
           after_date: () => new Date("2023-01-02T12:00:00Z"),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed symbol after_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol after_date", () => {
+      expect(() =>
         client.launches({
           after_date: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed bigint after_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint after_date", () => {
+      expect(() =>
         client.launches({
           after_date: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "after_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
@@ -819,101 +857,112 @@ describe("launches method", () => {
   });
 
   describe("before_date parameter", () => {
-    it("should reject on malformed number before_date", async () => {
-      return assert.isRejected(
+    it("should throw on malformed number before_date", async () => {
+      expect(() =>
         client.launches({
           before_date: 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed string before_date", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string before_date", async () => {
+      expect(() =>
         client.launches({
           before_date: "",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be an ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed string before_date", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string before_date", async () => {
+      expect(() =>
         client.launches({
           before_date: "banana",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be an ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed string before_date", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string before_date", async () => {
+      expect(() =>
         client.launches({
           before_date: "22-01-34",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be an ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed array before_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed array before_date", () => {
+      expect(() =>
         client.launches({
           before_date: [],
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed object before_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed object before_date", () => {
+      expect(() =>
         client.launches({
           before_date: {},
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed boolean before_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean before_date", () => {
+      expect(() =>
         client.launches({
           before_date: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed null before_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed null before_date", () => {
+      expect(() =>
         client.launches({
           before_date: null,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed function before_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed function before_date", () => {
+      expect(() =>
         client.launches({
           before_date: () => "2022-123",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed symbol before_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol before_date", () => {
+      expect(() =>
         client.launches({
           before_date: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed bigint before_date", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint before_date", () => {
+      expect(() =>
         client.launches({
           before_date: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "before_date": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
@@ -1006,101 +1055,112 @@ describe("launches method", () => {
   });
 
   describe("modified_since parameter", () => {
-    it("should reject on malformed number modified_since", async () => {
-      return assert.isRejected(
+    it("should throw on malformed number modified_since", async () => {
+      expect(() =>
         client.launches({
           modified_since: 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed array modified_since", () => {
-      return assert.isRejected(
+    it("should throw on malformed array modified_since", () => {
+      expect(() =>
         client.launches({
           modified_since: [],
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed string modified_since", () => {
-      return assert.isRejected(
+    it("should throw on malformed string modified_since", () => {
+      expect(() =>
         client.launches({
           modified_since: "",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be an ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed string modified_since", () => {
-      return assert.isRejected(
+    it("should throw on malformed string modified_since", () => {
+      expect(() =>
         client.launches({
           modified_since: "banana",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be an ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed string modified_since", () => {
-      return assert.isRejected(
+    it("should throw on malformed string modified_since", () => {
+      expect(() =>
         client.launches({
           modified_since: "2022-33-33",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be an ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed object modified_since", () => {
-      return assert.isRejected(
+    it("should throw on malformed object modified_since", () => {
+      expect(() =>
         client.launches({
           modified_since: {},
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed boolean modified_since", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean modified_since", () => {
+      expect(() =>
         client.launches({
           modified_since: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed null modified_since", () => {
-      return assert.isRejected(
+    it("should throw on malformed null modified_since", () => {
+      expect(() =>
         client.launches({
           modified_since: null,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed function modified_since", () => {
-      return assert.isRejected(
+    it("should throw on malformed function modified_since", () => {
+      expect(() =>
         client.launches({
           modified_since: () => "2022-123",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed symbol modified_since", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol modified_since", () => {
+      expect(() =>
         client.launches({
           modified_since: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
 
-    it("should reject on malformed bigint modified_since", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint modified_since", () => {
+      expect(() =>
         client.launches({
           modified_since: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "modified_since": Must be a JavaScript Date Object or ISO 8601 Date String`
       );
     });
@@ -1201,92 +1261,102 @@ describe("launches method", () => {
   });
 
   describe("location_id parameter", () => {
-    it("should reject on malformed string location_id", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string location_id", async () => {
+      expect(() =>
         client.launches({
           location_id: "banana",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed empty string location_id", async () => {
-      return assert.isRejected(
+    it("should throw on malformed empty string location_id", async () => {
+      expect(() =>
         client.launches({
           location_id: "",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed array location_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed array location_id", () => {
+      expect(() =>
         client.launches({
           location_id: [],
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed object location_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed object location_id", () => {
+      expect(() =>
         client.launches({
           location_id: {},
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed date location_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed date location_id", () => {
+      expect(() =>
         client.launches({
           location_id: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean location_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean location_id", () => {
+      expect(() =>
         client.launches({
           location_id: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed null location_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed null location_id", () => {
+      expect(() =>
         client.launches({
           location_id: null,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function location_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed function location_id", () => {
+      expect(() =>
         client.launches({
           location_id: () => 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed symbol location_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol location_id", () => {
+      expect(() =>
         client.launches({
           location_id: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed bigint location_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint location_id", () => {
+      expect(() =>
         client.launches({
           location_id: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "location_id": Must be a number.`
       );
     });
@@ -1360,84 +1430,94 @@ describe("launches method", () => {
   });
 
   describe("pad_id parameter", () => {
-    it("should reject on malformed string pad_id", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string pad_id", async () => {
+      expect(() =>
         client.launches({
           pad_id: "banana",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed empty string pad_id", async () => {
-      return assert.isRejected(
-        client.launches({ pad_id: "" } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed empty string pad_id", async () => {
+      expect(() =>
+        client.launches({ pad_id: "" } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed array pad_id", () => {
-      return assert.isRejected(
-        client.launches({ pad_id: [] } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed array pad_id", () => {
+      expect(() =>
+        client.launches({ pad_id: [] } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed object pad_id", () => {
-      return assert.isRejected(
-        client.launches({ pad_id: {} } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed object pad_id", () => {
+      expect(() =>
+        client.launches({ pad_id: {} } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed date pad_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed date pad_id", () => {
+      expect(() =>
         client.launches({
           pad_id: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean pad_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean pad_id", () => {
+      expect(() =>
         client.launches({
           pad_id: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed null pad_id", () => {
-      return assert.isRejected(
-        client.launches({ pad_id: null } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed null pad_id", () => {
+      expect(() =>
+        client.launches({ pad_id: null } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function pad_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed function pad_id", () => {
+      expect(() =>
         client.launches({
           pad_id: () => 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed symbol pad_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol pad_id", () => {
+      expect(() =>
         client.launches({
           pad_id: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed bigint pad_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint pad_id", () => {
+      expect(() =>
         client.launches({
           pad_id: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "pad_id": Must be a number.`
       );
     });
@@ -1513,92 +1593,102 @@ describe("launches method", () => {
   });
 
   describe("provider_id parameter", () => {
-    it("should reject on malformed string provider_id", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string provider_id", async () => {
+      expect(() =>
         client.launches({
           provider_id: "banana",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed empty string provider_id", async () => {
-      return assert.isRejected(
+    it("should throw on malformed empty string provider_id", async () => {
+      expect(() =>
         client.launches({
           provider_id: "",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed array provider_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed array provider_id", () => {
+      expect(() =>
         client.launches({
           provider_id: [],
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed object provider_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed object provider_id", () => {
+      expect(() =>
         client.launches({
           provider_id: {},
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed date provider_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed date provider_id", () => {
+      expect(() =>
         client.launches({
           provider_id: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean provider_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean provider_id", () => {
+      expect(() =>
         client.launches({
           provider_id: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed null provider_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed null provider_id", () => {
+      expect(() =>
         client.launches({
           provider_id: null,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function provider_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed function provider_id", () => {
+      expect(() =>
         client.launches({
           provider_id: () => 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed symbol provider_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol provider_id", () => {
+      expect(() =>
         client.launches({
           provider_id: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed bigint provider_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint provider_id", () => {
+      expect(() =>
         client.launches({
           provider_id: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "provider_id": Must be a number.`
       );
     });
@@ -1672,84 +1762,94 @@ describe("launches method", () => {
   });
 
   describe("tag_id parameter", () => {
-    it("should reject on malformed string tag_id", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string tag_id", async () => {
+      expect(() =>
         client.launches({
           tag_id: "banana",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed empty string tag_id", async () => {
-      return assert.isRejected(
-        client.launches({ tag_id: "" } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed empty string tag_id", async () => {
+      expect(() =>
+        client.launches({ tag_id: "" } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed array tag_id", () => {
-      return assert.isRejected(
-        client.launches({ tag_id: [] } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed array tag_id", () => {
+      expect(() =>
+        client.launches({ tag_id: [] } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed object tag_id", () => {
-      return assert.isRejected(
-        client.launches({ tag_id: {} } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed object tag_id", () => {
+      expect(() =>
+        client.launches({ tag_id: {} } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed date tag_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed date tag_id", () => {
+      expect(() =>
         client.launches({
           tag_id: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean tag_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean tag_id", () => {
+      expect(() =>
         client.launches({
           tag_id: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed null tag_id", () => {
-      return assert.isRejected(
-        client.launches({ tag_id: null } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed null tag_id", () => {
+      expect(() =>
+        client.launches({ tag_id: null } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function tag_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed function tag_id", () => {
+      expect(() =>
         client.launches({
           tag_id: () => 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed Symbol tag_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed Symbol tag_id", () => {
+      expect(() =>
         client.launches({
           tag_id: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function tag_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed function tag_id", () => {
+      expect(() =>
         client.launches({
           tag_id: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "tag_id": Must be a number.`
       );
     });
@@ -1825,92 +1925,102 @@ describe("launches method", () => {
   });
 
   describe("vehicle_id parameter", () => {
-    it("should reject on malformed string vehicle_id", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string vehicle_id", async () => {
+      expect(() =>
         client.launches({
           vehicle_id: "banana",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed empty string vehicle_id", async () => {
-      return assert.isRejected(
+    it("should throw on malformed empty string vehicle_id", async () => {
+      expect(() =>
         client.launches({
           vehicle_id: "",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed array vehicle_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed array vehicle_id", () => {
+      expect(() =>
         client.launches({
           vehicle_id: [],
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed object vehicle_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed object vehicle_id", () => {
+      expect(() =>
         client.launches({
           vehicle_id: {},
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed date vehicle_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed date vehicle_id", () => {
+      expect(() =>
         client.launches({
           vehicle_id: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean vehicle_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean vehicle_id", () => {
+      expect(() =>
         client.launches({
           vehicle_id: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed null vehicle_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed null vehicle_id", () => {
+      expect(() =>
         client.launches({
           vehicle_id: null,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function vehicle_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed function vehicle_id", () => {
+      expect(() =>
         client.launches({
           vehicle_id: () => 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed symbol vehicle_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol vehicle_id", () => {
+      expect(() =>
         client.launches({
           vehicle_id: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
       );
     });
 
-    it("should reject on malformed bigint vehicle_id", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint vehicle_id", () => {
+      expect(() =>
         client.launches({
           vehicle_id: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "vehicle_id": Must be a number.`
       );
     });
@@ -1986,101 +2096,112 @@ describe("launches method", () => {
   });
 
   describe("state_abbr parameter", () => {
-    it("should reject on malformed number state_abbr", async () => {
-      return assert.isRejected(
+    it("should throw on malformed number state_abbr", async () => {
+      expect(() =>
         client.launches({
           state_abbr: 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed empty string state_abbr", async () => {
-      return assert.isRejected(
+    it("should throw on malformed empty string state_abbr", async () => {
+      expect(() =>
         client.launches({
           state_abbr: "",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Invalid United States State Code. State Codes should follow ISO 3166-2 convention, like 'FL'.`
       );
     });
 
-    it("should reject on malformed nonexistant state_abbr", async () => {
-      return assert.isRejected(
+    it("should throw on malformed nonexistant state_abbr", async () => {
+      expect(() =>
         client.launches({
           state_abbr: "XX",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Invalid United States State Code. State Codes should follow ISO 3166-2 convention, like 'FL'.`
       );
     });
 
-    it("should reject on malformed array state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed array state_abbr", () => {
+      expect(() =>
         client.launches({
           state_abbr: [],
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed object state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed object state_abbr", () => {
+      expect(() =>
         client.launches({
           state_abbr: {},
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed date state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed date state_abbr", () => {
+      expect(() =>
         client.launches({
           state_abbr: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean state_abbr", () => {
+      expect(() =>
         client.launches({
           state_abbr: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed null state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed null state_abbr", () => {
+      expect(() =>
         client.launches({
           state_abbr: null,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed function state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed function state_abbr", () => {
+      expect(() =>
         client.launches({
           state_abbr: () => "FL",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed symbol state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol state_abbr", () => {
+      expect(() =>
         client.launches({
           state_abbr: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
       );
     });
 
-    it("should reject on malformed bigint state_abbr", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint state_abbr", () => {
+      expect(() =>
         client.launches({
           state_abbr: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "state_abbr": Must be a string.`
       );
     });
@@ -2131,101 +2252,112 @@ describe("launches method", () => {
   });
 
   describe("country_code parameter", () => {
-    it("should reject on malformed number country_code", async () => {
-      return assert.isRejected(
+    it("should throw on malformed number country_code", async () => {
+      expect(() =>
         client.launches({
           country_code: 5,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed empty string country_code", async () => {
-      return assert.isRejected(
+    it("should throw on malformed empty string country_code", async () => {
+      expect(() =>
         client.launches({
           country_code: "",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
-    it("should reject on malformed nonexistant country_code", async () => {
-      return assert.isRejected(
+    it("should throw on malformed nonexistant country_code", async () => {
+      expect(() =>
         client.launches({
           country_code: "XX",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
-    it("should reject on malformed array country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed array country_code", () => {
+      expect(() =>
         client.launches({
           country_code: [],
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed object country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed object country_code", () => {
+      expect(() =>
         client.launches({
           country_code: {},
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed date country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed date country_code", () => {
+      expect(() =>
         client.launches({
           country_code: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean country_code", () => {
+      expect(() =>
         client.launches({
           country_code: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed null country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed null country_code", () => {
+      expect(() =>
         client.launches({
           country_code: null,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed function country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed function country_code", () => {
+      expect(() =>
         client.launches({
           country_code: () => "US",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed symbol country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol country_code", () => {
+      expect(() =>
         client.launches({
           country_code: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed bigint country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint country_code", () => {
+      expect(() =>
         client.launches({
           country_code: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "country_code": Must be a string.`
       );
     });
@@ -2276,75 +2408,84 @@ describe("launches method", () => {
   });
 
   describe("search parameter", () => {
-    it("should reject on malformed empty string search", async () => {
-      return assert.isRejected(
-        client.launches({ search: "" } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed empty string search", async () => {
+      expect(() =>
+        client.launches({ search: "" } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "search": String must have length greater than 0`
       );
     });
 
-    it("should reject on malformed array search", () => {
-      return assert.isRejected(
-        client.launches({ search: [] } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed array search", () => {
+      expect(() =>
+        client.launches({ search: [] } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
       );
     });
 
-    it("should reject on malformed object search", () => {
-      return assert.isRejected(
-        client.launches({ search: {} } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed object search", () => {
+      expect(() =>
+        client.launches({ search: {} } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
       );
     });
 
-    it("should reject on malformed date search", () => {
-      return assert.isRejected(
+    it("should throw on malformed date search", () => {
+      expect(() =>
         client.launches({
           search: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean search", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean search", () => {
+      expect(() =>
         client.launches({
           search: false,
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
       );
     });
 
-    it("should reject on malformed null search", () => {
-      return assert.isRejected(
-        client.launches({ search: null } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed null search", () => {
+      expect(() =>
+        client.launches({ search: null } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
       );
     });
 
-    it("should reject on malformed function search", () => {
-      return assert.isRejected(
+    it("should throw on malformed function search", () => {
+      expect(() =>
         client.launches({
           search: () => "spacex",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
       );
     });
 
-    it("should reject on malformed Symbol search", () => {
-      return assert.isRejected(
+    it("should throw on malformed Symbol search", () => {
+      expect(() =>
         client.launches({
           search: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
       );
     });
 
-    it("should reject on malformed bigint search", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint search", () => {
+      expect(() =>
         client.launches({
           search: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "search": Must be a string.`
       );
     });
@@ -2414,73 +2555,82 @@ describe("launches method", () => {
   });
 
   describe("slug parameter", () => {
-    it("should reject on malformed empty string slug", async () => {
-      return assert.isRejected(
-        client.launches({ slug: "" } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed empty string slug", async () => {
+      expect(() =>
+        client.launches({ slug: "" } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "slug": String must have length greater than 0`
       );
     });
 
-    it("should reject on malformed array slug", () => {
-      return assert.isRejected(
-        client.launches({ slug: [] } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed array slug", () => {
+      expect(() =>
+        client.launches({ slug: [] } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
       );
     });
 
-    it("should reject on malformed object slug", () => {
-      return assert.isRejected(
-        client.launches({ slug: {} } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed object slug", () => {
+      expect(() =>
+        client.launches({ slug: {} } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
       );
     });
 
-    it("should reject on malformed date slug", () => {
-      return assert.isRejected(
+    it("should throw on malformed date slug", () => {
+      expect(() =>
         client.launches({
           slug: new Date(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean slug", () => {
-      return assert.isRejected(
-        client.launches({ slug: false } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed boolean slug", () => {
+      expect(() =>
+        client.launches({ slug: false } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
       );
     });
 
-    it("should reject on malformed null slug", () => {
-      return assert.isRejected(
-        client.launches({ slug: null } as unknown as RLLQueryConfig.Launches),
+    it("should throw on malformed null slug", () => {
+      expect(() =>
+        client.launches({ slug: null } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
       );
     });
 
-    it("should reject on malformed function slug", () => {
-      return assert.isRejected(
+    it("should throw on malformed function slug", () => {
+      expect(() =>
         client.launches({
           slug: () => "spacex",
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
       );
     });
 
-    it("should reject on malformed symbol slug", () => {
-      return assert.isRejected(
+    it("should throw on malformed symbol slug", () => {
+      expect(() =>
         client.launches({
           slug: Symbol(),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
       );
     });
 
-    it("should reject on malformed bigint slug", () => {
-      return assert.isRejected(
+    it("should throw on malformed bigint slug", () => {
+      expect(() =>
         client.launches({
           slug: BigInt(5),
-        } as unknown as RLLQueryConfig.Launches),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
         `Malformed query parameter for resource "launches" and parameter: "slug": Must be a string.`
       );
     });

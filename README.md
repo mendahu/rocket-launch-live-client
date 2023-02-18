@@ -28,7 +28,7 @@ This package is a fully-typed, promise-based, zero-dependency Node.JS JavaScript
 // Import package
 import { rllc } from "rocket-launch-live-client";
 
-// Get API Key
+// Get API Your Key
 const RLL_API_KEY = process.env.RLL_API_KEY;
 
 // Create client
@@ -320,29 +320,33 @@ The `rocket-launch-live-client` has the ability to monitor the `launches` endpoi
 
 ```js
 // Instantiate a new watcher
-const watcher = client.watch()
+// See below for options
+const watcher = client.watch(5, options);
 
 // Define event handlers
 watcher.on("new", (newLaunch) => {
   // handle new launch
-})
-
-watcher.on("change", (oldLaunch, newLaunch) => {
-  // handle change to existing launch
-}
-
-watcher.on("error", (err) => {
-  //handle errors
-})
+});
 
 // Start monitoring
-watcher.start()
+watcher.start();
 
 // Stop monitoring
-watcher.stop()
+watcher.stop();
 ```
 
 <a name="watcher_props"></a>
+
+<a name="watcher_options"></a>
+
+### Watcher Options
+
+A new watcher takes up to two arguments:
+
+1. Interval - (optional) (default: 5) - a duration, in minutes, between calls to the API. Adjust this based on the frequency you wish to stay up to date. To avoid needlessly querying the API, this client will now allow any option less than 1 minute.
+2. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint.
+
+Query options cannot be altered on a running watcher. In order to change your search conditions, you'll need to stop the watcher and start a new one.
 
 ### Watcher Methods and Properties
 
@@ -372,7 +376,7 @@ watcher.on("ready", (launches) => {
 });
 ```
 
-#### launches
+#### Launches Data
 
 Access the launches data cache. The data is stored in a [JavaScript Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) and has all the methods associated with Maps.
 
@@ -382,18 +386,7 @@ watcher.launches.get(1) // Get launch with launch_id of 1
 watcher.launches.forEach((launch, launchId) => /* Do something to each launch */ )
 ```
 
-Note: We recommend not altering the launches cache directly (such as by using Map's `set` or `delete` methods). The watcher will notice the discrepancy on the next API call and trigger appropriate `new` or `change` events to set it back. This may not be the behaviour you expect.
-
-<a name="watcher_options"></a>
-
-### Watcher Options
-
-A new watcher takes up to two arguments:
-
-1. Interval - (optional) (default: 5) - a duration, in minutes, between calls to the API. Adjust this based on the frequency you wish to stay up to date. To avoid needlessly querying the API, this client will now allow any option less than 1 minute.
-2. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint.
-
-Query options cannot be altered on a running watcher. In order to change your search conditions, you'll need to stop the watcher and start a new one.
+Note: We recommend not altering the `launches` cache directly (such as by using Map's `set` or `delete` methods). The watcher will notice the discrepancy on the next API call and trigger appropriate `new` or `change` events to set it back. This may not be the behaviour you expect.
 
 <a name="watcher_events"></a>
 
@@ -450,13 +443,13 @@ const err = {
   error: "Error title";
   statusCode: 404; // HTTP status code or null if no response
   message: "Could not find this resource"; //  Custom error string from RLLC
-  server_response: "Server Error Text" // error passed through from server, can be null if no response
+  server_response: { } // error passed through from server, can be null if no response
 }
 ```
 
 #### Ready
 
-The watcher has completed its initial API calls and built a cache of launches. The initial cache of launches is passed as the first argument.
+The watcher has completed its initial API calls and built a cache of launches. The initial cache of launches is passed as the first argument. The client is now monitoring the API.
 
 ```js
 watcher.on("ready", (launches) => {
@@ -481,7 +474,7 @@ const err = {
   error: "Error title";
   statusCode: 404; // HTTP status code or null if no response
   message: "Could not find this resource"; //  Custom error string from RLLC
-  server_response: "Server Error Text" // error passed through from server, can be null if no response
+  server_response: { } // error passed through from server, can be null if no response
 }
 ```
 

@@ -3,7 +3,7 @@ import chaiAsPromised from "chai-as-promised";
 import Sinon from "sinon";
 import chai from "chai";
 import nock from "nock";
-import { rllc, RLLWatcherEvent } from "../src/index";
+import { rllc } from "../src/index";
 import {
   RLLEntity,
   RLLQueryConfig,
@@ -204,20 +204,20 @@ describe("rllc Watcher", () => {
 
     const readyFake = Sinon.fake();
 
-    watcher.on(RLLWatcherEvent.READY, (launches) => {
+    watcher.on("ready", (launches) => {
       expect(launches).to.have.length(51);
       readyFake();
     });
 
     const initErrorFake = Sinon.fake();
 
-    watcher.on(RLLWatcherEvent.INITIALIZATION_ERROR, (err) => {
+    watcher.on("init_error", (err) => {
       initErrorFake();
     });
 
     const changeFake = Sinon.fake();
 
-    watcher.on(RLLWatcherEvent.CHANGE, (oldLaunch, newLaunch) => {
+    watcher.on("change", (oldLaunch, newLaunch) => {
       assert.isNull(oldLaunch.mission_description);
       assert.isTrue(
         newLaunch.mission_description === "This mission description has changed"
@@ -227,14 +227,14 @@ describe("rllc Watcher", () => {
 
     const newFake = Sinon.fake();
 
-    watcher.on(RLLWatcherEvent.NEW, (launch) => {
+    watcher.on("new", (launch) => {
       expect(launch).to.deep.equal(launches3[1]);
       newFake();
     });
 
     const errorFake = Sinon.fake();
 
-    watcher.on(RLLWatcherEvent.ERROR, (err) => {
+    watcher.on("error", (err) => {
       expect(err).to.deep.equal({
         error: "API Call Failed",
         statusCode: 500,
@@ -311,12 +311,12 @@ describe("rllc Watcher", () => {
     const promise = new Promise((resolve, reject) => {
       watcher.start();
 
-      watcher.on(RLLWatcherEvent.READY, (launches) => {
+      watcher.on("ready", (launches) => {
         scope.done();
         reject("error");
       });
 
-      watcher.on(RLLWatcherEvent.INITIALIZATION_ERROR, (err) => {
+      watcher.on("init_error", (err) => {
         try {
           resolve("success");
         } catch (err) {

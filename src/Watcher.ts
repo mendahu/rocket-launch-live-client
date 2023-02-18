@@ -2,6 +2,7 @@ import EventEmitter from "events";
 import {
   RLLEndPoint,
   RLLEntity,
+  RLLError,
   RLLQueryConfig,
   RLLResponse,
 } from "./types/application";
@@ -14,14 +15,6 @@ import {
 
 const DEFAULT_INTERVAL_IN_MINS = 5;
 const MS_IN_MIN = 60000;
-
-export enum RLLWatcherEvent {
-  NEW = "new",
-  CHANGE = "change",
-  ERROR = "error",
-  READY = "ready",
-  INITIALIZATION_ERROR = "init_error",
-}
 
 const intervalValidator = (interval: any): number => {
   if (typeof interval !== "number" && typeof interval !== "string") {
@@ -56,11 +49,29 @@ const intervalValidator = (interval: any): number => {
   return typedInterval;
 };
 
+interface IRLLWatcherEvent {
+  new: (launch: RLLEntity.Launch) => void;
+  change: (oldLaunch: RLLEntity.Launch, newLaunch: RLLEntity.Launch) => void;
+  error: (error: RLLError) => void;
+  ready: (launches: RLLEntity.Launch[]) => void;
+  init_error: (error: RLLError) => void;
+}
+
 /**
  * Class representing a RocketLaunch.Live Client Watcher
  * @class
  */
 export class RLLWatcher extends EventEmitter {
+  private _untypedOn = this.on;
+  private _untypedEmit = this.emit;
+  public on = <K extends keyof IRLLWatcherEvent>(
+    event: K,
+    listener: IRLLWatcherEvent[K]
+  ): this => this._untypedOn(event, listener);
+  public emit = <K extends keyof IRLLWatcherEvent>(
+    event: K,
+    ...args: Parameters<IRLLWatcherEvent[K]>
+  ): boolean => this._untypedEmit(event, ...args);
   private last_call: Date;
   private launches: Record<number, RLLEntity.Launch> = {};
   private interval: number;
@@ -156,9 +167,9 @@ export class RLLWatcher extends EventEmitter {
         const { id } = changedLaunch;
         const oldLaunch = this.launches[id];
         if (oldLaunch) {
-          this.emit(RLLWatcherEvent.CHANGE, oldLaunch, changedLaunch);
+          this.emit("change", oldLaunch, changedLaunch);
         } else {
-          this.emit(RLLWatcherEvent.NEW, changedLaunch);
+          this.emit("new", changedLaunch);
         }
         this.launches[changedLaunch.id] = changedLaunch;
       }
@@ -171,7 +182,7 @@ export class RLLWatcher extends EventEmitter {
         this.last_call = new Date();
       })
       .catch((err) => {
-        this.emit(RLLWatcherEvent.ERROR, err);
+        this.emit("error", err);
       });
   }
 
@@ -192,14 +203,14 @@ export class RLLWatcher extends EventEmitter {
 
     this.recursivelyFetch(new URLSearchParams(this.params), buildCache)
       .then(() => {
-        this.emit(RLLWatcherEvent.READY, Object.values(this.launches));
+        this.emit("ready", Object.values(this.launches));
         this.last_call = new Date();
         this.timer = setInterval(() => {
           this.query();
         }, this.interval * MS_IN_MIN);
       })
       .catch((err) => {
-        this.emit(RLLWatcherEvent.INITIALIZATION_ERROR, err);
+        this.emit("init_error", err);
       });
   }
 

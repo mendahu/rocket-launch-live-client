@@ -17,15 +17,16 @@ export namespace RLLEntity {
 
   export interface Country {
     name: string;
-    code: ISO3166Alpha2.CountryCode;
+    code: ISO3166Alpha2.CountryCode | "";
   }
 
   export interface State {
     name: string;
-    abbr: ISO3166Alpha2.StateCodeUS;
+    abbr?: ISO3166Alpha2.StateCodeUS;
   }
 
   export interface Company extends RLLRecord {
+    name: string;
     country: Country;
     inactive: boolean | null;
   }
@@ -48,12 +49,27 @@ export namespace RLLEntity {
 
   export interface Launch extends RLLRecord {
     name: string;
-    cospar_id: string;
+    cospar_id: string | null;
     sort_date: string;
-    provider: Omit<Company, "inactive" | "country">;
-    vehicle: Omit<Vehicle, "company_id" | "company">;
-    pad: Omit<Pad, "full_name">;
-    missions: Omit<Mission, "launch_id">[];
+    provider: { slug: string } & Omit<Company, "inactive" | "country">;
+    vehicle: { company_id: number; slug: string } & Omit<Vehicle, "company">;
+    pad: Omit<Pad, "full_name" | "location"> & {
+      location: Omit<
+        Location,
+        | "pads"
+        | "utc_offset"
+        | "latitute"
+        | "latitude"
+        | "longitude"
+        | "country"
+        | "state"
+      > & {
+        slug: string;
+        country: string;
+        state: ISO3166Alpha2.StateCodeUS | null;
+      };
+    };
+    missions: Omit<Mission, "launch_id" | "company">[];
     mission_description: string | null;
     launch_description: string;
     win_open: string | null;
@@ -69,6 +85,8 @@ export namespace RLLEntity {
     tags: Omit<Tag, "slug">[];
     slug: string;
     weather_summary: string | null;
+    weather_condition: string | null;
+    weather_wind_mph: number | null;
     weather_temp: number | null;
     weather_icon: string | null;
     weather_updated: string | null;
@@ -86,22 +104,22 @@ export namespace RLLEntity {
     longitude: string;
     state: State | null;
     statename?: string | null;
-    country: Country;
-    pads: Omit<Pad, "location" | "country" | "state">[];
-    utc_offset: number;
+    country: Country | null;
+    pads: Omit<Pad, "full_name" | "location" | "country" | "state">[];
+    utc_offset: number | null;
   }
 
   export interface Mission extends RLLRecord {
     name: string;
     description: string | null;
     launch_id: number;
-    company: Omit<Company, "slug" | "inactive" | "country">;
+    company: Omit<Company, "inactive" | "country">;
   }
 
   export interface Pad extends RLLRecord {
     name: string;
     full_name: string;
-    location: Omit<Location, "pads" | "utc_offset" | "latitute">;
+    location: Omit<Location, "pads" | "utc_offset" | "latitute" | "statename">;
   }
 
   export interface Tag extends RLLRecord {
@@ -111,8 +129,7 @@ export namespace RLLEntity {
 
   export interface Vehicle extends RLLRecord {
     name: string;
-    company_id?: number;
-    company: Omit<Company, "slug" | "inactive" | "country">;
+    company: Omit<Company, "inactive" | "country">;
   }
 }
 
@@ -202,4 +219,11 @@ export type RLLResponse<T> = {
   total: number;
   last_page: number;
   result: T;
+};
+
+export type RLLError = {
+  error: string;
+  statusCode: number | null;
+  message: string;
+  server_response: string | null;
 };

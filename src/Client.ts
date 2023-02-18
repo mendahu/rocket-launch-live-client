@@ -11,6 +11,7 @@ import {
   optionsValidator,
   queryOptionsValidator,
 } from "./utils";
+import { RLLWatcher } from "./Watcher";
 
 /**
  * Class representing a RocketLaunch.Live client
@@ -69,6 +70,31 @@ export class RLLClient {
   }
 
   /**
+   * Instantiate a new RLL Watcher which will continually query the API for changes to the launches endpoint
+   *
+   * @public
+   *
+   * @param {number} interval - Interval in minutes to query the API for changes. Defaults to 5 minutes, cannot be less than 1 minute
+   * @param {RLLQueryConfig.Launches} options - Query options, same as calling the launches method
+   *
+   * @returns {RLLWatcher}
+   */
+  public watch(
+    interval?: number | string,
+    options?: RLLQueryConfig.Launches
+  ): RLLWatcher {
+    return new RLLWatcher(
+      (params: URLSearchParams): Promise<RLLResponse<RLLEntity.Launch[]>> =>
+        this.query<RLLResponse<RLLEntity.Launch[]>>(
+          RLLEndPoint.LAUNCHES,
+          params
+        ),
+      interval,
+      options
+    );
+  }
+
+  /**
    * Fetch launch companies
    *
    * @public
@@ -85,17 +111,15 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.companies({ country_code: "US" })
+   * const response = await client.companies({ country_code: "US" })
    */
   public companies(
     options?: RLLQueryConfig.Companies
   ): Promise<RLLResponse<RLLEntity.Company[]>> {
-    return queryOptionsValidator(RLLEndPoint.COMPANIES, options).then(
-      (params) =>
-        this.query<RLLResponse<RLLEntity.Company[]>>(
-          RLLEndPoint.COMPANIES,
-          params
-        )
+    const params = queryOptionsValidator(RLLEndPoint.COMPANIES, options);
+    return this.query<RLLResponse<RLLEntity.Company[]>>(
+      RLLEndPoint.COMPANIES,
+      params
     );
   }
 
@@ -126,13 +150,15 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.launches({ after_date: new Date("2022-10-10") })
+   * const response = await client.launches({ after_date: new Date("2022-10-10") })
    */
   public launches(
     options?: RLLQueryConfig.Launches
   ): Promise<RLLResponse<RLLEntity.Launch[]>> {
-    return queryOptionsValidator(RLLEndPoint.LAUNCHES, options).then((params) =>
-      this.query<RLLResponse<RLLEntity.Launch[]>>(RLLEndPoint.LAUNCHES, params)
+    const params = queryOptionsValidator(RLLEndPoint.LAUNCHES, options);
+    return this.query<RLLResponse<RLLEntity.Launch[]>>(
+      RLLEndPoint.LAUNCHES,
+      params
     );
   }
 
@@ -153,17 +179,15 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.locations({ country_code: "US" })
+   * const response = await client.locations({ country_code: "US" })
    */
   public locations(
     options?: RLLQueryConfig.Locations
   ): Promise<RLLResponse<RLLEntity.Location[]>> {
-    return queryOptionsValidator(RLLEndPoint.LOCATIONS, options).then(
-      (params) =>
-        this.query<RLLResponse<RLLEntity.Location[]>>(
-          RLLEndPoint.LOCATIONS,
-          params
-        )
+    const params = queryOptionsValidator(RLLEndPoint.LOCATIONS, options);
+    return this.query<RLLResponse<RLLEntity.Location[]>>(
+      RLLEndPoint.LOCATIONS,
+      params
     );
   }
 
@@ -182,13 +206,15 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.missions({ name: "Mars 2020" })
+   * const response = await client.missions({ name: "Mars 2020" })
    */
   public missions(
     options?: RLLQueryConfig.Missions
   ): Promise<RLLResponse<RLLEntity.Mission[]>> {
-    return queryOptionsValidator(RLLEndPoint.MISSIONS, options).then((params) =>
-      this.query<RLLResponse<RLLEntity.Mission[]>>(RLLEndPoint.MISSIONS, params)
+    const params = queryOptionsValidator(RLLEndPoint.MISSIONS, options);
+    return this.query<RLLResponse<RLLEntity.Mission[]>>(
+      RLLEndPoint.MISSIONS,
+      params
     );
   }
 
@@ -209,14 +235,13 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.pads({ country_code: "US" })
+   * const response = await client.pads({ country_code: "US" })
    */
   public pads(
     options?: RLLQueryConfig.Pads
   ): Promise<RLLResponse<RLLEntity.Pad[]>> {
-    return queryOptionsValidator(RLLEndPoint.PADS, options).then((params) =>
-      this.query<RLLResponse<RLLEntity.Pad[]>>(RLLEndPoint.PADS, params)
-    );
+    const params = queryOptionsValidator(RLLEndPoint.PADS, options);
+    return this.query<RLLResponse<RLLEntity.Pad[]>>(RLLEndPoint.PADS, params);
   }
 
   /**
@@ -234,14 +259,13 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.tags({ text: "Crewed" })
+   * const response = await client.tags({ text: "Crewed" })
    */
   public tags(
     options?: RLLQueryConfig.Tags
   ): Promise<RLLResponse<RLLEntity.Tag[]>> {
-    return queryOptionsValidator(RLLEndPoint.TAGS, options).then((params) =>
-      this.query<RLLResponse<RLLEntity.Tag[]>>(RLLEndPoint.TAGS, params)
-    );
+    const params = queryOptionsValidator(RLLEndPoint.TAGS, options);
+    return this.query<RLLResponse<RLLEntity.Tag[]>>(RLLEndPoint.TAGS, params);
   }
 
   /**
@@ -259,13 +283,15 @@ export class RLLClient {
    *
    * @example
    *
-   * const response = client.vehicles({ name: "Falcon 9" })
+   * const response = await client.vehicles({ name: "Falcon 9" })
    */
   public vehicles(
     options?: RLLQueryConfig.Vehicles
   ): Promise<RLLResponse<RLLEntity.Vehicle[]>> {
-    return queryOptionsValidator(RLLEndPoint.VEHICLES, options).then((params) =>
-      this.query<RLLResponse<RLLEntity.Vehicle[]>>(RLLEndPoint.VEHICLES, params)
+    const params = queryOptionsValidator(RLLEndPoint.VEHICLES, options);
+    return this.query<RLLResponse<RLLEntity.Vehicle[]>>(
+      RLLEndPoint.VEHICLES,
+      params
     );
   }
 }

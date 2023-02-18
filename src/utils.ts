@@ -6,6 +6,10 @@ const getLeadingZero = (month: number, offset: number = 0): string => {
   return str.slice(-2);
 };
 
+export const formatToRLLISODate = (date: Date): string => {
+  return date.toISOString().slice(0, 19).concat("Z");
+};
+
 export const apiKeyValidator = (apiKey: any): string => {
   if (apiKey === undefined) {
     error("RLL Client requires API Key", "type");
@@ -55,127 +59,101 @@ export const optionsValidator = (options: {
 };
 
 const validators = {
-  string: (option: any): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      if (typeof option === "number") {
-        resolve(option.toString());
-      }
-      if (typeof option !== "string") {
-        return reject("Must be a string");
-      }
-      if (option.length <= 0) {
-        return reject("String must have length greater than 0");
-      }
-      resolve(option);
-    });
+  string: (option: any): string => {
+    if (typeof option === "number") {
+      return option.toString();
+    }
+    if (typeof option !== "string") {
+      throw "Must be a string";
+    }
+    if (option.length <= 0) {
+      throw "String must have length greater than 0";
+    }
+    return option;
   },
-  boolean: (option: any): Promise<number> => {
-    return new Promise((resolve, reject) => {
-      if (typeof option !== "boolean") {
-        return reject("Must be a boolean");
-      }
-      resolve(option === true ? 1 : 0);
-    });
+  boolean: (option: any): number => {
+    if (typeof option !== "boolean") {
+      throw "Must be a boolean";
+    }
+    return option === true ? 1 : 0;
   },
-  number: (option: any): Promise<number> => {
-    return new Promise((resolve, reject) => {
-      if (typeof option === "number") {
-        return resolve(option);
-      }
-      if (
-        typeof option !== "string" ||
-        option === "" ||
-        isNaN(Number(option))
-      ) {
-        return reject("Must be a number");
-      } else {
-        resolve(Number(option));
-      }
-    });
+  number: (option: any): number => {
+    if (typeof option === "number") {
+      return option;
+    }
+    if (typeof option !== "string" || option === "" || isNaN(Number(option))) {
+      throw "Must be a number";
+    } else {
+      return Number(option);
+    }
   },
-  countryCode: (option: any): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      if (typeof option !== "string") {
-        return reject("Must be a string");
-      }
-      if (!isValidCountryCode(option)) {
-        return reject(
-          "Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'."
-        );
-      }
-      resolve(option);
-    });
+  countryCode: (option: any): string => {
+    if (typeof option !== "string") {
+      throw "Must be a string";
+    }
+    if (!isValidCountryCode(option)) {
+      throw "Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.";
+    }
+    return option;
   },
-  stateCode: (option: any): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      if (typeof option !== "string") {
-        return reject("Must be a string");
-      }
-      if (!isValidStateCode(option)) {
-        return reject(
-          "Invalid United States State Code. State Codes should follow ISO 3166-2 convention, like 'FL'."
-        );
-      }
-      resolve(option);
-    });
+  stateCode: (option: any): string => {
+    if (typeof option !== "string") {
+      throw "Must be a string";
+    }
+    if (!isValidStateCode(option)) {
+      throw "Invalid United States State Code. State Codes should follow ISO 3166-2 convention, like 'FL'.";
+    }
+    return option;
   },
-  cosparId: (option: any): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      if (typeof option !== "string") {
-        return reject("Must be a string");
-      }
-      if (!option.match(/^\d{4}\-\d{3}$/g)) {
-        return reject(
-          "Cospar IDs must be in the format of YYYY-NNN (eg. 2023-123)"
-        );
-      }
-      resolve(option);
-    });
+  cosparId: (option: any): string => {
+    if (typeof option !== "string") {
+      throw "Must be a string";
+    }
+    if (!option.match(/^\d{4}\-\d{3}$/g)) {
+      throw "Cospar IDs must be in the format of YYYY-NNN (eg. 2023-123)";
+    }
+    return option;
   },
-  shortDate: (option: any): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      if (typeof option === "string" || option instanceof Date) {
-        let date: Date;
+  shortDate: (option: any): string => {
+    if (typeof option !== "string" && !(option instanceof Date)) {
+      throw "Must be a JavaScript Date Object or ISO 8601 Date String";
+    }
 
-        if (typeof option === "string") {
-          const parsed = Date.parse(option);
-          if (isNaN(parsed)) {
-            return reject("Must be an ISO 8601 Date String");
-          }
-          date = new Date(parsed);
-        } else {
-          date = option;
-        }
+    let date: Date;
 
-        resolve(
-          `${date.getUTCFullYear()}-${getLeadingZero(
-            date.getUTCMonth(),
-            1
-          )}-${getLeadingZero(date.getUTCDate())}`
-        );
+    if (typeof option === "string") {
+      const parsed = Date.parse(option);
+      if (isNaN(parsed)) {
+        throw "Must be an ISO 8601 Date String";
       }
-      return reject("Must be a JavaScript Date Object or ISO 8601 Date String");
-    });
+      date = new Date(parsed);
+    } else {
+      date = option;
+    }
+
+    return `${date.getUTCFullYear()}-${getLeadingZero(
+      date.getUTCMonth(),
+      1
+    )}-${getLeadingZero(date.getUTCDate())}`;
   },
-  isoDate: (option: any): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      if (typeof option === "string" || option instanceof Date) {
-        let date: Date;
+  isoDate: (option: any): string => {
+    if (typeof option !== "string" && !(option instanceof Date)) {
+      throw "Must be a JavaScript Date Object or ISO 8601 Date String";
+    }
 
-        if (typeof option === "string") {
-          const parsed = Date.parse(option);
-          if (isNaN(parsed)) {
-            return reject("Must be an ISO 8601 Date String");
-          }
-          date = new Date(parsed);
-        } else {
-          date = option;
-        }
+    let date: Date;
 
-        resolve(date.toISOString().slice(0, 19).concat("Z"));
+    if (typeof option === "string") {
+      const parsed = Date.parse(option);
+      if (isNaN(parsed)) {
+        throw "Must be an ISO 8601 Date String";
       }
-      return reject("Must be a JavaScript Date Object or ISO 8601 Date String");
-    });
+      date = new Date(parsed);
+    } else {
+      date = option;
+    }
+
+    return formatToRLLISODate(date);
   },
 };
 
@@ -245,12 +223,24 @@ export const queryOptionsValidator = (
     | RLLQueryConfig.Pads
     | RLLQueryConfig.Tags
     | RLLQueryConfig.Vehicles
-): Promise<URLSearchParams> => {
+): URLSearchParams => {
   const params = new URLSearchParams();
-  const paramsPromises: Promise<any>[] = [];
 
-  if (!options) {
-    return Promise.resolve(params);
+  if (options === undefined) {
+    return params;
+  }
+
+  if (
+    typeof options === "string" ||
+    typeof options === "number" ||
+    typeof options === "boolean" ||
+    typeof options === "bigint" ||
+    typeof options === "symbol" ||
+    typeof options === "function" ||
+    options === null ||
+    Array.isArray(options)
+  ) {
+    error("Invalid type for query options. Must be an object.");
   }
 
   if (
@@ -275,18 +265,20 @@ export const queryOptionsValidator = (
       continue;
     }
 
-    const promise = optionsMap[resource][option](
-      options[option as keyof typeof options]
-    )
-      .then((o: string) => params.set(option, o))
-      .catch((err: string) => {
-        throw `Malformed query parameter for resource "${resource}" and parameter: "${option}": ${err}.`;
-      });
-
-    paramsPromises.push(promise);
+    try {
+      const o = optionsMap[resource][option](
+        options[option as keyof typeof options]
+      );
+      params.set(option, o);
+    } catch (err) {
+      error(
+        `Malformed query parameter for resource "${resource}" and parameter: "${option}": ${err}.`,
+        "type"
+      );
+    }
   }
 
-  return Promise.all(paramsPromises).then(() => params);
+  return params;
 };
 
 export const warn = (msg: string) => console.warn(`[RLL Client]: ${msg}`);

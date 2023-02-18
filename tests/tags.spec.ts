@@ -95,52 +95,108 @@ describe("tags method", () => {
     );
   });
 
+  it("should throw if passed invalid query params object", () => {
+    expect(() => client.tags(5 as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.tags("5" as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.tags(null as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.tags(BigInt(5) as unknown as RLLQueryConfig.Tags)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.tags(Symbol() as unknown as RLLQueryConfig.Tags)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.tags([] as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() => client.tags(false as unknown as RLLQueryConfig.Tags)).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.tags((() => 5) as unknown as RLLQueryConfig.Tags)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+  });
+
   describe("page parameter", () => {
-    it("should reject on malformed string page", async () => {
-      return assert.isRejected(
-        client.tags({ page: "banana" } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed string page", async () => {
+      expect(() =>
+        client.tags({ page: "banana" } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed array page", () => {
-      return assert.isRejected(
-        client.tags({ page: [] } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed array page", () => {
+      expect(() =>
+        client.tags({ page: [] } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed object page", () => {
-      return assert.isRejected(
-        client.tags({ page: {} } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed object page", () => {
+      expect(() =>
+        client.tags({ page: {} } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed date page", () => {
-      return assert.isRejected(
-        client.tags({ page: new Date() } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed date page", () => {
+      expect(() =>
+        client.tags({ page: new Date() } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean page", () => {
-      return assert.isRejected(
-        client.tags({ page: false } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed boolean page", () => {
+      expect(() =>
+        client.tags({ page: false } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed null page", () => {
-      return assert.isRejected(
-        client.tags({ page: null } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed null page", () => {
+      expect(() =>
+        client.tags({ page: null } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed function page", () => {
-      return assert.isRejected(
-        client.tags({ page: () => 5 } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed function page", () => {
+      expect(() =>
+        client.tags({ page: () => 5 } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
+        `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed symbol page", () => {
+      expect(() =>
+        client.tags({ page: Symbol() } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
+        `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed bigint page", () => {
+      expect(() =>
+        client.tags({ page: BigInt(5) } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "page": Must be a number.`
       );
     });
@@ -218,51 +274,74 @@ describe("tags method", () => {
   });
 
   describe("id parameter", () => {
-    it("should reject on malformed string id", async () => {
-      return assert.isRejected(
-        client.tags({ id: "banana" } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed string id", async () => {
+      expect(() =>
+        client.tags({ id: "banana" } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed array id", () => {
-      return assert.isRejected(
-        client.tags({ id: [] } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed array id", () => {
+      expect(() =>
+        client.tags({ id: [] } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed object id", () => {
-      return assert.isRejected(
-        client.tags({ id: {} } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed object id", () => {
+      expect(() =>
+        client.tags({ id: {} } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed date id", () => {
-      return assert.isRejected(
-        client.tags({ id: new Date() } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed date id", () => {
+      expect(() =>
+        client.tags({ id: new Date() } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean id", () => {
-      return assert.isRejected(
-        client.tags({ id: false } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed boolean id", () => {
+      expect(() =>
+        client.tags({ id: false } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed null id", () => {
-      return assert.isRejected(
-        client.tags({ id: null } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed null id", () => {
+      expect(() =>
+        client.tags({ id: null } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function id", () => {
-      return assert.isRejected(
-        client.tags({ id: () => 5 } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed function id", () => {
+      expect(() =>
+        client.tags({ id: () => 5 } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
+        `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed symbol id", () => {
+      expect(() =>
+        client.tags({ id: Symbol() } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
+        `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed bigint id", () => {
+      expect(() =>
+        client.tags({ id: BigInt(5) } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "id": Must be a number.`
       );
     });
@@ -340,51 +419,74 @@ describe("tags method", () => {
   });
 
   describe("text parameter", () => {
-    it("should reject on malformed empty string text", async () => {
-      return assert.isRejected(
-        client.tags({ text: "" } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed empty string text", async () => {
+      expect(() =>
+        client.tags({ text: "" } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "text": String must have length greater than 0`
       );
     });
 
-    it("should reject on malformed array text", () => {
-      return assert.isRejected(
-        client.tags({ text: [] } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed array text", () => {
+      expect(() =>
+        client.tags({ text: [] } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
       );
     });
 
-    it("should reject on malformed object text", () => {
-      return assert.isRejected(
-        client.tags({ text: {} } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed object text", () => {
+      expect(() =>
+        client.tags({ text: {} } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
       );
     });
 
-    it("should reject on malformed date text", () => {
-      return assert.isRejected(
-        client.tags({ text: new Date() } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed date text", () => {
+      expect(() =>
+        client.tags({ text: new Date() } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean text", () => {
-      return assert.isRejected(
-        client.tags({ text: false } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed boolean text", () => {
+      expect(() =>
+        client.tags({ text: false } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
       );
     });
 
-    it("should reject on malformed null text", () => {
-      return assert.isRejected(
-        client.tags({ text: null } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed null text", () => {
+      expect(() =>
+        client.tags({ text: null } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
       );
     });
 
-    it("should reject on malformed function text", () => {
-      return assert.isRejected(
-        client.tags({ text: () => "spacex" } as unknown as RLLQueryConfig.Tags),
+    it("should throw on malformed function text", () => {
+      expect(() =>
+        client.tags({ text: () => "spacex" } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
+        `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed symbol text", () => {
+      expect(() =>
+        client.tags({ text: Symbol() } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
+        `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed bigint text", () => {
+      expect(() =>
+        client.tags({ text: BigInt(5) } as unknown as RLLQueryConfig.Tags)
+      ).to.throw(
         `Malformed query parameter for resource "tags" and parameter: "text": Must be a string.`
       );
     });

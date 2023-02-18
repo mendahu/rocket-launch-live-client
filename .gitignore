@@ -7,9 +7,9 @@ node_modules/
 # lib
 lib/
 
-# test code
-src/test.ts
-
 # Other
 .DS_Store
 notes.md
+
+# build tarballs
+*.tgz

@@ -7,9 +7,11 @@ export {
   RLLClientOptions,
   RLLQueryConfig,
   RLLEntity,
+  RLLError,
 } from "./types/application";
 export { ISO3166Alpha2 } from "./types/standards";
 export { RLLClient } from "./Client";
+export { RLLWatcher } from "./Watcher";
 
 /**
  * Generate a RocketLaunch.Live client

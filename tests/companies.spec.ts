@@ -95,59 +95,127 @@ describe("companies method", () => {
     );
   });
 
+  it("should throw if passed invalid query params object", () => {
+    expect(() =>
+      client.companies(5 as unknown as RLLQueryConfig.Companies)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.companies("5" as unknown as RLLQueryConfig.Companies)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.companies(null as unknown as RLLQueryConfig.Companies)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.companies(BigInt(5) as unknown as RLLQueryConfig.Companies)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.companies(Symbol() as unknown as RLLQueryConfig.Companies)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.companies([] as unknown as RLLQueryConfig.Companies)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.companies(false as unknown as RLLQueryConfig.Companies)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.companies((() => 5) as unknown as RLLQueryConfig.Companies)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+  });
+
   describe("page parameter", () => {
-    it("should reject on malformed string page", async () => {
-      return assert.isRejected(
-        client.companies({ page: "banana" }),
-        `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+    it("should throw on malformed string page", async () => {
+      expect(() => client.companies({ page: "banana" })).to.throw(
+        `[RLL Client]: Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed array page", () => {
-      return assert.isRejected(
-        client.companies({ page: [] } as unknown as RLLQueryConfig.Companies),
-        `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+    it("should throw on malformed array page", () => {
+      expect(() =>
+        client.companies({ page: [] } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `[RLL Client]: Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed object page", () => {
-      return assert.isRejected(
-        client.companies({ page: {} } as unknown as RLLQueryConfig.Companies),
-        `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+    it("should throw on malformed object page", () => {
+      expect(() =>
+        client.companies({ page: {} } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `[RLL Client]: Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed date page", () => {
-      return assert.isRejected(
+    it("should throw on malformed date page", () => {
+      expect(() =>
         client.companies({
           page: new Date(),
-        } as unknown as RLLQueryConfig.Companies),
-        `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `[RLL Client]: Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean page", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean page", () => {
+      expect(() =>
         client.companies({
           page: false,
-        } as unknown as RLLQueryConfig.Companies),
-        `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `[RLL Client]: Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed null page", () => {
-      return assert.isRejected(
-        client.companies({ page: null } as unknown as RLLQueryConfig.Companies),
-        `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+    it("should throw on malformed null page", () => {
+      expect(() =>
+        client.companies({ page: null } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `[RLL Client]: Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed function page", () => {
-      return assert.isRejected(
+    it("should throw on malformed function page", () => {
+      expect(() =>
         client.companies({
           page: () => 5,
-        } as unknown as RLLQueryConfig.Companies),
-        `Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `[RLL Client]: Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed symbol page", () => {
+      expect(() =>
+        client.companies({
+          page: Symbol(),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `[RLL Client]: Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should reject on malformed bigint page", () => {
+      expect(() =>
+        client.companies({
+          page: BigInt(5),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `[RLL Client]: Malformed query parameter for resource "companies" and parameter: "page": Must be a number.`
       );
     });
 
@@ -222,55 +290,80 @@ describe("companies method", () => {
   });
 
   describe("id parameter", () => {
-    it("should reject on malformed string id", async () => {
-      return assert.isRejected(
-        client.companies({ id: "banana" }),
+    it("should throw on malformed string id", async () => {
+      expect(() => client.companies({ id: "banana" })).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed array id", () => {
-      return assert.isRejected(
-        client.companies({ id: [] } as unknown as RLLQueryConfig.Companies),
+    it("should throw on malformed array id", () => {
+      expect(() =>
+        client.companies({ id: [] } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed object id", () => {
-      return assert.isRejected(
-        client.companies({ id: {} } as unknown as RLLQueryConfig.Companies),
+    it("should throw on malformed object id", () => {
+      expect(() =>
+        client.companies({ id: {} } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed date id", () => {
-      return assert.isRejected(
+    it("should throw on malformed date id", () => {
+      expect(() =>
         client.companies({
           id: new Date(),
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean id", () => {
-      return assert.isRejected(
-        client.companies({ id: false } as unknown as RLLQueryConfig.Companies),
+    it("should throw on malformed boolean id", () => {
+      expect(() =>
+        client.companies({ id: false } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed null id", () => {
-      return assert.isRejected(
-        client.companies({ id: null } as unknown as RLLQueryConfig.Companies),
+    it("should throw on malformed null id", () => {
+      expect(() =>
+        client.companies({ id: null } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function id", () => {
-      return assert.isRejected(
+    it("should throw on malformed function id", () => {
+      expect(() =>
         client.companies({
           id: () => 5,
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed Symbol id", () => {
+      expect(() =>
+        client.companies({
+          id: Symbol(),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed bigint id", () => {
+      expect(() =>
+        client.companies({
+          id: BigInt(5),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "id": Must be a number.`
       );
     });
@@ -346,57 +439,82 @@ describe("companies method", () => {
   });
 
   describe("name parameter", () => {
-    it("should reject on malformed empty string name", async () => {
-      return assert.isRejected(
-        client.companies({ name: "" }),
+    it("should throw on malformed empty string name", async () => {
+      expect(() => client.companies({ name: "" })).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "name": String must have length greater than 0`
       );
     });
 
-    it("should reject on malformed array name", () => {
-      return assert.isRejected(
-        client.companies({ name: [] } as unknown as RLLQueryConfig.Companies),
+    it("should throw on malformed array name", () => {
+      expect(() =>
+        client.companies({ name: [] } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed object name", () => {
-      return assert.isRejected(
-        client.companies({ name: {} } as unknown as RLLQueryConfig.Companies),
+    it("should throw on malformed object name", () => {
+      expect(() =>
+        client.companies({ name: {} } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed date name", () => {
-      return assert.isRejected(
+    it("should throw on malformed date name", () => {
+      expect(() =>
         client.companies({
           name: new Date(),
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean name", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean name", () => {
+      expect(() =>
         client.companies({
           name: false,
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed null name", () => {
-      return assert.isRejected(
-        client.companies({ name: null } as unknown as RLLQueryConfig.Companies),
+    it("should throw on malformed null name", () => {
+      expect(() =>
+        client.companies({ name: null } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed function name", () => {
-      return assert.isRejected(
+    it("should throw on malformed function name", () => {
+      expect(() =>
         client.companies({
           name: () => "spacex",
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed symbol name", () => {
+      expect(() =>
+        client.companies({
+          name: Symbol(),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed bigint name", () => {
+      expect(() =>
+        client.companies({
+          name: BigInt(5),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "name": Must be a string.`
       );
     });
@@ -466,83 +584,112 @@ describe("companies method", () => {
   });
 
   describe("country_code parameter", () => {
-    it("should reject on malformed number country_code", async () => {
-      return assert.isRejected(
-        client.companies({
-          country_code: 5,
-        } as unknown as RLLQueryConfig.Companies),
+    it("should throw on malformed number country_code", async () => {
+      expect(
+        () =>
+          client.companies({
+            country_code: 5,
+          } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed empty string country_code", async () => {
-      return assert.isRejected(
-        client.companies({
-          country_code: "",
-        } as unknown as RLLQueryConfig.Companies),
+    it("should throw on malformed empty string country_code", async () => {
+      expect(
+        () =>
+          client.companies({
+            country_code: "",
+          } as unknown as RLLQueryConfig.Companies),
         `Malformed query parameter for resource "companies" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
-    it("should reject on malformed nonexistant country_code", async () => {
-      return assert.isRejected(
+    it("should throw on malformed nonexistant country_code", async () => {
+      expect(() =>
         client.companies({
           country_code: "XX",
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "country_code": Invalid country code. Country codes should follow ISO 3166-1 A2 convention, like 'US'.`
       );
     });
 
-    it("should reject on malformed array country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed array country_code", () => {
+      expect(() =>
         client.companies({
           country_code: [],
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed object country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed object country_code", () => {
+      expect(() =>
         client.companies({
           country_code: {},
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed date country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed date country_code", () => {
+      expect(() =>
         client.companies({
           country_code: new Date(),
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed boolean country_code", () => {
+      expect(() =>
         client.companies({
           country_code: false,
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed null country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed null country_code", () => {
+      expect(() =>
         client.companies({
           country_code: null,
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
 
-    it("should reject on malformed function country_code", () => {
-      return assert.isRejected(
+    it("should throw on malformed function country_code", () => {
+      expect(() =>
         client.companies({
           country_code: () => "US",
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed symbol country_code", () => {
+      expect(() =>
+        client.companies({
+          country_code: Symbol(),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed bigint country_code", () => {
+      expect(() =>
+        client.companies({
+          country_code: BigInt(5),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "country_code": Must be a string.`
       );
     });
@@ -593,65 +740,92 @@ describe("companies method", () => {
   });
 
   describe("inactive parameter", () => {
-    it("should reject on malformed number inactive", async () => {
-      return assert.isRejected(
+    it("should throw on malformed number inactive", async () => {
+      expect(() =>
         client.companies({
           inactive: 5,
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
-    it("should reject on malformed array inactive", () => {
-      return assert.isRejected(
+    it("should throw on malformed array inactive", () => {
+      expect(() =>
         client.companies({
           inactive: [],
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
-    it("should reject on malformed object inactive", () => {
-      return assert.isRejected(
+    it("should throw on malformed object inactive", () => {
+      expect(() =>
         client.companies({
           inactive: {},
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
-    it("should reject on malformed date inactive", () => {
-      return assert.isRejected(
+    it("should throw on malformed date inactive", () => {
+      expect(() =>
         client.companies({
           inactive: new Date(),
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
-    it("should reject on malformed string inactive", () => {
-      return assert.isRejected(
+    it("should throw on malformed string inactive", () => {
+      expect(() =>
         client.companies({
           inactive: "true",
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
-    it("should reject on malformed null inactive", () => {
-      return assert.isRejected(
+    it("should throw on malformed null inactive", () => {
+      expect(() =>
         client.companies({
           inactive: null,
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });
 
-    it("should reject on malformed function inactive", () => {
-      return assert.isRejected(
+    it("should throw on malformed function inactive", () => {
+      expect(() =>
         client.companies({
           inactive: () => true,
-        } as unknown as RLLQueryConfig.Companies),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
+      );
+    });
+
+    it("should throw on malformed symbol inactive", () => {
+      expect(() =>
+        client.companies({
+          inactive: Symbol(),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
+        `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
+      );
+    });
+
+    it("should throw on malformed bigint inactive", () => {
+      expect(() =>
+        client.companies({
+          inactive: BigInt(5),
+        } as unknown as RLLQueryConfig.Companies)
+      ).to.throw(
         `Malformed query parameter for resource "companies" and parameter: "inactive": Must be a boolean.`
       );
     });

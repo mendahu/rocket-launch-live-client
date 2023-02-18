@@ -95,58 +95,128 @@ describe("missions method", () => {
     );
   });
 
+  it("should throw if passed invalid query params object", () => {
+    expect(() =>
+      client.missions(5 as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions("5" as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions(null as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions(BigInt(5) as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions(Symbol() as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions([] as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions(false as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+    expect(() =>
+      client.missions((() => 5) as unknown as RLLQueryConfig.Missions)
+    ).to.throw(
+      "[RLL Client]: Invalid type for query options. Must be an object."
+    );
+  });
+
   describe("page parameter", () => {
-    it("should reject on malformed string page", async () => {
-      return assert.isRejected(
+    it("should throw on malformed string page", async () => {
+      expect(() =>
         client.missions({
           page: "banana",
-        } as unknown as RLLQueryConfig.Missions),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed array page", () => {
-      return assert.isRejected(
-        client.missions({ page: [] } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed array page", () => {
+      expect(() =>
+        client.missions({ page: [] } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed object page", () => {
-      return assert.isRejected(
-        client.missions({ page: {} } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed object page", () => {
+      expect(() =>
+        client.missions({ page: {} } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed date page", () => {
-      return assert.isRejected(
+    it("should throw on malformed date page", () => {
+      expect(() =>
         client.missions({
           page: new Date(),
-        } as unknown as RLLQueryConfig.Missions),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean page", () => {
-      return assert.isRejected(
-        client.missions({ page: false } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed boolean page", () => {
+      expect(() =>
+        client.missions({ page: false } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed null page", () => {
-      return assert.isRejected(
-        client.missions({ page: null } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed null page", () => {
+      expect(() =>
+        client.missions({ page: null } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
       );
     });
 
-    it("should reject on malformed function page", () => {
-      return assert.isRejected(
+    it("should throw on malformed function page", () => {
+      expect(() =>
         client.missions({
           page: () => 5,
-        } as unknown as RLLQueryConfig.Missions),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
+        `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed symbol() page", () => {
+      expect(() =>
+        client.missions({
+          page: Symbol(),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
+        `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed bigint page", () => {
+      expect(() =>
+        client.missions({
+          page: BigInt(5),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "page": Must be a number.`
       );
     });
@@ -224,53 +294,78 @@ describe("missions method", () => {
   });
 
   describe("id parameter", () => {
-    it("should reject on malformed string id", async () => {
-      return assert.isRejected(
-        client.missions({ id: "banana" } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed string id", async () => {
+      expect(() =>
+        client.missions({ id: "banana" } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed array id", () => {
-      return assert.isRejected(
-        client.missions({ id: [] } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed array id", () => {
+      expect(() =>
+        client.missions({ id: [] } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed object id", () => {
-      return assert.isRejected(
-        client.missions({ id: {} } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed object id", () => {
+      expect(() =>
+        client.missions({ id: {} } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed date id", () => {
-      return assert.isRejected(
+    it("should throw on malformed date id", () => {
+      expect(() =>
         client.missions({
           id: new Date(),
-        } as unknown as RLLQueryConfig.Missions),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed boolean id", () => {
-      return assert.isRejected(
-        client.missions({ id: false } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed boolean id", () => {
+      expect(() =>
+        client.missions({ id: false } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed null id", () => {
-      return assert.isRejected(
-        client.missions({ id: null } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed null id", () => {
+      expect(() =>
+        client.missions({ id: null } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
       );
     });
 
-    it("should reject on malformed function id", () => {
-      return assert.isRejected(
-        client.missions({ id: () => 5 } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed function id", () => {
+      expect(() =>
+        client.missions({ id: () => 5 } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
+        `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed symbol id", () => {
+      expect(() =>
+        client.missions({ id: Symbol() } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
+        `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed bigint id", () => {
+      expect(() =>
+        client.missions({
+          id: BigInt(5),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "id": Must be a number.`
       );
     });
@@ -348,55 +443,82 @@ describe("missions method", () => {
   });
 
   describe("name parameter", () => {
-    it("should reject on malformed empty string name", async () => {
-      return assert.isRejected(
-        client.missions({ name: "" } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed empty string name", async () => {
+      expect(() =>
+        client.missions({ name: "" } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "name": String must have length greater than 0`
       );
     });
 
-    it("should reject on malformed array name", () => {
-      return assert.isRejected(
-        client.missions({ name: [] } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed array name", () => {
+      expect(() =>
+        client.missions({ name: [] } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed object name", () => {
-      return assert.isRejected(
-        client.missions({ name: {} } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed object name", () => {
+      expect(() =>
+        client.missions({ name: {} } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed date name", () => {
-      return assert.isRejected(
+    it("should throw on malformed date name", () => {
+      expect(() =>
         client.missions({
           name: new Date(),
-        } as unknown as RLLQueryConfig.Missions),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed boolean name", () => {
-      return assert.isRejected(
-        client.missions({ name: false } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed boolean name", () => {
+      expect(() =>
+        client.missions({ name: false } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed null name", () => {
-      return assert.isRejected(
-        client.missions({ name: null } as unknown as RLLQueryConfig.Missions),
+    it("should throw on malformed null name", () => {
+      expect(() =>
+        client.missions({ name: null } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
       );
     });
 
-    it("should reject on malformed function name", () => {
-      return assert.isRejected(
+    it("should throw on malformed function name", () => {
+      expect(() =>
         client.missions({
           name: () => "spacex",
-        } as unknown as RLLQueryConfig.Missions),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
+        `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed symbol name", () => {
+      expect(() =>
+        client.missions({
+          name: Symbol(),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
+        `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed bigint name", () => {
+      expect(() =>
+        client.missions({
+          name: BigInt(5),
+        } as unknown as RLLQueryConfig.Missions)
+      ).to.throw(
         `Malformed query parameter for resource "missions" and parameter: "name": Must be a string.`
       );
     });

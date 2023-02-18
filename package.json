@@ -1,17 +1,14 @@
 {
   "name": "rocket-launch-live-client",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A Node.JS client for interacting with the RocketLaunch.Live API",
   "types": "./lib/cjs/types/index.d.ts",
   "main": "./lib/cjs/index.js",
   "scripts": {
     "clear": "rm -rf ./lib",
-    "dev": "nodemon ./lib/test.js --ignore 'lib/**' -e ts --exec \"npm run compile\"",
-    "compile": "npm run clear && tsc && node ./lib/test.js",
     "build": "npm run clear && npm run build:esm && npm run build:cjs",
     "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
     "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
-    "start": "node ./lib/test.js",
     "prepublish": "npm run build",
     "test": "mocha",
     "test:watch": "mocha --watch"

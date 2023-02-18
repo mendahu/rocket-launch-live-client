@@ -13,6 +13,10 @@
   - [Pads](#pads)
   - [Tags](#tags)
   - [Vehicles](#vehicles)
+- [Watcher](#watcher)
+  - [Methods and Properties](#watcher_props)
+  - [Options](#watcher_options)
+  - [Events](#watcher_events)
 
 This package is a fully-typed, promise-based, zero-dependency Node.JS JavaScript/TypeScript library for interacting with the [RocketLaunch.Live](https://www.rocketlaunch.live) API.
 
@@ -24,7 +28,7 @@ This package is a fully-typed, promise-based, zero-dependency Node.JS JavaScript
 // Import package
 import { rllc } from "rocket-launch-live-client";
 
-// Get API Key
+// Get API Your Key
 const RLL_API_KEY = process.env.RLL_API_KEY;
 
 // Create client
@@ -306,4 +310,181 @@ const options = {
   // Vehicle name
   name: "Atlas V",
 };
+```
+
+<a name="watcher"></a>
+
+## Watcher
+
+The `rocket-launch-live-client` has the ability to monitor the `launches` endpoint on a regular basis and return changes as they happen live.
+
+```js
+// Instantiate a new watcher
+// See below for options
+const watcher = client.watch(5, options);
+
+// Define event handlers
+watcher.on("new", (newLaunch) => {
+  // handle new launch
+});
+
+// Start monitoring
+watcher.start();
+
+// Stop monitoring
+watcher.stop();
+```
+
+<a name="watcher_props"></a>
+
+<a name="watcher_options"></a>
+
+### Watcher Options
+
+A new watcher takes up to two arguments:
+
+1. Interval - (optional) (default: 5) - a duration, in minutes, between calls to the API. Adjust this based on the frequency you wish to stay up to date. To avoid needlessly querying the API, this client will now allow any option less than 1 minute.
+2. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint.
+
+Query options cannot be altered on a running watcher. In order to change your search conditions, you'll need to stop the watcher and start a new one.
+
+### Watcher Methods and Properties
+
+#### Start
+
+Begin watching the `launches` endpoint using the interval and query options provided during watcher instantiation.
+
+```js
+watcher.start();
+```
+
+#### End
+
+Stop watching the `launches` endpoint.
+
+```js
+watcher.stop();
+```
+
+#### On
+
+Set an event handler for a Watcher event. Extends the Node Event Emitter `on` method. Takes an event name (see below) and a callback.
+
+```js
+watcher.on("ready", (launches) => {
+  // handle event
+});
+```
+
+#### Launches Data
+
+Access the launches data cache. The data is stored in a [JavaScript Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) and has all the methods associated with Maps.
+
+```js
+watcher.launches; // Map of all launches in cache
+watcher.launches.size // Count of launches in cache
+watcher.launches.get(1) // Get launch with launch_id of 1
+watcher.launches.forEach((launch, launchId) => /* Do something to each launch */ )
+```
+
+Note: We recommend not altering the `launches` cache directly (such as by using Map's `set` or `delete` methods). The watcher will notice the discrepancy on the next API call and trigger appropriate `new` or `change` events to set it back. This may not be the behaviour you expect.
+
+<a name="watcher_events"></a>
+
+### Watcher Events
+
+Watcher events are triggered when the client recieves a response to a query to `launches` using the `modified_since` parameter. The client will compare the changes to a cached version of the launch and trigger the appropriate event.
+
+If there are multiple changes on a single API call, the appropriate events will be triggered more than once, so have your callbacks handle a single event.
+
+<a name="watcher_events_new"></a>
+
+#### New
+
+A new launch has been added! The Watcher will provide the new launch data as the first argument to your callback.
+
+```js
+watcher.on("new", (newLaunch) => {
+  // Handle the new addition here
+});
+```
+
+The `newLaunch` argument will be an `RLLEntity.Launch` object, the same shape as what is received from the `launches` endpoint (but not wrapped in the standard response).
+
+<a name="watcher_events_change"></a>
+
+#### Change
+
+An existing launch has had information change. The Watcher will provide the old and new versions of the launch object to do your own comparisons.
+
+```js
+watcher.on("change", (oldLaunch, newLaunch) => {
+  // Handle changes here
+});
+```
+
+The `oldLaunch` and `newLaunch` will be the cached version and the new version of an `RLLEntity.Launch` object, the same shape as what is received from the `launches` endpoint (but not wrapped in the standard response).
+
+<a name="watcher_events_error"></a>
+
+#### Error
+
+There was an error on an API call. The error will be passed as the first argument of the callback.
+
+```js
+watcher.on("error", (err) => {
+  // Handle error here
+});
+```
+
+The `err` object will have the following shape, and is accessible via TypeScript as `RLLError`:
+
+```js
+const err = {
+  error: "Error title";
+  statusCode: 404; // HTTP status code or null if no response
+  message: "Could not find this resource"; //  Custom error string from RLLC
+  server_response: { } // error passed through from server, can be null if no response
+}
+```
+
+#### Ready
+
+The watcher has completed its initial API calls and built a cache of launches. The initial cache of launches is passed as the first argument. The client is now monitoring the API.
+
+```js
+watcher.on("ready", (launches) => {
+  // Handle ready here
+});
+```
+
+#### Initialization Errors
+
+The watcher has experienced a problem setting up its initial cache and is has not started monitoring.
+
+```js
+watcher.on("init_error", (err) => {
+  // Handle error here
+});
+```
+
+The `err` object will have the following shape, and is accessible via TypeScript as `RLLError`:
+
+```js
+const err = {
+  error: "Error title";
+  statusCode: 404; // HTTP status code or null if no response
+  message: "Could not find this resource"; //  Custom error string from RLLC
+  server_response: { } // error passed through from server, can be null if no response
+}
+```
+
+#### Call
+
+The watcher also emits a `call` event every time it makes a request, passing in the query parameters it used in the Node URLSearchParams format. Use this to monitor or diagnose how often the API is being queried.
+
+```js
+watcher.on("call", (params) => {
+  // Handle call here
+});
 ```

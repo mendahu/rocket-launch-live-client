@@ -1,0 +1,831 @@
+import { RLLEntity } from "../../src";
+
+export const pads1: RLLEntity.Pad[] = [
+  {
+    id: 46,
+    name: "Cosmic Girl, 747-400",
+    location: {
+      name: "Location TBD",
+      id: 46,
+      latitude: "",
+      longitude: "",
+      state: null,
+      country: {
+        code: "",
+        name: "Country TBD",
+      },
+    },
+    full_name: "Cosmic Girl, 747-400, Location TBD",
+  },
+  {
+    id: 87,
+    name: "Cosmic Girl, 747-400",
+    location: {
+      name: "Mojave Air and Space Port",
+      id: 83,
+      latitude: "",
+      longitude: "",
+      state: {
+        abbr: "CA",
+        name: "California",
+      },
+      country: {
+        code: "US",
+        name: "United States",
+      },
+    },
+    full_name: "Cosmic Girl, 747-400, Mojave Air and Space Port",
+  },
+  {
+    id: 129,
+    name: "Cosmic Girl, 747-400",
+    location: {
+      name: "Spaceport Cornwall",
+      id: 94,
+      latitude: "50.440833",
+      longitude: "-4.995278",
+      state: null,
+      country: {
+        code: "GB",
+        name: "United Kingdom",
+      },
+    },
+    full_name: "Cosmic Girl, 747-400, Spaceport Cornwall",
+  },
+  {
+    id: 123,
+    name: "ELA-1",
+    location: {
+      name: "Guiana Space Centre",
+      id: 70,
+      latitude: "5.239",
+      longitude: "-52.768",
+      state: null,
+      country: {
+        code: "GF",
+        name: "French Guiana",
+      },
+    },
+    full_name: "ELA-1, Guiana Space Centre",
+  },
+  {
+    id: 104,
+    name: "ELA-2",
+    location: {
+      name: "Guiana Space Centre",
+      id: 70,
+      latitude: "5.239",
+      longitude: "-52.768",
+      state: null,
+      country: {
+        code: "GF",
+        name: "French Guiana",
+      },
+    },
+    full_name: "ELA-2, Guiana Space Centre",
+  },
+  {
+    id: 17,
+    name: "ELA-3",
+    location: {
+      name: "Guiana Space Centre",
+      id: 70,
+      latitude: "5.239",
+      longitude: "-52.768",
+      state: null,
+      country: {
+        code: "GF",
+        name: "French Guiana",
+      },
+    },
+    full_name: "ELA-3, Guiana Space Centre",
+  },
+  {
+    id: 23,
+    name: "ELA-4",
+    location: {
+      name: "Guiana Space Centre",
+      id: 70,
+      latitude: "5.239",
+      longitude: "-52.768",
+      state: null,
+      country: {
+        code: "GF",
+        name: "French Guiana",
+      },
+    },
+    full_name: "ELA-4, Guiana Space Centre",
+  },
+  {
+    id: 21,
+    name: "ELS",
+    location: {
+      name: "Guiana Space Centre",
+      id: 70,
+      latitude: "5.239",
+      longitude: "-52.768",
+      state: null,
+      country: {
+        code: "GF",
+        name: "French Guiana",
+      },
+    },
+    full_name: "ELS, Guiana Space Centre",
+  },
+  {
+    id: 18,
+    name: "ELV",
+    location: {
+      name: "Guiana Space Centre",
+      id: 70,
+      latitude: "5.239",
+      longitude: "-52.768",
+      state: null,
+      country: {
+        code: "GF",
+        name: "French Guiana",
+      },
+    },
+    full_name: "ELV, Guiana Space Centre",
+  },
+  {
+    id: 7,
+    name: "FLP",
+    location: {
+      name: "Satish Dhawan Space Centre",
+      id: 67,
+      latitude: "13.719939",
+      longitude: "80.230425",
+      state: null,
+      country: {
+        code: "IN",
+        name: "India",
+      },
+    },
+    full_name: "FLP, Satish Dhawan Space Centre",
+  },
+  {
+    id: 103,
+    name: "K-84 Ekaterinburg Submarine",
+    location: {
+      name: "Barents Sea",
+      id: 87,
+      latitude: "",
+      longitude: "",
+      state: null,
+      country: {
+        code: "RU",
+        name: "Russia",
+      },
+    },
+    full_name: "K-84 Ekaterinburg Submarine, Barents Sea",
+  },
+  {
+    id: 32,
+    name: "KS Center",
+    location: {
+      name: "Uchinoura Space Center",
+      id: 71,
+      latitude: "31.2510",
+      longitude: "131.0813",
+      state: null,
+      country: {
+        code: "JP",
+        name: "Japan",
+      },
+    },
+    full_name: "KS Center, Uchinoura Space Center",
+  },
+  {
+    id: 50,
+    name: 'LA-4 / "Mobile Pad"',
+    location: {
+      name: "Jiuquan Satellite Launch Center",
+      id: 40,
+      latitude: "40.9675",
+      longitude: "100.278611",
+      state: null,
+      country: {
+        code: "CN",
+        name: "China",
+      },
+    },
+    full_name: 'LA-4 / "Mobile Pad", Jiuquan Satellite Launch Center',
+  },
+  {
+    id: 9,
+    name: "LA-4 / Pad 603 (SLS-2)",
+    location: {
+      name: "Jiuquan Satellite Launch Center",
+      id: 40,
+      latitude: "40.9675",
+      longitude: "100.278611",
+      state: null,
+      country: {
+        code: "CN",
+        name: "China",
+      },
+    },
+    full_name: "LA-4 / Pad 603 (SLS-2), Jiuquan Satellite Launch Center",
+  },
+  {
+    id: 10,
+    name: "LA-4 / Pad 921 (SLS-1)",
+    location: {
+      name: "Jiuquan Satellite Launch Center",
+      id: 40,
+      latitude: "40.9675",
+      longitude: "100.278611",
+      state: null,
+      country: {
+        code: "CN",
+        name: "China",
+      },
+    },
+    full_name: "LA-4 / Pad 921 (SLS-1), Jiuquan Satellite Launch Center",
+  },
+  {
+    id: 31,
+    name: "LA-Y1",
+    location: {
+      name: "Tanegashima Space Center",
+      id: 19,
+      latitude: "30.4",
+      longitude: "130.97",
+      state: null,
+      country: {
+        code: "JP",
+        name: "Japan",
+      },
+    },
+    full_name: "LA-Y1, Tanegashima Space Center",
+  },
+  {
+    id: 30,
+    name: "LA-Y2",
+    location: {
+      name: "Tanegashima Space Center",
+      id: 19,
+      latitude: "30.4",
+      longitude: "130.97",
+      state: null,
+      country: {
+        code: "JP",
+        name: "Japan",
+      },
+    },
+    full_name: "LA-Y2, Tanegashima Space Center",
+  },
+  {
+    id: 49,
+    name: "Launch Pad",
+    location: {
+      name: "Pacific Spaceport Complex - Alaska",
+      id: 47,
+      latitude: "57.435833",
+      longitude: "-152.337778",
+      state: {
+        abbr: "AK",
+        name: "Alaska",
+      },
+      country: {
+        code: "US",
+        name: "United States",
+      },
+    },
+    full_name: "Launch Pad, Pacific Spaceport Complex - Alaska",
+  },
+  {
+    id: 45,
+    name: "Launch Pad",
+    location: {
+      name: "Corn Ranch Spaceport",
+      id: 51,
+      latitude: "31.04250000",
+      longitude: "-104.83305556",
+      state: {
+        abbr: "TX",
+        name: "Texas",
+      },
+      country: {
+        code: "US",
+        name: "United States",
+      },
+    },
+    full_name: "Launch Pad, Corn Ranch Spaceport",
+  },
+  {
+    id: 57,
+    name: "Launch Pad",
+    location: {
+      name: "Imam Khomeini Spaceport",
+      id: 72,
+      latitude: "35.238",
+      longitude: "53.950778",
+      state: null,
+      country: {
+        code: "IR",
+        name: "Iran",
+      },
+    },
+    full_name: "Launch Pad, Imam Khomeini Spaceport",
+  },
+  {
+    id: 67,
+    name: "Launch Pad",
+    location: {
+      name: "Sohae Satellite Launching Station",
+      id: 75,
+      latitude: "39.66",
+      longitude: "124.705",
+      state: null,
+      country: {
+        code: "KP",
+        name: "North Korea",
+      },
+    },
+    full_name: "Launch Pad, Sohae Satellite Launching Station",
+  },
+  {
+    id: 71,
+    name: "Launch Pad",
+    location: {
+      name: "Palmachim Airbase",
+      id: 76,
+      latitude: "31.897778",
+      longitude: "34.690556",
+      state: null,
+      country: {
+        code: "IL",
+        name: "Israel",
+      },
+    },
+    full_name: "Launch Pad, Palmachim Airbase",
+  },
+  {
+    id: 75,
+    name: "Launch Pad",
+    location: {
+      name: "Shahroud",
+      id: 78,
+      latitude: "",
+      longitude: "",
+      state: null,
+      country: {
+        code: "IR",
+        name: "Iran",
+      },
+    },
+    full_name: "Launch Pad, Shahroud",
+  },
+  {
+    id: 77,
+    name: "Launch Pad",
+    location: {
+      name: "Israeli Air Force Test Range, Palmachim Beach",
+      id: 80,
+      latitude: "",
+      longitude: "",
+      state: null,
+      country: {
+        code: "IL",
+        name: "Israel",
+      },
+    },
+    full_name: "Launch Pad, Israeli Air Force Test Range, Palmachim Beach",
+  },
+  {
+    id: 80,
+    name: "Launch Pad",
+    location: {
+      name: "Naro Space Center",
+      id: 82,
+      latitude: "",
+      longitude: "",
+      state: null,
+      country: {
+        code: "KR",
+        name: "South Korea",
+      },
+    },
+    full_name: "Launch Pad, Naro Space Center",
+  },
+];
+
+export const pads2: RLLEntity.Pad[] = [
+  {
+    id: 119,
+    name: "Launch Pad",
+    location: {
+      name: "Wallops Flight Facility",
+      id: 88,
+      latitude: "",
+      longitude: "",
+      state: {
+        abbr: "VA",
+        name: "Virginia",
+      },
+      country: {
+        code: "US",
+        name: "United States",
+      },
+    },
+    full_name: "Launch Pad, Wallops Flight Facility",
+  },
+  {
+    id: 114,
+    name: "Launch Pad",
+    location: {
+      name: "Boca Chica Launch Site",
+      id: 89,
+      latitude: "25.997",
+      longitude: "-97.157",
+      state: {
+        abbr: "TX",
+        name: "Texas",
+      },
+      country: {
+        code: "US",
+        name: "United States",
+      },
+    },
+    full_name: "Launch Pad, Boca Chica Launch Site",
+  },
+  {
+    id: 5,
+    name: "LC-1",
+    location: {
+      name: "Baikonur Cosmodrome",
+      id: 50,
+      latitude: "45.9648",
+      longitude: "63.3051",
+      state: null,
+      country: {
+        code: "KZ",
+        name: "Kazakhstan",
+      },
+    },
+    full_name: "LC-1, Baikonur Cosmodrome",
+  },
+  {
+    id: 102,
+    name: "LC-107",
+    location: {
+      name: "Kapustin Yar",
+      id: 86,
+      latitude: "",
+      longitude: "",
+      state: null,
+      country: {
+        code: "RU",
+        name: "Russia",
+      },
+    },
+    full_name: "LC-107, Kapustin Yar",
+  },
+  {
+    id: 85,
+    name: "LC-109/95",
+    location: {
+      name: "Baikonur Cosmodrome",
+      id: 50,
+      latitude: "45.9648",
+      longitude: "63.3051",
+      state: null,
+      country: {
+        code: "KZ",
+        name: "Kazakhstan",
+      },
+    },
+    full_name: "LC-109/95, Baikonur Cosmodrome",
+  },
+  {
+    id: 86,
+    name: "LC-132/1",
+    location: {
+      name: "Plesetsk Cosmodrome",
+      id: 65,
+      latitude: "62.925556",
+      longitude: "40.577778",
+      state: null,
+      country: {
+        code: "RU",
+        name: "Russia",
+      },
+    },
+    full_name: "LC-132/1, Plesetsk Cosmodrome",
+  },
+  {
+    id: 34,
+    name: "LC-133/3",
+    location: {
+      name: "Plesetsk Cosmodrome",
+      id: 65,
+      latitude: "62.925556",
+      longitude: "40.577778",
+      state: null,
+      country: {
+        code: "RU",
+        name: "Russia",
+      },
+    },
+    full_name: "LC-133/3, Plesetsk Cosmodrome",
+  },
+  {
+    id: 43,
+    name: "LC-16",
+    location: {
+      name: "Taiyuan Satellite Launch Center",
+      id: 39,
+      latitude: "38.849086",
+      longitude: "111.608497",
+      state: null,
+      country: {
+        code: "CN",
+        name: "China",
+      },
+    },
+    full_name: "LC-16, Taiyuan Satellite Launch Center",
+  },
+  {
+    id: 89,
+    name: "LC-16",
+    location: {
+      name: "Vandenberg SFB",
+      id: 60,
+      latitude: "34.632706",
+      longitude: "-120.613393",
+      state: {
+        abbr: "CA",
+        name: "California",
+      },
+      country: {
+        code: "US",
+        name: "United States",
+      },
+    },
+    full_name: "LC-16, Vandenberg SFB",
+  },
+  {
+    id: 81,
+    name: "LC-16/2",
+    location: {
+      name: "Plesetsk Cosmodrome",
+      id: 65,
+      latitude: "62.925556",
+      longitude: "40.577778",
+      state: null,
+      country: {
+        code: "RU",
+        name: "Russia",
+      },
+    },
+    full_name: "LC-16/2, Plesetsk Cosmodrome",
+  },
+  {
+    id: 74,
+    name: "LC-175/59",
+    location: {
+      name: "Baikonur Cosmodrome",
+      id: 50,
+      latitude: "45.9648",
+      longitude: "63.3051",
+      state: null,
+      country: {
+        code: "KZ",
+        name: "Kazakhstan",
+      },
+    },
+    full_name: "LC-175/59, Baikonur Cosmodrome",
+  },
+  {
+    id: 19,
+    name: "LC-1A",
+    location: {
+      name: "Rocket Lab Launch Complex, Mahia Peninsula",
+      id: 20,
+      latitude: "-39.2609",
+      longitude: "177.8655",
+      state: null,
+      country: {
+        code: "NZ",
+        name: "New Zealand",
+      },
+    },
+    full_name: "LC-1A, Rocket Lab Launch Complex, Mahia Peninsula",
+  },
+  {
+    id: 122,
+    name: "LC-1B",
+    location: {
+      name: "Rocket Lab Launch Complex, Mahia Peninsula",
+      id: 20,
+      latitude: "-39.2609",
+      longitude: "177.8655",
+      state: null,
+      country: {
+        code: "NZ",
+        name: "New Zealand",
+      },
+    },
+    full_name: "LC-1B, Rocket Lab Launch Complex, Mahia Peninsula",
+  },
+  {
+    id: 16,
+    name: "LC-2",
+    location: {
+      name: "Xichang Satellite Launch Center",
+      id: 28,
+      latitude: "28.246017",
+      longitude: "102.026556",
+      state: null,
+      country: {
+        code: "CN",
+        name: "China",
+      },
+    },
+    full_name: "LC-2, Xichang Satellite Launch Center",
+  },
+  {
+    id: 25,
+    name: "LC-200/39",
+    location: {
+      name: "Baikonur Cosmodrome",
+      id: 50,
+      latitude: "45.9648",
+      longitude: "63.3051",
+      state: null,
+      country: {
+        code: "KZ",
+        name: "Kazakhstan",
+      },
+    },
+    full_name: "LC-200/39, Baikonur Cosmodrome",
+  },
+  {
+    id: 124,
+    name: "LC-200/40",
+    location: {
+      name: "Baikonur Cosmodrome",
+      id: 50,
+      latitude: "45.9648",
+      longitude: "63.3051",
+      state: null,
+      country: {
+        code: "KZ",
+        name: "Kazakhstan",
+      },
+    },
+    full_name: "LC-200/40, Baikonur Cosmodrome",
+  },
+  {
+    id: 69,
+    name: "LC-201",
+    location: {
+      name: "Wenchang Satellite Launch Center",
+      id: 45,
+      latitude: "19.614492",
+      longitude: "110.951133",
+      state: null,
+      country: {
+        code: "CN",
+        name: "China",
+      },
+    },
+    full_name: "LC-201, Wenchang Satellite Launch Center",
+  },
+  {
+    id: 26,
+    name: "LC-3",
+    location: {
+      name: "Xichang Satellite Launch Center",
+      id: 28,
+      latitude: "28.246017",
+      longitude: "102.026556",
+      state: null,
+      country: {
+        code: "CN",
+        name: "China",
+      },
+    },
+    full_name: "LC-3, Xichang Satellite Launch Center",
+  },
+  {
+    id: 39,
+    name: "LC-31",
+    location: {
+      name: "Baikonur Cosmodrome",
+      id: 50,
+      latitude: "45.9648",
+      longitude: "63.3051",
+      state: null,
+      country: {
+        code: "KZ",
+        name: "Kazakhstan",
+      },
+    },
+    full_name: "LC-31, Baikonur Cosmodrome",
+  },
+  {
+    id: 28,
+    name: "LC-31/6",
+    location: {
+      name: "Baikonur Cosmodrome",
+      id: 50,
+      latitude: "45.9648",
+      longitude: "63.3051",
+      state: null,
+      country: {
+        code: "KZ",
+        name: "Kazakhstan",
+      },
+    },
+    full_name: "LC-31/6, Baikonur Cosmodrome",
+  },
+  {
+    id: 107,
+    name: "LC-32/1",
+    location: {
+      name: "Plesetsk Cosmodrome",
+      id: 65,
+      latitude: "62.925556",
+      longitude: "40.577778",
+      state: null,
+      country: {
+        code: "RU",
+        name: "Russia",
+      },
+    },
+    full_name: "LC-32/1, Plesetsk Cosmodrome",
+  },
+  {
+    id: 100,
+    name: "LC-32/2",
+    location: {
+      name: "Plesetsk Cosmodrome",
+      id: 65,
+      latitude: "62.925556",
+      longitude: "40.577778",
+      state: null,
+      country: {
+        code: "RU",
+        name: "Russia",
+      },
+    },
+    full_name: "LC-32/2, Plesetsk Cosmodrome",
+  },
+  {
+    id: 73,
+    name: "LC-35/1",
+    location: {
+      name: "Plesetsk Cosmodrome",
+      id: 65,
+      latitude: "62.925556",
+      longitude: "40.577778",
+      state: null,
+      country: {
+        code: "RU",
+        name: "Russia",
+      },
+    },
+    full_name: "LC-35/1, Plesetsk Cosmodrome",
+  },
+  {
+    id: 37,
+    name: "LC-36",
+    location: {
+      name: "Cape Canaveral SFS",
+      id: 62,
+      latitude: "28.488889",
+      longitude: "-80.577778",
+      state: {
+        abbr: "FL",
+        name: "Florida",
+      },
+      country: {
+        code: "US",
+        name: "United States",
+      },
+    },
+    full_name: "LC-36, Cape Canaveral SFS",
+  },
+  {
+    id: 108,
+    name: "LC-36A",
+    location: {
+      name: "Cape Canaveral SFS",
+      id: 62,
+      latitude: "28.488889",
+      longitude: "-80.577778",
+      state: {
+        abbr: "FL",
+        name: "Florida",
+      },
+      country: {
+        code: "US",
+        name: "United States",
+      },
+    },
+    full_name: "LC-36A, Cape Canaveral SFS",
+  },
+];

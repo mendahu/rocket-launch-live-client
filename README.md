@@ -14,7 +14,9 @@
   - [Tags](#tags)
   - [Vehicles](#vehicles)
 - [Watcher](#watcher)
+  - [Methods and Properties](#watcher_props)
   - [Options](#watcher_options)
+  - [Events](#watcher_events)
 
 This package is a fully-typed, promise-based, zero-dependency Node.JS JavaScript/TypeScript library for interacting with the [RocketLaunch.Live](https://www.rocketlaunch.live) API.
 
@@ -340,6 +342,48 @@ watcher.start()
 watcher.stop()
 ```
 
+<a name="watcher_props"></a>
+
+### Watcher Methods and Properties
+
+#### Start
+
+Begin watching the `launches` endpoint using the interval and query options provided during watcher instantiation.
+
+```js
+watcher.start();
+```
+
+#### End
+
+Stop watching the `launches` endpoint.
+
+```js
+watcher.stop();
+```
+
+#### On
+
+Set an event handler for a Watcher event. Extends the Node Event Emitter `on` method. Takes an event name (see below) and a callback.
+
+```js
+watcher.on("ready", (launches) => {
+  // handle event
+});
+```
+
+#### launches
+
+Access the launches data cache. The data is stored in a [JavaScript Map](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) and has all the methods associated with Maps.
+
+```js
+watcher.launches; // Map of all launches in cache
+watcher.launches.get(1) // Get launch with launch_id of 1
+watcher.launches.forEach((launch, launchId) => /* Do something to each launch */ )
+```
+
+Note: We recommend not altering the launches cache directly (such as by using Map's `set` or `delete` methods). The watcher will notice the discrepancy on the next API call and trigger appropriate `new` or `change` events to set it back. This may not be the behaviour you expect.
+
 <a name="watcher_options"></a>
 
 ### Watcher Options
@@ -358,18 +402,6 @@ Query options cannot be altered on a running watcher. In order to change your se
 Watcher events are triggered when the client recieves a response to a query to `launches` using the `modified_since` parameter. The client will compare the changes to a cached version of the launch and trigger the appropriate event.
 
 If there are multiple changes on a single API call, the appropriate events will be triggered more than once, so have your callbacks handle a single event.
-
-If you are using typescript, the watcher events are available in an enum called `RLLWatcherEvent`
-
-```ts
-enum RLLWatcherEvent {
-  NEW = "new",
-  CHANGE = "change",
-  ERROR = "error",
-  READY = "ready",
-  INITIALIZATION_ERROR = "init_error",
-}
-```
 
 <a name="watcher_events_new"></a>
 
@@ -451,4 +483,14 @@ const err = {
   message: "Could not find this resource"; //  Custom error string from RLLC
   server_response: "Server Error Text" // error passed through from server, can be null if no response
 }
+```
+
+#### Call
+
+The watcher also emits a `call` event every time it makes a request, passing in the query parameters it used in the Node URLSearchParams format. Use this to monitor or diagnose how often the API is being queried.
+
+```js
+watcher.on("call", (params) => {
+  // Handle call here
+});
 ```

@@ -53,8 +53,9 @@ interface IRLLWatcherEvent {
   new: (launch: RLLEntity.Launch) => void;
   change: (oldLaunch: RLLEntity.Launch, newLaunch: RLLEntity.Launch) => void;
   error: (error: RLLError) => void;
-  ready: (launches: RLLEntity.Launch[]) => void;
+  ready: (launches: Map<number, RLLEntity.Launch>) => void;
   init_error: (error: RLLError) => void;
+  call: (params: URLSearchParams) => void;
 }
 
 /**
@@ -73,7 +74,7 @@ export class RLLWatcher extends EventEmitter {
     ...args: Parameters<IRLLWatcherEvent[K]>
   ): boolean => this._untypedEmit(event, ...args);
   private last_call: Date;
-  private launches: Record<number, RLLEntity.Launch> = {};
+  public launches: Map<number, RLLEntity.Launch> = new Map();
   private interval: number;
   private params: URLSearchParams;
   private timer: NodeJS.Timer | undefined;
@@ -137,6 +138,7 @@ export class RLLWatcher extends EventEmitter {
     let page = 1;
 
     const recursiveFetcher = (): Promise<void> => {
+      this.emit("call", params);
       return this.fetcher(params).then((results) => {
         callback(results);
 
@@ -165,13 +167,13 @@ export class RLLWatcher extends EventEmitter {
     const notify = (response: RLLResponse<RLLEntity.Launch[]>) => {
       for (const changedLaunch of response.result) {
         const { id } = changedLaunch;
-        const oldLaunch = this.launches[id];
+        const oldLaunch = this.launches.get(id);
         if (oldLaunch) {
           this.emit("change", oldLaunch, changedLaunch);
         } else {
           this.emit("new", changedLaunch);
         }
-        this.launches[changedLaunch.id] = changedLaunch;
+        this.launches.set(changedLaunch.id, changedLaunch);
       }
     };
 
@@ -197,13 +199,13 @@ export class RLLWatcher extends EventEmitter {
   public start(): void {
     const buildCache = (response: RLLResponse<RLLEntity.Launch[]>) => {
       for (const launch of response.result) {
-        this.launches[launch.id] = launch;
+        this.launches.set(launch.id, launch);
       }
     };
 
     this.recursivelyFetch(new URLSearchParams(this.params), buildCache)
       .then(() => {
-        this.emit("ready", Object.values(this.launches));
+        this.emit("ready", this.launches);
         this.last_call = new Date();
         this.timer = setInterval(() => {
           this.query();

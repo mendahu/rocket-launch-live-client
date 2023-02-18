@@ -382,6 +382,7 @@ Access the launches data cache. The data is stored in a [JavaScript Map](https:/
 
 ```js
 watcher.launches; // Map of all launches in cache
+watcher.launches.size // Count of launches in cache
 watcher.launches.get(1) // Get launch with launch_id of 1
 watcher.launches.forEach((launch, launchId) => /* Do something to each launch */ )
 ```

@@ -10,3 +10,6 @@ lib/
 # Other
 .DS_Store
 notes.md
+
+# build tarballs
+*.tgz

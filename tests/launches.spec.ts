@@ -6,7 +6,7 @@ import { rllc, RLLClient, RLLQueryConfig } from "../src";
 import * as utils from "../src/utils";
 
 chai.use(chaiAsPromised);
-const { expect, assert } = chai;
+const { expect } = chai;
 
 describe("launches method", () => {
   let sandbox: Sinon.SinonSandbox;

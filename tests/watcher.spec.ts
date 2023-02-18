@@ -245,6 +245,12 @@ describe("rllc Watcher", () => {
       errorFake();
     });
 
+    const callFake = Sinon.fake();
+
+    watcher.on("call", (err) => {
+      callFake();
+    });
+
     watcher.start();
 
     // events inside the watcher happen asynchronously but are not accessible via a promise, so artificial waits are included in these tests
@@ -254,6 +260,10 @@ describe("rllc Watcher", () => {
     assert.isFalse(initErrorFake.called);
     assert.isFalse(changeFake.called);
     assert.isFalse(newFake.called);
+    assert.isFalse(watcher.launches.has(266));
+    assert.isTrue(watcher.launches.has(3203));
+    assert.isTrue(watcher.launches.has(529));
+    assert.isTrue(watcher.launches.has(3284));
 
     clock.tick(60000);
     await wait(100);
@@ -270,6 +280,7 @@ describe("rllc Watcher", () => {
     await wait(100);
 
     assert.isTrue(errorFake.calledOnce);
+    expect(callFake.getCalls()).to.have.length(6);
 
     scope.done();
 

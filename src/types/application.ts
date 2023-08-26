@@ -28,7 +28,7 @@ export namespace RLLEntity {
   export interface Company extends RLLRecord {
     name: string;
     country: Country;
-    inactive: boolean | null;
+    inactive: boolean;
   }
 
   export enum LaunchResult {

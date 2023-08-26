@@ -192,6 +192,7 @@ const options = {
   // Limit amount of launches returned
   // Must be between 1 and 25
   // Also accepts number parseable strings like "10"
+  // Note: this param is safely ignored when using in conjuction with a Watcher (see below)
   limit: 10,
 
   // Sort order (by date) of results
@@ -354,7 +355,7 @@ watcher.stop();
 A new watcher takes up to two arguments:
 
 1. Interval - (optional) (default: 5) - a duration, in minutes, between calls to the API. Adjust this based on the frequency you wish to stay up to date. To avoid needlessly querying the API, this client will now allow any option less than 1 minute.
-2. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint.
+2. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint. _NOTE:_ the "limit" param is ignored on the `watcher`.
 
 Query options cannot be altered on a running watcher. In order to change your search conditions, you'll need to stop the watcher and start a new one.
 

@@ -2698,4 +2698,325 @@ describe("launches method", () => {
       );
     });
   });
+
+  describe("limit parameter", () => {
+    it("should throw on malformed string limit", async () => {
+      expect(() =>
+        client.launches({
+          limit: "banana",
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed empty string limit", async () => {
+      expect(() =>
+        client.launches({ limit: "" } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed array limit", () => {
+      expect(() =>
+        client.launches({ limit: [] } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed object limit", () => {
+      expect(() =>
+        client.launches({ limit: {} } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed date limit", () => {
+      expect(() =>
+        client.launches({
+          limit: new Date(),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed boolean limit", () => {
+      expect(() =>
+        client.launches({ limit: false } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed null limit", () => {
+      expect(() =>
+        client.launches({ limit: null } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed function limit", () => {
+      expect(() =>
+        client.launches({
+          limit: () => 5,
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed symbol limit", () => {
+      expect(() =>
+        client.launches({
+          limit: Symbol(),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed bigint limit", () => {
+      expect(() =>
+        client.launches({
+          limit: BigInt(5),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number.`
+      );
+    });
+
+    it("should throw on malformed small number limit", () => {
+      expect(() =>
+        client.launches({
+          limit: 0,
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number greater than 0.`
+      );
+    });
+
+    it("should throw on malformed largenumber limit", () => {
+      expect(() =>
+        client.launches({
+          limit: 26,
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "limit": Must be a number less than 26.`
+      );
+    });
+
+    it("should execute correctly with limit number", async () => {
+      const testParams: RLLQueryConfig.Launches = { limit: 6 };
+
+      const params = new URLSearchParams({ limit: 6 } as unknown as Record<
+        string,
+        string
+      >);
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should convert string limit to number", async () => {
+      const testParams: RLLQueryConfig.Launches = { limit: "5" };
+
+      const params = new URLSearchParams({ limit: 5 } as unknown as Record<
+        string,
+        string
+      >);
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should ignore undefined limit", async () => {
+      spy = sandbox.spy(utils, "warn");
+
+      const testParams: RLLQueryConfig.Launches = { limit: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(spy.getCall(0).args[0]).to.equal(
+        'Parameter "limit" is undefined and will be ignored.'
+      );
+    });
+  });
+
+  describe("direction parameter", () => {
+    it("should throw on malformed empty string direction", async () => {
+      expect(() =>
+        client.launches({ direction: "" } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "direction": String must be either "asc" or "desc".`
+      );
+    });
+
+    it("should throw on malformed array direction", () => {
+      expect(() =>
+        client.launches({ direction: [] } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "direction": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed object direction", () => {
+      expect(() =>
+        client.launches({ direction: {} } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "direction": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed date direction", () => {
+      expect(() =>
+        client.launches({
+          direction: new Date(),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "direction": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed boolean direction", () => {
+      expect(() =>
+        client.launches({
+          direction: false,
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "direction": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed null direction", () => {
+      expect(() =>
+        client.launches({
+          direction: null,
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "direction": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed function direction", () => {
+      expect(() =>
+        client.launches({
+          direction: () => "asc",
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "direction": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed symbol direction", () => {
+      expect(() =>
+        client.launches({
+          direction: Symbol(),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "direction": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed bigint direction", () => {
+      expect(() =>
+        client.launches({
+          direction: BigInt(5),
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "direction": Must be a string.`
+      );
+    });
+
+    it("should throw on malformed string direction", () => {
+      expect(() =>
+        client.launches({
+          direction: "up",
+        } as unknown as RLLQueryConfig.Launches)
+      ).to.throw(
+        `Malformed query parameter for resource "launches" and parameter: "direction": String must be either "asc" or "desc".`
+      );
+    });
+
+    it("should execute correctly with a good string", async () => {
+      const testParams: RLLQueryConfig.Launches = { direction: "desc" };
+
+      const params = new URLSearchParams({ direction: "desc" });
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+    });
+
+    it("should ignore undefined direction", async () => {
+      spy = sandbox.spy(utils, "warn");
+
+      const testParams: RLLQueryConfig.Launches = { direction: undefined };
+
+      const params = new URLSearchParams({});
+
+      const scope = nock("https://fdo.rocketlaunch.live", {
+        reqheaders: {
+          authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        },
+      })
+        .get("/json/launches")
+        .query(params)
+        .reply(200, {});
+
+      await client.launches(testParams);
+
+      scope.done();
+
+      expect(spy.getCall(0).args[0]).to.equal(
+        'Parameter "direction" is undefined and will be ignored.'
+      );
+    });
+  });
 });

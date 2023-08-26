@@ -180,6 +180,8 @@ export namespace RLLQueryConfig {
     country_code?: ISO3166Alpha2.CountryCode;
     search?: string | number;
     slug?: string | number;
+    limit?: number | string;
+    direction?: "asc" | "desc";
   }
 
   export interface Locations extends Base {

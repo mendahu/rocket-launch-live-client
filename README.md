@@ -141,18 +141,18 @@ const options = {
   // Show launches only before this date
   // JS Date Object - Anything more precise than day is ignored
   // Also accepts any date string which can be used to create a valid Date object in JavaScript
-  before_date: new Date("2023-01-31")
+  before_date: new Date("2023-01-31"),
 
   // Show launches only after this date
   // JS Date Object - Anything more precise than day is ignored
   // Also accepts any date string which can be used to create a valid Date object in JavaScript
-  after_date: new Date("2023-01-31")
+  after_date: new Date("2023-01-31"),
 
   // Show launches that have had data updated since this date
   // Useful for checking for changes since your last API call
   // JS Date Object
   // Also accepts any date string which can be used to create a valid Date object in JavaScript
-  modified_since: new Date("2023-01-31T06:00:00Z")
+  modified_since: new Date("2023-01-31T06:00:00Z"),
 
   // Launch location id
   // Also accepts number parseable strings like "1"
@@ -187,7 +187,17 @@ const options = {
   search: "Starlink",
 
   // Unique launch slug as used on RocketLaunch.live
-  slug: "ses-20-ses-21"
+  slug: "ses-20-ses-21",
+
+  // Limit amount of launches returned
+  // Must be between 1 and 25
+  // Also accepts number parseable strings like "10"
+  limit: 10,
+
+  // Sort order (by date) of results
+  // Accepts either "asc" or "desc"
+  // If left unfilled, API defaults to "asc"
+  direction: "asc",
 };
 ```
 

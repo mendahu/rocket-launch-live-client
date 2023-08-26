@@ -72,7 +72,7 @@ export class RLLWatcher extends EventEmitter {
   public launches: Map<number, RLLEntity.Launch> = new Map();
   private interval: number;
   private params: URLSearchParams;
-  private timer: NodeJS.Timer | undefined;
+  private timer: NodeJS.Timeout | undefined;
   private fetcher: (
     params: URLSearchParams
   ) => Promise<RLLResponse<RLLEntity.Launch[]>>;

@@ -4,6 +4,7 @@ import {
   RLLEntity,
   RLLError,
   RLLQueryConfig,
+  RLLQueryParams,
   RLLResponse,
 } from "./types/application";
 import {
@@ -128,6 +129,9 @@ export class RLLWatcher extends EventEmitter {
 
     this.interval = intervalValidator(interval);
     this.params = queryOptionsValidator(RLLEndPoint.LAUNCHES, options);
+
+    // ignore any limit params as these cause unnecessary API calls and do not serve the Watcher role
+    this.params.delete("limit");
   }
 
   /**

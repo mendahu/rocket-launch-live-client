@@ -152,6 +152,8 @@ export const RLLQueryParams = {
   search: true,
   slug: true,
   text: true,
+  limit: true,
+  direction: true,
 };
 
 export namespace RLLQueryConfig {

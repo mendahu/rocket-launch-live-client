@@ -63,16 +63,11 @@ interface IRLLWatcherEvent {
  * @class
  */
 export class RLLWatcher extends EventEmitter {
-  private _untypedOn = this.on;
-  private _untypedEmit = this.emit;
-  public on = <K extends keyof IRLLWatcherEvent>(
-    event: K,
-    listener: IRLLWatcherEvent[K]
-  ): this => this._untypedOn(event, listener);
-  public emit = <K extends keyof IRLLWatcherEvent>(
-    event: K,
-    ...args: Parameters<IRLLWatcherEvent[K]>
-  ): boolean => this._untypedEmit(event, ...args);
+  private _untypedOn: (
+    eventName: string | symbol,
+    listener: (...args: any[]) => void
+  ) => this;
+  private _untypedEmit: (eventName: string | symbol, ...args: any[]) => boolean;
   private last_call: Date;
   public launches: Map<number, RLLEntity.Launch> = new Map();
   private interval: number;
@@ -113,6 +108,21 @@ export class RLLWatcher extends EventEmitter {
     options?: RLLQueryConfig.Launches
   ) {
     super();
+
+    // Reassign default Event Emitter methods
+    this._untypedOn = this.on;
+    this._untypedEmit = this.emit;
+
+    // Methord Overide for type safety
+    this.on = <K extends keyof IRLLWatcherEvent>(
+      event: K,
+      listener: IRLLWatcherEvent[K]
+    ): this => this._untypedOn(event, listener);
+    this.emit = <K extends keyof IRLLWatcherEvent>(
+      event: K,
+      ...args: Parameters<IRLLWatcherEvent[K]>
+    ): boolean => this._untypedEmit(event, ...args);
+
     this.last_call = new Date();
     this.fetcher = fetcher;
 

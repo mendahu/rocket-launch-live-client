@@ -28,7 +28,7 @@ export namespace RLLEntity {
   export interface Company extends RLLRecord {
     name: string;
     country: Country;
-    inactive: boolean | null;
+    inactive: boolean;
   }
 
   export enum LaunchResult {
@@ -152,6 +152,8 @@ export const RLLQueryParams = {
   search: true,
   slug: true,
   text: true,
+  limit: true,
+  direction: true,
 };
 
 export namespace RLLQueryConfig {
@@ -180,6 +182,8 @@ export namespace RLLQueryConfig {
     country_code?: ISO3166Alpha2.CountryCode;
     search?: string | number;
     slug?: string | number;
+    limit?: number | string;
+    direction?: "asc" | "desc";
   }
 
   export interface Locations extends Base {

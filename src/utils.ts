@@ -155,6 +155,25 @@ const validators = {
 
     return formatToRLLISODate(date);
   },
+  limit: (option: any): number => {
+    const num = validators.number(option);
+    if (num < 1) {
+      throw "Must be a number greater than 0";
+    }
+    if (num > 25) {
+      throw "Must be a number less than 26";
+    }
+    return num;
+  },
+  direction: (option: any): string => {
+    if (typeof option !== "string") {
+      throw "Must be a string";
+    }
+    if (option !== "asc" && option !== "desc") {
+      throw 'String must be either "asc" or "desc"';
+    }
+    return option;
+  },
 };
 
 const optionsMap: Record<RLLEndPoint, any> = {
@@ -181,6 +200,8 @@ const optionsMap: Record<RLLEndPoint, any> = {
     country_code: validators.countryCode,
     search: validators.string,
     slug: validators.string,
+    limit: validators.limit,
+    direction: validators.direction,
   },
   locations: {
     page: validators.number,

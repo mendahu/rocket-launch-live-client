@@ -4,14 +4,14 @@ import {
   RLLEntity,
   RLLQueryConfig,
   RLLResponse,
-} from "./types/application";
-import { fetcher } from "./fetcher";
+} from "./types/application.js";
+import { fetcher } from "./fetcher.js";
 import {
   apiKeyValidator,
   optionsValidator,
   queryOptionsValidator,
-} from "./utils";
-import { RLLWatcher } from "./Watcher";
+} from "./utils.js";
+import { RLLWatcher } from "./Watcher.js";
 
 /**
  * Class representing a RocketLaunch.Live client

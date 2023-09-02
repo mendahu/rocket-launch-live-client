@@ -5,13 +5,13 @@ import {
   RLLError,
   RLLQueryConfig,
   RLLResponse,
-} from "./types/application";
+} from "./types/application.js";
 import {
   error,
   warn,
   queryOptionsValidator,
   formatToRLLISODate,
-} from "./utils";
+} from "./utils.js";
 
 const DEFAULT_INTERVAL_IN_MINS = 5;
 const MS_IN_MIN = 60000;

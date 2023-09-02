@@ -4,6 +4,7 @@
   "description": "A Node.JS client for interacting with the RocketLaunch.Live API",
   "types": "./lib/cjs/types/index.d.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/mjs/index.js",
   "scripts": {
     "clear": "rm -rf ./lib",
     "build": "npm run clear && npm run build:esm && npm run build:cjs",

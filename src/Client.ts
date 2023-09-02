@@ -145,6 +145,8 @@ export class RLLClient {
    * @param {ISO3166Alpha2.CountryCode} options.country_code - ISO 3166 Alpha 2 Country Code
    * @param {number | string} options.search - Launches matching this search string
    * @param {number | string} options.slug - Launches matching this unique slug
+   * @param {number | string} options.limit - Limit results (default 25, max 25)
+   * @param {'asc' | 'desc'} options.direction - Launches matching this unique slug
    *
    * @returns {Promise<RLLResponse<RLLEntity.Launch[]>>} Array of companies wrapped in a standard RLL Response
    *

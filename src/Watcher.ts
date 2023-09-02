@@ -1,10 +1,9 @@
-import EventEmitter from "events";
+import { EventEmitter } from "events";
 import {
   RLLEndPoint,
   RLLEntity,
   RLLError,
   RLLQueryConfig,
-  RLLQueryParams,
   RLLResponse,
 } from "./types/application";
 import {

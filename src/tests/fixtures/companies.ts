@@ -1,10 +1,10 @@
-import { RLLEntity } from "../../src";
+import { RLLEntity } from "../../index.js";
 
 export const companies1: RLLEntity.Company[] = [
   {
     id: 142,
     name: "ABL Space",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -13,7 +13,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 115,
     name: "Aevum",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -22,7 +22,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 5,
     name: "Airbus Defense and Space",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Germany",
       code: "DE",
@@ -31,7 +31,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 112,
     name: "Alba Orbital",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United Kingdom",
       code: "GB",
@@ -40,7 +40,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 4,
     name: "Arianespace",
-    inactive: null,
+    inactive: false,
     country: {
       name: "France",
       code: "FR",
@@ -49,7 +49,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 114,
     name: "Astra Space",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -58,7 +58,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 110,
     name: "Astrobotic",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -67,7 +67,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 128,
     name: "Axiom",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -76,7 +76,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 50,
     name: "Blue Origin",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -85,7 +85,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 139,
     name: "Care Weather Technologies",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -94,7 +94,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 145,
     name: "CAS Space",
-    inactive: null,
+    inactive: false,
     country: {
       name: "China",
       code: "CN",
@@ -103,7 +103,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 41,
     name: "China",
-    inactive: null,
+    inactive: false,
     country: {
       name: "China",
       code: "CN",
@@ -112,7 +112,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 96,
     name: "Circle Aerospace",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United Arab Emirates",
       code: "AE",
@@ -121,7 +121,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 126,
     name: "Energia",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Russia",
       code: "RU",
@@ -130,7 +130,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 46,
     name: "Eurockot Launch Services",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Russia",
       code: "RU",
@@ -139,7 +139,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 101,
     name: "ExPace (China)",
-    inactive: null,
+    inactive: false,
     country: {
       name: "China",
       code: "CN",
@@ -148,7 +148,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 91,
     name: "Firefly",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -157,7 +157,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 137,
     name: "Fleet Space",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Australia",
       code: "AU",
@@ -166,7 +166,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 107,
     name: "French Armed Forces",
-    inactive: null,
+    inactive: false,
     country: {
       name: "France",
       code: "FR",
@@ -175,7 +175,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 134,
     name: "Galactic Energy",
-    inactive: null,
+    inactive: false,
     country: {
       name: "China",
       code: "CN",
@@ -193,7 +193,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 95,
     name: "Government of Egypt",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Egypt",
       code: "EG",
@@ -202,7 +202,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 109,
     name: "i-Space",
-    inactive: null,
+    inactive: false,
     country: {
       name: "China",
       code: "CN",
@@ -211,7 +211,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 47,
     name: "International Launch Services (ILS)",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Russia",
       code: "RU",
@@ -220,7 +220,7 @@ export const companies1: RLLEntity.Company[] = [
   {
     id: 105,
     name: "Iran",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Iran",
       code: "IR",
@@ -232,7 +232,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 130,
     name: "ISAS",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Japan",
       code: "JP",
@@ -241,7 +241,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 119,
     name: "Israel Space Agency",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Israel",
       code: "IL",
@@ -250,7 +250,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 18,
     name: "ISRO",
-    inactive: null,
+    inactive: false,
     country: {
       name: "India",
       code: "IN",
@@ -259,7 +259,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 22,
     name: "JAXA",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Japan",
       code: "JP",
@@ -268,7 +268,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 125,
     name: "KAIST",
-    inactive: null,
+    inactive: false,
     country: {
       name: "South Korea",
       code: "KR",
@@ -277,7 +277,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 144,
     name: "KARI",
-    inactive: null,
+    inactive: false,
     country: {
       name: "South Korea",
       code: "KR",
@@ -286,7 +286,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 122,
     name: "Khrunichev State Research and Production Space Center",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Russia",
       code: "RU",
@@ -295,7 +295,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 100,
     name: "Kleos Space",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Luxembourg",
       code: "LU",
@@ -304,7 +304,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 98,
     name: "LandSpace",
-    inactive: null,
+    inactive: false,
     country: {
       name: "China",
       code: "CN",
@@ -331,7 +331,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 147,
     name: "McDonnell Douglas Corporation",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -340,7 +340,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 135,
     name: "Mitsubishi Heavy Industries",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Japan",
       code: "JP",
@@ -358,7 +358,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 138,
     name: "Myriota",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Australia",
       code: "AU",
@@ -367,7 +367,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 118,
     name: "NADA",
-    inactive: null,
+    inactive: false,
     country: {
       name: "North Korea",
       code: "KP",
@@ -376,7 +376,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 2,
     name: "NASA",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -385,7 +385,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 88,
     name: "Northrop Grumman",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -394,7 +394,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 123,
     name: "NPO Mashinostroyeniya",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Russia",
       code: "RU",
@@ -403,7 +403,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 85,
     name: "OneSpace",
-    inactive: null,
+    inactive: false,
     country: {
       name: "China",
       code: "CN",
@@ -430,7 +430,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 103,
     name: "Ovzon",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Sweden",
       code: "SE",
@@ -439,7 +439,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 116,
     name: "Perigee Aerospace",
-    inactive: null,
+    inactive: false,
     country: {
       name: "South Korea",
       code: "KR",
@@ -448,7 +448,7 @@ export const companies2: RLLEntity.Company[] = [
   {
     id: 127,
     name: "Relativity Space",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -460,7 +460,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 26,
     name: "Rocket Lab",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -469,7 +469,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 13,
     name: "Roscosmos",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Russia",
       code: "RU",
@@ -478,7 +478,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 104,
     name: "Russian Military",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Russia",
       code: "RU",
@@ -487,7 +487,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 136,
     name: "SatRevolution",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Poland",
       code: "PL",
@@ -496,7 +496,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 117,
     name: "Saturn Satellite Networks",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -505,7 +505,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 124,
     name: "Sea Launch",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Russia",
       code: "RU",
@@ -514,7 +514,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 102,
     name: "SiriusXM",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -523,7 +523,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 146,
     name: "Skyroot Aerospace",
-    inactive: null,
+    inactive: false,
     country: {
       name: "India",
       code: "IN",
@@ -532,7 +532,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 1,
     name: "SpaceX",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -541,7 +541,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 120,
     name: "Synspective",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Japan",
       code: "JP",
@@ -550,7 +550,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 99,
     name: "Test Company",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Andorra",
       code: "AD",
@@ -559,7 +559,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 143,
     name: "TiSPACE",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Taiwan",
       code: "TW",
@@ -568,7 +568,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 108,
     name: "U.S. Department of Defense",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -577,7 +577,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 141,
     name: "U.S. Space Force",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -586,7 +586,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 121,
     name: "Ukraine",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Ukraine",
       code: "UA",
@@ -595,7 +595,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 87,
     name: "Ukrkosmos",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Ukraine",
       code: "UA",
@@ -604,7 +604,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 106,
     name: "United Arab Emirates Armed Forces",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United Arab Emirates",
       code: "AE",
@@ -613,7 +613,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 3,
     name: "United Launch Alliance (ULA)",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -622,7 +622,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 8,
     name: "United States Military",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -631,7 +631,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 113,
     name: "University of Toronto",
-    inactive: null,
+    inactive: false,
     country: {
       name: "Canada",
       code: "CA",
@@ -640,7 +640,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 111,
     name: "UNSEENLABS",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -649,7 +649,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 97,
     name: "US TBD",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -658,7 +658,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 61,
     name: "Vector",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -667,7 +667,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 140,
     name: "Virgin Galactic",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",
@@ -676,7 +676,7 @@ export const companies3: RLLEntity.Company[] = [
   {
     id: 34,
     name: "Virgin Orbit",
-    inactive: null,
+    inactive: false,
     country: {
       name: "United States",
       code: "US",

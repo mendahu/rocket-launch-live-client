@@ -1,15 +1,22 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "checkJs": true,
     "allowJs": true,
-    "declaration": true,
-    "declarationMap": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["mocha", "chai", "node"]
+    "baseUrl": "src",
+    "declaration": true,
+    "esModuleInterop": true,
+    "inlineSourceMap": false,
+    "lib": ["esnext"],
+    "listEmittedFiles": false,
+    "listFiles": false,
+    "pretty": true,
+    "rootDir": "../src",
+    "skipLibCheck": true,
+    "strict": true,
+    "traceResolution": false,
+    "types": ["chai", "node"]
   },
-  "files": ["../src/index.ts"]
+  "compileOnSave": false,
+  "exclude": ["../node_modules", "../lib", "../src/tests/**/*"],
+  "include": ["../src/**/*"]
 }

@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+- [Requirements](#reqs)
 - [Simple Usage](#simple)
 - [Client Configuration](#config)
 - [Endpoints](#endpoints)
@@ -19,6 +20,12 @@
   - [Events](#watcher_events)
 
 This package is a fully-typed, promise-based, zero-dependency Node.JS JavaScript/TypeScript library for interacting with the [RocketLaunch.Live](https://www.rocketlaunch.live) API.
+
+<a name="reqs"></a>
+
+## Requirements
+
+This package is tested on and supports Node 14.18 or higher. It is fully CommonJS/ESM compatible and has Typescript support built in.
 
 <a name="simple"></a>
 

@@ -1,6 +1,6 @@
 import { OutgoingHttpHeaders } from "http";
 import https from "https";
-import { RLLError } from "./types/application";
+import { RLLError } from "./types/application.js";
 
 const BASE_URL = "https://fdo.rocketlaunch.live";
 

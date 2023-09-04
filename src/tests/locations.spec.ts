@@ -1,29 +1,12 @@
-import chaiAsPromised from "chai-as-promised";
 import nock from "nock";
-import chai from "chai";
-import Sinon from "sinon";
-import * as utils from "../src/utils";
-import { rllc, RLLClient, RLLQueryConfig } from "../src";
-
-chai.use(chaiAsPromised);
-const { expect, assert } = chai;
+import { describe, it, vi, expect, beforeEach } from "vitest";
+import { rllc, RLLClient, RLLQueryConfig } from "../index.js";
 
 describe("locations method", () => {
-  let sandbox: Sinon.SinonSandbox;
   let client: RLLClient;
-  let spy: Sinon.SinonSpy;
-
-  before(() => {
-    sandbox = Sinon.createSandbox();
-  });
 
   beforeEach(() => {
     client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
-    sandbox.restore();
-  });
-
-  after(() => {
-    spy.restore();
   });
 
   it("should execute a query with no args", async () => {
@@ -44,7 +27,7 @@ describe("locations method", () => {
   });
 
   it("should warn if combining id with another param", async () => {
-    spy = sandbox.spy(utils, "warn");
+    const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
     const testParams = { id: 5, name: "banana" };
 
@@ -65,13 +48,13 @@ describe("locations method", () => {
 
     scope.done();
 
-    expect(spy.getCall(0).args[0]).to.equal(
-      "Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
+    expect(spy).toHaveBeenCalledWith(
+      "[RLL Client]: Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
     );
   });
 
   it("should warn if using invalid query params", async () => {
-    spy = sandbox.spy(utils, "warn");
+    const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
     const testParams = { inactive: false };
 
@@ -90,8 +73,8 @@ describe("locations method", () => {
 
     scope.done();
 
-    expect(spy.getCall(0).args[0]).to.equal(
-      'Parameter "inactive" is not a valid option for the locations endpoint. It will be ignored.'
+    expect(spy).toHaveBeenCalledWith(
+      '[RLL Client]: Parameter "inactive" is not a valid option for the locations endpoint. It will be ignored.'
     );
   });
 
@@ -268,7 +251,7 @@ describe("locations method", () => {
     });
 
     it("should ignore undefined page", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams = { page: undefined };
 
@@ -287,8 +270,8 @@ describe("locations method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "page" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "page" is undefined and will be ignored.'
       );
     });
   });
@@ -421,7 +404,7 @@ describe("locations method", () => {
     });
 
     it("should ignore undefined id", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams = { id: undefined };
 
@@ -440,8 +423,8 @@ describe("locations method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "id" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "id" is undefined and will be ignored.'
       );
     });
   });
@@ -568,7 +551,7 @@ describe("locations method", () => {
     });
 
     it("should ignore undefined name", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams = { name: undefined };
 
@@ -587,8 +570,8 @@ describe("locations method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "name" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "name" is undefined and will be ignored.'
       );
     });
   });
@@ -724,7 +707,7 @@ describe("locations method", () => {
     });
 
     it("should ignore undefined state_abbr", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams = { state_abbr: undefined };
 
@@ -743,8 +726,8 @@ describe("locations method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "state_abbr" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "state_abbr" is undefined and will be ignored.'
       );
     });
   });
@@ -880,7 +863,7 @@ describe("locations method", () => {
     });
 
     it("should ignore undefined country_code", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams = { country_code: undefined };
 
@@ -899,8 +882,8 @@ describe("locations method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "country_code" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "country_code" is undefined and will be ignored.'
       );
     });
   });

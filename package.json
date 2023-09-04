@@ -1,17 +1,18 @@
 {
   "name": "rocket-launch-live-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Node.JS client for interacting with the RocketLaunch.Live API",
   "types": "./lib/cjs/types/index.d.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/mjs/index.js",
   "scripts": {
     "clear": "rm -rf ./lib",
-    "build": "npm run clear && npm run build:esm && npm run build:cjs",
+    "build": "npm run clear && npm run build:esm && npm run build:cjs && ./build-fixup",
     "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
     "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
     "prepublish": "npm run build",
-    "test": "mocha",
-    "test:watch": "mocha --watch"
+    "test": "vitest",
+    "reset": "rm -rf lib && rm rocket-launch-live-client-*.tgz && npm run build && npm pack"
   },
   "repository": {
     "type": "git",
@@ -30,23 +31,21 @@
   },
   "homepage": "https://github.com/mendahu/rocket-launch-live-client#readme",
   "devDependencies": {
-    "@types/chai": "^4.3.5",
-    "@types/chai-as-promised": "^7.1.5",
-    "@types/mocha": "^10.0.1",
     "@types/node": "^20.5.6",
     "@types/sinon": "^10.0.16",
-    "chai": "^4.3.8",
-    "chai-as-promised": "^7.1.1",
     "dotenv": "^16.3.1",
-    "mocha": "^10.2.0",
     "nock": "^13.3.3",
     "sinon": "^15.2.0",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.3"
   },
   "files": [
     "lib/**/*"
   ],
+  "engines": {
+    "node": ">=14.17.0"
+  },
   "exports": {
     ".": {
       "import": {

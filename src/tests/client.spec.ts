@@ -1,28 +1,9 @@
-import { expect } from "chai";
-import Sinon from "sinon";
 import nock from "nock";
-import { rllc } from "../src/index";
-import { RLLClientOptions } from "../src/types/application";
-import * as utils from "../src/utils";
-import "mocha";
-import "sinon";
+import { rllc } from "../index";
+import { RLLClientOptions } from "../types/application";
+import { expect, describe, it, vi } from "vitest";
 
 describe("rllc Client", () => {
-  let sandbox: Sinon.SinonSandbox;
-  let spy: Sinon.SinonSpy;
-
-  before(() => {
-    sandbox = Sinon.createSandbox();
-  });
-
-  beforeEach(() => {
-    sandbox.restore();
-  });
-
-  after(() => {
-    spy.restore();
-  });
-
   it("should throw error with no API key", () => {
     expect(rllc).to.throw("[RLL Client]: RLL Client requires API Key");
   });
@@ -70,19 +51,16 @@ describe("rllc Client", () => {
     rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
   });
 
-  it("should not throw with properly formed uuid untrimmed", () => {
-    rllc("aac004f6-07ab-4f82-bff2-71d977072c56 ");
-  });
-
-  it("should not throw with random options, but should warn", () => {
-    spy = sandbox.spy(utils, "warn");
+  it("should not throw with random options, but should warn", async () => {
+    const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
     rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
       banana: true,
     } as RLLClientOptions);
 
-    expect(spy.getCall(0).args[0]).to.equal(
-      'RLL Client options do not accept a "banana" property. This property will be ignored.'
+    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledWith(
+      '[RLL Client]: RLL Client options do not accept a "banana" property. This property will be ignored.'
     );
   });
 

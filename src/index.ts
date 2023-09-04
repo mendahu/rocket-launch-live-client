@@ -1,5 +1,5 @@
-import { RLLClient } from "./Client";
-import { RLLClientOptions } from "./types/application";
+import { RLLClient } from "./Client.js";
+import { RLLClientOptions } from "./types/application.js";
 
 export {
   RLLEndPoint,
@@ -8,10 +8,10 @@ export {
   RLLQueryConfig,
   RLLEntity,
   RLLError,
-} from "./types/application";
-export { ISO3166Alpha2 } from "./types/standards";
-export { RLLClient } from "./Client";
-export { RLLWatcher } from "./Watcher";
+} from "./types/application.js";
+export { ISO3166Alpha2 } from "./types/standards.js";
+export { RLLClient } from "./Client.js";
+export { RLLWatcher } from "./Watcher.js";
 
 /**
  * Generate a RocketLaunch.Live client

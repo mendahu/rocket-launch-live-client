@@ -1,4 +1,4 @@
-import { ISO3166Alpha2 } from "./standards";
+import { ISO3166Alpha2 } from "./standards.js";
 
 export enum RLLEndPoint {
   COMPANIES = "companies",

@@ -1,29 +1,12 @@
-import chaiAsPromised from "chai-as-promised";
 import nock from "nock";
-import chai from "chai";
-import Sinon from "sinon";
-import { rllc, RLLClient, RLLQueryConfig } from "../src";
-import * as utils from "../src/utils";
-
-chai.use(chaiAsPromised);
-const { expect } = chai;
+import { rllc, RLLClient, RLLQueryConfig } from "../index.js";
+import { describe, it, vi, expect, beforeEach } from "vitest";
 
 describe("launches method", () => {
-  let sandbox: Sinon.SinonSandbox;
   let client: RLLClient;
-  let spy: Sinon.SinonSpy;
-
-  before(() => {
-    sandbox = Sinon.createSandbox();
-  });
 
   beforeEach(() => {
     client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
-    sandbox.restore();
-  });
-
-  after(() => {
-    spy.restore();
   });
 
   it("should execute a query with no args", async () => {
@@ -44,7 +27,7 @@ describe("launches method", () => {
   });
 
   it("should warn if combining id with another param", async () => {
-    spy = sandbox.spy(utils, "warn");
+    const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
     const testParams: RLLQueryConfig.Launches = { id: 5, search: "banana" };
 
@@ -63,13 +46,13 @@ describe("launches method", () => {
 
     scope.done();
 
-    expect(spy.getCall(0).args[0]).to.equal(
-      "Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
+    expect(spy).toHaveBeenCalledWith(
+      "[RLL Client]: Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
     );
   });
 
   it("should warn if combining cospar_id with another param", async () => {
-    spy = sandbox.spy(utils, "warn");
+    const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
     const testParams: RLLQueryConfig.Launches = {
       cospar_id: "2022-123",
@@ -91,13 +74,13 @@ describe("launches method", () => {
 
     scope.done();
 
-    expect(spy.getCall(0).args[0]).to.equal(
-      "Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
+    expect(spy).toHaveBeenCalledWith(
+      "[RLL Client]: Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
     );
   });
 
   it("should warn if combining slug with another param", async () => {
-    spy = sandbox.spy(utils, "warn");
+    const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
     const testParams: RLLQueryConfig.Launches = {
       slug: "ses-12-ses-13",
@@ -119,13 +102,13 @@ describe("launches method", () => {
 
     scope.done();
 
-    expect(spy.getCall(0).args[0]).to.equal(
-      "Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
+    expect(spy).toHaveBeenCalledWith(
+      "[RLL Client]: Using 'id', 'slug', or 'cospar_id' as query parameters generally returns a single result. Combining it with other parameters may not be achieving the result you expect."
     );
   });
 
   it("should warn if using invalid query params", async () => {
-    spy = sandbox.spy(utils, "warn");
+    const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
     const testParams = { inactive: false };
 
@@ -144,8 +127,8 @@ describe("launches method", () => {
 
     scope.done();
 
-    expect(spy.getCall(0).args[0]).to.equal(
-      'Parameter "inactive" is not a valid option for the launches endpoint. It will be ignored.'
+    expect(spy).toHaveBeenCalledWith(
+      '[RLL Client]: Parameter "inactive" is not a valid option for the launches endpoint. It will be ignored.'
     );
   });
 
@@ -328,7 +311,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined page", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { page: undefined };
 
@@ -347,8 +330,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "page" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "page" is undefined and will be ignored.'
       );
     });
   });
@@ -483,7 +466,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined id", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { id: undefined };
 
@@ -502,8 +485,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "id" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "id" is undefined and will be ignored.'
       );
     });
   });
@@ -633,7 +616,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined cospar_id", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { cospar_id: undefined };
 
@@ -652,8 +635,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "cospar_id" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "cospar_id" is undefined and will be ignored.'
       );
     });
   });
@@ -831,7 +814,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined after_date", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { after_date: undefined };
 
@@ -850,8 +833,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "after_date" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "after_date" is undefined and will be ignored.'
       );
     });
   });
@@ -1029,7 +1012,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined before_date", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { before_date: undefined };
 
@@ -1048,8 +1031,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "before_date" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "before_date" is undefined and will be ignored.'
       );
     });
   });
@@ -1235,7 +1218,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined modified_since", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { modified_since: undefined };
 
@@ -1254,8 +1237,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "modified_since" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "modified_since" is undefined and will be ignored.'
       );
     });
   });
@@ -1404,7 +1387,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined location_id", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { location_id: undefined };
 
@@ -1423,8 +1406,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "location_id" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "location_id" is undefined and will be ignored.'
       );
     });
   });
@@ -1567,7 +1550,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined pad_id", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { pad_id: undefined };
 
@@ -1586,8 +1569,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "pad_id" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "pad_id" is undefined and will be ignored.'
       );
     });
   });
@@ -1736,7 +1719,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined provider_id", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { provider_id: undefined };
 
@@ -1755,8 +1738,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "provider_id" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "provider_id" is undefined and will be ignored.'
       );
     });
   });
@@ -1899,7 +1882,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined tag_id", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { tag_id: undefined };
 
@@ -1918,8 +1901,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "tag_id" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "tag_id" is undefined and will be ignored.'
       );
     });
   });
@@ -2070,7 +2053,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined vehicle_id", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { vehicle_id: undefined };
 
@@ -2089,8 +2072,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "vehicle_id" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "vehicle_id" is undefined and will be ignored.'
       );
     });
   });
@@ -2226,7 +2209,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined state_abbr", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { state_abbr: undefined };
 
@@ -2245,8 +2228,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "state_abbr" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "state_abbr" is undefined and will be ignored.'
       );
     });
   });
@@ -2382,7 +2365,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined country_code", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { country_code: undefined };
 
@@ -2401,8 +2384,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "country_code" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "country_code" is undefined and will be ignored.'
       );
     });
   });
@@ -2529,7 +2512,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined search", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { search: undefined };
 
@@ -2548,8 +2531,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "search" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "search" is undefined and will be ignored.'
       );
     });
   });
@@ -2674,7 +2657,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined slug", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { slug: undefined };
 
@@ -2693,8 +2676,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "slug" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "slug" is undefined and will be ignored.'
       );
     });
   });
@@ -2855,7 +2838,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined limit", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { limit: undefined };
 
@@ -2874,8 +2857,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "limit" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "limit" is undefined and will be ignored.'
       );
     });
   });
@@ -2995,7 +2978,7 @@ describe("launches method", () => {
     });
 
     it("should ignore undefined direction", async () => {
-      spy = sandbox.spy(utils, "warn");
+      const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
       const testParams: RLLQueryConfig.Launches = { direction: undefined };
 
@@ -3014,8 +2997,8 @@ describe("launches method", () => {
 
       scope.done();
 
-      expect(spy.getCall(0).args[0]).to.equal(
-        'Parameter "direction" is undefined and will be ignored.'
+      expect(spy).toHaveBeenCalledWith(
+        '[RLL Client]: Parameter "direction" is undefined and will be ignored.'
       );
     });
   });

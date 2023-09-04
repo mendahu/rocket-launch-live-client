@@ -1,4 +1,4 @@
-import { RLLEntity } from "../../src";
+import { RLLEntity } from "../../index.js";
 
 export const pads1: RLLEntity.Pad[] = [
   {

@@ -14,9 +14,9 @@
     "skipLibCheck": true,
     "strict": true,
     "traceResolution": false,
-    "types": ["mocha", "chai", "node"]
+    "types": ["chai", "node"]
   },
   "compileOnSave": false,
-  "exclude": ["../node_modules", "../lib", "../tests"],
+  "exclude": ["../node_modules", "../lib", "../src/tests/**/*"],
   "include": ["../src/**/*"]
 }

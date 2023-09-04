@@ -1,4 +1,4 @@
-import { RLLEntity } from "../../src";
+import { RLLEntity } from "../../index.js";
 
 export const missions1: RLLEntity.Mission[] = [
   {

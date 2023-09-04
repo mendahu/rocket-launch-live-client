@@ -1,40 +1,23 @@
-import { expect } from "chai";
-import chaiAsPromised from "chai-as-promised";
-import Sinon from "sinon";
-import chai from "chai";
 import nock from "nock";
-import { rllc } from "../src/index";
+import { rllc } from "../index.js";
 import {
   RLLEntity,
   RLLQueryConfig,
   RLLResponse,
-} from "../src/types/application";
-import * as utils from "../src/utils";
-import "mocha";
-import "sinon";
-import { launches1, launches2, launches3 } from "./fixtures/launches";
+} from "../types/application.js";
+import { launches1, launches2, launches3 } from "./fixtures/launches.js";
+import { describe, it, vi, expect, assert } from "vitest";
+import Sinon from "sinon";
 
-chai.use(chaiAsPromised);
-const { assert } = chai;
-
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const wait = (ms: number) => {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+};
 
 describe("rllc Watcher", () => {
-  let sandbox: Sinon.SinonSandbox;
-  let spy: Sinon.SinonSpy;
-
-  before(() => {
-    sandbox = Sinon.createSandbox();
-  });
-
-  beforeEach(() => {
-    sandbox.restore();
-  });
-
-  after(() => {
-    spy.restore();
-  });
-
   it("should throw if interval is not a number", () => {
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
 
@@ -75,13 +58,13 @@ describe("rllc Watcher", () => {
   });
 
   it("should warn if interval is a number less than 1", () => {
-    spy = sandbox.spy(utils, "warn");
+    const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
     client.watch(0.5);
 
-    expect(spy.getCall(0).args[0]).to.equal(
-      "RLLWatcher does not accept intervals less than 1. Your watcher will default to 5 minute intervals unless corrected."
+    expect(spy).toHaveBeenCalledWith(
+      "[RLL Client]: RLLWatcher does not accept intervals less than 1. Your watcher will default to 5 minute intervals unless corrected."
     );
   });
 
@@ -336,6 +319,6 @@ describe("rllc Watcher", () => {
       });
     });
 
-    return assert.isFulfilled(promise);
+    return expect(promise).resolves;
   });
 });

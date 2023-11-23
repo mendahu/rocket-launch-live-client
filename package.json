@@ -1,6 +1,6 @@
 {
   "name": "rocket-launch-live-client",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Node.JS client for interacting with the RocketLaunch.Live API",
   "types": "./lib/cjs/types/index.d.ts",
   "main": "./lib/cjs/index.js",

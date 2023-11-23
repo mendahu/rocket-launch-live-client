@@ -92,7 +92,7 @@ export namespace RLLEntity {
     weather_updated: string | null;
     quicktext: string;
     media?: Media[];
-    result: LaunchResult;
+    result: LaunchResult | null;
     suborbital: boolean;
     modified: string;
   }

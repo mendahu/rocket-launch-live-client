@@ -106,4 +106,25 @@ describe("rllc Client", () => {
 
     scope.done();
   });
+
+  it("should handle HTML error responses", async () => {
+    const scope = nock("https://fdo.rocketlaunch.live")
+      .get("/json/launches")
+      .reply(404, "<html>Not Found</html>");
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
+    try {
+      await client.launches();
+    } catch (e) {
+      expect(e).toEqual({
+        error: "API Call Failed",
+        message:
+          "RLLC recieved a response from the server but it did not complete as expected.",
+        server_response: "<html>Not Found</html>",
+        statusCode: 404,
+      });
+    }
+
+    scope.done();
+  });
 });

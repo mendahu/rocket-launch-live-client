@@ -34,15 +34,23 @@ const query = <T>(url: URL, headers?: OutgoingHttpHeaders): Promise<T> => {
       res.on("end", () => {
         const response = Buffer.concat(data).toString();
 
+        let server_response: any;
+
+        try {
+          server_response = JSON.parse(response);
+        } catch (e) {
+          server_response = response;
+        }
+
         if (res.statusCode === 200) {
-          resolve(JSON.parse(response));
+          resolve(server_response);
         } else {
           const error: RLLError = {
             error: "API Call Failed",
             statusCode: res.statusCode ?? null,
             message:
               "RLLC recieved a response from the server but it did not complete as expected.",
-            server_response: JSON.parse(response),
+            server_response,
           };
           reject(error);
         }

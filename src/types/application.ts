@@ -28,6 +28,7 @@ export namespace RLLEntity {
   export interface Company extends RLLRecord {
     name: string;
     country: Country;
+    slug?: string;
     inactive: boolean;
   }
 
@@ -42,18 +43,25 @@ export namespace RLLEntity {
   export interface Media extends RLLRecord {
     media_url: string | null;
     youtube_vidid: string | null;
+    x_postid: string | null;
+    x_accountid: string | null;
+    bilibili_roomid: string | null;
     featured: boolean;
     ldfeatured: boolean;
     approved: boolean;
+    live_status: boolean | null;
   }
 
   export interface Launch extends RLLRecord {
     name: string;
     cospar_id: string | null;
     sort_date: string;
-    provider: { slug: string } & Omit<Company, "inactive" | "country">;
+    provider: { slug: string } & Omit<
+      Company,
+      "slug" | "inactive" | "country"
+    >;
     vehicle: { company_id: number; slug: string } & Omit<Vehicle, "company">;
-    pad: Omit<Pad, "full_name" | "location"> & {
+    pad: Omit<Pad, "full_name" | "location" | "country" | "state"> & {
       location: Omit<
         Location,
         | "pads"
@@ -69,7 +77,7 @@ export namespace RLLEntity {
         state: ISO3166Alpha2.StateCodeUS | null;
       };
     };
-    missions: Omit<Mission, "launch_id" | "company">[];
+    missions: Omit<Mission, "launch_id" | "launch" | "company">[];
     mission_description: string | null;
     launch_description: string;
     win_open: string | null;
@@ -113,13 +121,16 @@ export namespace RLLEntity {
     name: string;
     description: string | null;
     launch_id: number;
-    company: Omit<Company, "inactive" | "country">;
+    launch?: Launch;
+    company: Omit<Company, "slug" | "inactive" | "country">;
   }
 
   export interface Pad extends RLLRecord {
     name: string;
     full_name: string;
     location: Omit<Location, "pads" | "utc_offset" | "latitute" | "statename">;
+    country?: string | null;
+    state?: string | null;
   }
 
   export interface Tag extends RLLRecord {
@@ -129,7 +140,7 @@ export namespace RLLEntity {
 
   export interface Vehicle extends RLLRecord {
     name: string;
-    company: Omit<Company, "inactive" | "country">;
+    company: Omit<Company, "slug" | "inactive" | "country">;
   }
 }
 

@@ -2,5 +2,6 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "types": ["vitest/globals"]
-  }
+  },
+  "exclude": ["../node_modules", "../lib"]
 }

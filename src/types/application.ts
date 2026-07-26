@@ -27,6 +27,7 @@ export namespace RLLEntity {
 
   export interface Company extends RLLRecord {
     name: string;
+    slug: string;
     country: Country;
     inactive: boolean;
   }
@@ -51,7 +52,7 @@ export namespace RLLEntity {
     name: string;
     cospar_id: string | null;
     sort_date: string;
-    provider: { slug: string } & Omit<Company, "inactive" | "country">;
+    provider: { slug: string } & Omit<Company, "slug" | "inactive" | "country">;
     vehicle: { company_id: number; slug: string } & Omit<Vehicle, "company">;
     pad: Omit<Pad, "full_name" | "location"> & {
       location: Omit<
@@ -113,7 +114,7 @@ export namespace RLLEntity {
     name: string;
     description: string | null;
     launch_id: number;
-    company: Omit<Company, "inactive" | "country">;
+    company: Omit<Company, "slug" | "inactive" | "country">;
   }
 
   export interface Pad extends RLLRecord {
@@ -129,7 +130,7 @@ export namespace RLLEntity {
 
   export interface Vehicle extends RLLRecord {
     name: string;
-    company: Omit<Company, "inactive" | "country">;
+    company: Omit<Company, "slug" | "inactive" | "country">;
   }
 }
 

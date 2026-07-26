@@ -43,9 +43,13 @@ export namespace RLLEntity {
   export interface Media extends RLLRecord {
     media_url: string | null;
     youtube_vidid: string | null;
+    x_postid: string | null;
+    x_accountid: string | null;
+    bilibili_roomid: string | null;
     featured: boolean;
     ldfeatured: boolean;
     approved: boolean;
+    live_status: boolean | null;
   }
 
   export interface Launch extends RLLRecord {
@@ -87,12 +91,12 @@ export namespace RLLEntity {
     slug: string;
     weather_summary: string | null;
     weather_condition: string | null;
-    weather_wind_mph: number | null;
-    weather_temp: number | null;
+    weather_wind_mph: string | null;
+    weather_temp: string | null;
     weather_icon: string | null;
     weather_updated: string | null;
     quicktext: string;
-    media?: Media[];
+    media: Media[];
     result: LaunchResult | null;
     suborbital: boolean;
     modified: string;

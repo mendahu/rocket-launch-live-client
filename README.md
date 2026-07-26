@@ -371,7 +371,7 @@ watcher.stop();
 
 1. Client - (required) - an `RLLClient` instance from `rllc()`
 2. Interval - (optional) (default: 5) - a duration, in minutes, between calls to the API. Adjust this based on the frequency you wish to stay up to date. To avoid needlessly querying the API, this client will not allow any option less than 1 minute.
-3. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint. _NOTE:_ the "limit" param is ignored on the `watcher`.
+3. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint. _NOTE:_ the `limit` and `page` params are ignored on the `watcher` (it always builds the cache from page 1 across all matching pages).
 
 Query options cannot be altered on a running watcher. In order to change your search conditions, you'll need to stop the watcher and start a new one.
 

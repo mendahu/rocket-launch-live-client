@@ -133,8 +133,10 @@ export class RLLWatcher extends EventEmitter {
     this.interval = intervalValidator(interval);
     this.params = queryOptionsValidator(RLLEndPoint.LAUNCHES, options);
 
-    // ignore any limit params as these cause unnecessary API calls and do not serve the Watcher role
+    // Ignore limit/page: Watcher must crawl the full matching set from page 1.
+    // Leaving a caller page in params would skip earlier pages and derail the cache.
     this.params.delete("limit");
+    this.params.delete("page");
   }
 
   /**

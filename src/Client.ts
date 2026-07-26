@@ -5,7 +5,7 @@ import {
   RLLQueryConfig,
   RLLResponse,
 } from "./types/application.js";
-import { fetcher } from "./fetcher.js";
+import { fetcher, DEFAULT_REQUEST_TIMEOUT_MS } from "./fetcher.js";
 import {
   apiKeyValidator,
   optionsValidator,
@@ -20,6 +20,7 @@ export class RLLClient {
   private apiKey: string;
   private config = {
     keyInQueryParams: false,
+    timeoutMs: DEFAULT_REQUEST_TIMEOUT_MS,
   };
 
   /**
@@ -28,6 +29,7 @@ export class RLLClient {
    * @param {string} apiKey - Your RocketLaunch.Live API Key
    * @param {Object} [options] - Optional Client Configuration options
    * @param {boolean} options.keyInQueryParams - Set to true to send your API Key via Query parameters instead of Authorization Header (not recommended)
+   * @param {number} options.timeoutMs - HTTP request timeout in milliseconds (default 30000)
    *
    */
   constructor(apiKey: string, options?: RLLClientOptions) {
@@ -44,6 +46,10 @@ export class RLLClient {
 
     if (options.keyInQueryParams) {
       this.config.keyInQueryParams = options.keyInQueryParams;
+    }
+
+    if (options.timeoutMs !== undefined) {
+      this.config.timeoutMs = options.timeoutMs;
     }
   }
 
@@ -64,7 +70,8 @@ export class RLLClient {
       this.apiKey,
       endpoint,
       params,
-      this.config.keyInQueryParams
+      this.config.keyInQueryParams,
+      this.config.timeoutMs
     );
   }
 

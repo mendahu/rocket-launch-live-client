@@ -223,6 +223,8 @@ export namespace RLLQueryConfig {
 
 export type RLLClientOptions = {
   keyInQueryParams?: boolean;
+  /** HTTP request timeout in milliseconds (default 30000). Must be greater than 0. */
+  timeoutMs?: number;
 };
 
 export type RLLResponse<T> = {

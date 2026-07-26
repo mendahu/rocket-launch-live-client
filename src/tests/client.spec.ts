@@ -74,6 +74,59 @@ describe("rllc Client", () => {
     );
   });
 
+  it("should throw if timeoutMs is not a positive number", () => {
+    expect(() =>
+      rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
+        timeoutMs: "banana" as unknown as number,
+      })
+    ).to.throw(
+      "[RLL Client]: RLL Client configuration option 'timeoutMs' must be a number greater than 0."
+    );
+
+    expect(() =>
+      rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
+        timeoutMs: 0,
+      })
+    ).to.throw(
+      "[RLL Client]: RLL Client configuration option 'timeoutMs' must be a number greater than 0."
+    );
+
+    expect(() =>
+      rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
+        timeoutMs: -5,
+      })
+    ).to.throw(
+      "[RLL Client]: RLL Client configuration option 'timeoutMs' must be a number greater than 0."
+    );
+  });
+
+  it("should reject when the request exceeds the timeout", async () => {
+    nock("https://fdo.rocketlaunch.live")
+      .get("/json/launches")
+      .delay(500)
+      .reply(200, {
+        valid_auth: true,
+        count: 0,
+        limit: 25,
+        total: 0,
+        last_page: 1,
+        result: [],
+      });
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
+      timeoutMs: 50,
+    });
+
+    await expect(client.launches()).rejects.toEqual({
+      error: "Timeout",
+      statusCode: null,
+      message: "RLLC request timed out after 50ms.",
+      server_response: null,
+    });
+
+    nock.cleanAll();
+  });
+
   it("should not pass api key to params normally", async () => {
     const scope = nock("https://fdo.rocketlaunch.live", {
       reqheaders: {

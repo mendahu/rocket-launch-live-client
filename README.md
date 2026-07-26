@@ -59,6 +59,9 @@ const options = {
   // API Key is normally passed in the Authorization Bearer header
   // Set to true to pass your API key as a query parameter instead (not recommended)
   keyInQueryParams: true,
+  // Defaults to 30000 (30 seconds).
+  // Abort in-flight HTTP requests that exceed this duration
+  timeoutMs: 15000,
 };
 
 const client = rllc(RLL_API_KEY, options);

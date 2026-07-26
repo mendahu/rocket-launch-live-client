@@ -43,17 +43,28 @@ export const optionsValidator = (options: {
   [key: string | number | symbol]: any;
 }): void => {
   for (const option in options) {
-    if (option !== "keyInQueryParams") {
-      warn(
-        `RLL Client options do not accept a "${option}" property. This property will be ignored.`
-      );
-    } else {
+    if (option === "keyInQueryParams") {
       if (typeof options[option] !== "boolean") {
         error(
           "RLL Client configuration option 'keyInQueryParams' must be a boolean.",
           "type"
         );
       }
+    } else if (option === "timeoutMs") {
+      if (
+        typeof options[option] !== "number" ||
+        !Number.isFinite(options[option]) ||
+        options[option] <= 0
+      ) {
+        error(
+          "RLL Client configuration option 'timeoutMs' must be a number greater than 0.",
+          "type"
+        );
+      }
+    } else {
+      warn(
+        `RLL Client options do not accept a "${option}" property. This property will be ignored.`
+      );
     }
   }
 };

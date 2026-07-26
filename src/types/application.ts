@@ -1,14 +1,16 @@
 import { ISO3166Alpha2 } from "./standards.js";
 
-export enum RLLEndPoint {
-  COMPANIES = "companies",
-  LAUNCHES = "launches",
-  LOCATIONS = "locations",
-  MISSIONS = "missions",
-  PADS = "pads",
-  TAGS = "tags",
-  VEHICLES = "vehicles",
-}
+export const RLLEndPoint = {
+  COMPANIES: "companies",
+  LAUNCHES: "launches",
+  LOCATIONS: "locations",
+  MISSIONS: "missions",
+  PADS: "pads",
+  TAGS: "tags",
+  VEHICLES: "vehicles",
+} as const;
+
+export type RLLEndPoint = (typeof RLLEndPoint)[keyof typeof RLLEndPoint];
 
 export namespace RLLEntity {
   interface RLLRecord {
@@ -32,13 +34,16 @@ export namespace RLLEntity {
     inactive: boolean;
   }
 
-  export enum LaunchResult {
-    NOT_SET = -1,
-    FAILURE = 0,
-    SUCCESS = 1,
-    PARTIAL_FAILURE = 2,
-    IN_FLIGHT_ABORT_CREWED = 3,
-  }
+  export const LaunchResult = {
+    NOT_SET: -1,
+    FAILURE: 0,
+    SUCCESS: 1,
+    PARTIAL_FAILURE: 2,
+    IN_FLIGHT_ABORT_CREWED: 3,
+  } as const;
+
+  export type LaunchResult =
+    (typeof LaunchResult)[keyof typeof LaunchResult];
 
   export interface Media extends RLLRecord {
     media_url: string | null;

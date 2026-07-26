@@ -99,14 +99,14 @@ export namespace RLLEntity {
 
   export interface Location extends RLLRecord {
     name: string;
-    latitute: string; // original API had a typo which was preserved for backwards compatibility
-    latitude: string;
-    longitude: string;
+    latitute: string | null; // original API had a typo which was preserved for backwards compatibility
+    latitude: string | null;
+    longitude: string | null;
     state: State | null;
     statename?: string | null;
     country: Country | null;
     pads: Omit<Pad, "full_name" | "location" | "country" | "state">[];
-    utc_offset: number | null;
+    utc_offset: string | null;
   }
 
   export interface Mission extends RLLRecord {
@@ -219,7 +219,8 @@ export type RLLResponse<T> = {
   errors?: string[];
   valid_auth: boolean;
   count: number;
-  limit: number;
+  /** Present on launches responses only */
+  limit?: number;
   total: number;
   last_page: number;
   result: T;

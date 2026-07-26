@@ -8,6 +8,7 @@ import {
   RLLResponse,
 } from "../types/application.js";
 import { launches1, launches2, launches3 } from "./fixtures/launches.js";
+import { formatToRLLISODate } from "../utils.js";
 import { describe, it, vi, expect, assert } from "vitest";
 import Sinon from "sinon";
 
@@ -409,6 +410,84 @@ describe("rllc Watcher", () => {
     assert.isTrue(readyFake.calledOnce);
     watcher.stop();
     scope.done();
+  });
+
+  it("should advance modified_since from poll start time, not completion", async () => {
+    const clock = Sinon.useFakeTimers({ toFake: ["setInterval"] });
+
+    const readyResponse: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 1,
+      limit: 25,
+      total: 1,
+      last_page: 1,
+      result: [launches1[0]],
+    };
+    const emptyPoll: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 0,
+      limit: 25,
+      total: 0,
+      last_page: 1,
+      result: [],
+    };
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+      },
+    })
+      .get("/json/launches")
+      .reply(200, readyResponse)
+      .get("/json/launches")
+      .query((queryObj) => !!queryObj.modified_since)
+      .delay(2100)
+      .reply(200, emptyPoll)
+      .get("/json/launches")
+      .query((queryObj) => !!queryObj.modified_since)
+      .reply(200, emptyPoll);
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
+    const watcher = watch(client, 1);
+
+    const pollModifiedSince: string[] = [];
+    let firstPollStartMs: number | undefined;
+
+    watcher.on("call", (params) => {
+      const modifiedSince = params.get("modified_since");
+      if (!modifiedSince) {
+        return;
+      }
+      if (firstPollStartMs === undefined) {
+        firstPollStartMs = Date.now();
+      }
+      pollModifiedSince.push(modifiedSince);
+    });
+
+    watcher.start();
+    await wait(100);
+
+    clock.tick(60000);
+    await wait(50);
+    assert.isDefined(firstPollStartMs);
+
+    const expectedFromStart = formatToRLLISODate(new Date(firstPollStartMs!));
+    const completionStamp = formatToRLLISODate(
+      new Date(firstPollStartMs! + 2100)
+    );
+    // Delay spans a second boundary so a completion-based cursor would differ.
+    expect(expectedFromStart).to.not.equal(completionStamp);
+
+    await wait(2200);
+    clock.tick(60000);
+    await wait(100);
+
+    expect(pollModifiedSince).to.have.length(2);
+    expect(pollModifiedSince[1]).to.equal(expectedFromStart);
+
+    watcher.stop();
+    scope.done();
+    clock.restore();
   });
 
   it("should skip interval ticks while a previous poll is still in flight", async () => {

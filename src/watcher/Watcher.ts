@@ -210,6 +210,10 @@ export class RLLWatcher extends EventEmitter {
     }
     this.queryInFlight = true;
 
+    // Capture start before the request so the next poll's modified_since covers
+    // any updates that land while this response is still in flight.
+    const pollStartedAt = new Date();
+
     const notify = (response: RLLResponse<RLLEntity.Launch[]>) => {
       for (const changedLaunch of response.result) {
         const { id } = changedLaunch;
@@ -229,7 +233,7 @@ export class RLLWatcher extends EventEmitter {
     // keeps event emission simpler.
     this.fetchAllPages(new URLSearchParams(this.params), notify, 1)
       .then(() => {
-        this.last_call = new Date();
+        this.last_call = pollStartedAt;
       })
       .catch((err) => {
         this.emit("error", err);
@@ -254,6 +258,8 @@ export class RLLWatcher extends EventEmitter {
     }
     this.running = true;
 
+    const cacheStartedAt = new Date();
+
     const buildCache = (response: RLLResponse<RLLEntity.Launch[]>) => {
       for (const launch of response.result) {
         this.launches.set(launch.id, launch);
@@ -271,7 +277,9 @@ export class RLLWatcher extends EventEmitter {
           return;
         }
         this.emit("ready", this.launches);
-        this.last_call = new Date();
+        // Use crawl start, not completion, so the first poll does not skip
+        // launches modified while the initial cache was still loading.
+        this.last_call = cacheStartedAt;
         this.timer = setInterval(() => {
           this.query();
         }, this.interval * MS_IN_MIN);

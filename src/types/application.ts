@@ -225,6 +225,11 @@ export type RLLClientOptions = {
   keyInQueryParams?: boolean;
   /** HTTP request timeout in milliseconds (default 30000). Must be greater than 0. */
   timeoutMs?: number;
+  /**
+   * Max decompressed response body size in bytes (default 10 MiB).
+   * Protects against oversized or gzip-bomb responses. Must be greater than 0.
+   */
+  maxResponseBytes?: number;
 };
 
 export type RLLResponse<T> = {

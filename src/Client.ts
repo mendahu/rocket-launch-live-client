@@ -5,7 +5,11 @@ import {
   RLLQueryConfig,
   RLLResponse,
 } from "./types/application.js";
-import { fetcher, DEFAULT_REQUEST_TIMEOUT_MS } from "./fetcher.js";
+import {
+  fetcher,
+  DEFAULT_REQUEST_TIMEOUT_MS,
+  DEFAULT_MAX_RESPONSE_BYTES,
+} from "./fetcher.js";
 import {
   apiKeyValidator,
   optionsValidator,
@@ -21,6 +25,7 @@ export class RLLClient {
   private config = {
     keyInQueryParams: false,
     timeoutMs: DEFAULT_REQUEST_TIMEOUT_MS,
+    maxResponseBytes: DEFAULT_MAX_RESPONSE_BYTES,
   };
 
   /**
@@ -30,6 +35,7 @@ export class RLLClient {
    * @param {Object} [options] - Optional Client Configuration options
    * @param {boolean} options.keyInQueryParams - Set to true to send your API Key via Query parameters instead of Authorization Header (not recommended)
    * @param {number} options.timeoutMs - HTTP request timeout in milliseconds (default 30000)
+   * @param {number} options.maxResponseBytes - Max decompressed response body size in bytes (default 10 MiB)
    *
    */
   constructor(apiKey: string, options?: RLLClientOptions) {
@@ -51,6 +57,10 @@ export class RLLClient {
     if (options.timeoutMs !== undefined) {
       this.config.timeoutMs = options.timeoutMs;
     }
+
+    if (options.maxResponseBytes !== undefined) {
+      this.config.maxResponseBytes = options.maxResponseBytes;
+    }
   }
 
   /**
@@ -71,7 +81,8 @@ export class RLLClient {
       endpoint,
       params,
       this.config.keyInQueryParams,
-      this.config.timeoutMs
+      this.config.timeoutMs,
+      this.config.maxResponseBytes
     );
   }
 

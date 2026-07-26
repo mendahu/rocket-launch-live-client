@@ -127,6 +127,87 @@ describe("rllc Client", () => {
     nock.cleanAll();
   });
 
+  it("should throw if maxResponseBytes is not a positive number", () => {
+    expect(() =>
+      rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
+        maxResponseBytes: "banana" as unknown as number,
+      })
+    ).to.throw(
+      "[RLL Client]: RLL Client configuration option 'maxResponseBytes' must be a number greater than 0."
+    );
+
+    expect(() =>
+      rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
+        maxResponseBytes: 0,
+      })
+    ).to.throw(
+      "[RLL Client]: RLL Client configuration option 'maxResponseBytes' must be a number greater than 0."
+    );
+  });
+
+  it("should reject responses larger than maxResponseBytes", async () => {
+    const body = JSON.stringify({
+      valid_auth: true,
+      count: 0,
+      limit: 25,
+      total: 0,
+      last_page: 1,
+      result: [],
+      pad: "x".repeat(200),
+    });
+
+    const scope = nock("https://fdo.rocketlaunch.live")
+      .get("/json/launches")
+      .reply(200, body, {
+        "Content-Type": "application/json",
+      });
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
+      maxResponseBytes: 64,
+    });
+
+    await expect(client.launches()).rejects.toMatchObject({
+      error: "Response too large",
+      statusCode: 200,
+      server_response: null,
+    });
+
+    scope.done();
+  });
+
+  it("should reject gzip responses that expand past maxResponseBytes", async () => {
+    const zlib = await import("node:zlib");
+    // Highly compressible: tiny on the wire, large after gunzip.
+    const inflated = Buffer.alloc(64 * 1024, 0);
+    const compressed = zlib.gzipSync(inflated);
+
+    expect(compressed.length).toBeLessThan(1024);
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        "accept-encoding": "gzip",
+      },
+    })
+      .get("/json/launches")
+      .reply(200, compressed, {
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+      });
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56", {
+      maxResponseBytes: 1024,
+    });
+
+    await expect(client.launches()).rejects.toMatchObject({
+      error: "Response too large",
+      statusCode: 200,
+      server_response: null,
+    });
+
+    scope.done();
+  });
+
   it("should not pass api key to params normally", async () => {
     const scope = nock("https://fdo.rocketlaunch.live", {
       reqheaders: {

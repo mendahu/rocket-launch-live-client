@@ -61,6 +61,17 @@ export const optionsValidator = (options: {
           "type"
         );
       }
+    } else if (option === "maxResponseBytes") {
+      if (
+        typeof options[option] !== "number" ||
+        !Number.isFinite(options[option]) ||
+        options[option] <= 0
+      ) {
+        error(
+          "RLL Client configuration option 'maxResponseBytes' must be a number greater than 0.",
+          "type"
+        );
+      }
     } else {
       warn(
         `RLL Client options do not accept a "${option}" property. This property will be ignored.`

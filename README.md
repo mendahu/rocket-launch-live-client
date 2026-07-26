@@ -76,6 +76,9 @@ const options = {
   // Defaults to 30000 (30 seconds).
   // Abort in-flight HTTP requests that exceed this duration.
   timeoutMs: 15000,
+  // Defaults to 10 MiB (10485760 bytes).
+  // Reject responses whose decompressed body exceeds this size (also stops gzip bombs).
+  maxResponseBytes: 5 * 1024 * 1024,
 };
 
 const client = rllc(API_KEY, options);

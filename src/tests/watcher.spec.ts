@@ -322,4 +322,77 @@ describe("rllc Watcher", () => {
 
     return expect(promise).resolves;
   });
+
+  it("should skip interval ticks while a previous poll is still in flight", async () => {
+    const clock = Sinon.useFakeTimers({ toFake: ["setInterval"] });
+
+    const readyResponse: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 1,
+      limit: 25,
+      total: 1,
+      last_page: 1,
+      result: [launches1[0]],
+    };
+    const emptyPoll: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 0,
+      limit: 25,
+      total: 0,
+      last_page: 1,
+      result: [],
+    };
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+      },
+    })
+      .get("/json/launches")
+      .reply(200, readyResponse)
+      .get("/json/launches")
+      .query((queryObj) => !!queryObj.modified_since)
+      .delay(300)
+      .reply(200, emptyPoll)
+      .get("/json/launches")
+      .query((queryObj) => !!queryObj.modified_since)
+      .reply(200, emptyPoll);
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
+    const watcher = watch(client, 1);
+
+    const callFake = Sinon.fake();
+    watcher.on("call", () => {
+      callFake();
+    });
+
+    const readyFake = Sinon.fake();
+    watcher.on("ready", () => {
+      readyFake();
+    });
+
+    watcher.start();
+    await wait(100);
+    assert.isTrue(readyFake.calledOnce);
+    expect(callFake.getCalls()).to.have.length(1);
+
+    // First poll starts and stays in flight for 300ms.
+    clock.tick(60000);
+    await wait(50);
+    expect(callFake.getCalls()).to.have.length(2);
+
+    // Another interval elapses before the first poll finishes — must be skipped.
+    clock.tick(60000);
+    await wait(50);
+    expect(callFake.getCalls()).to.have.length(2);
+
+    // Let the in-flight poll complete, then the next tick should run normally.
+    await wait(300);
+    clock.tick(60000);
+    await wait(100);
+    expect(callFake.getCalls()).to.have.length(3);
+
+    scope.done();
+    clock.restore();
+  });
 });

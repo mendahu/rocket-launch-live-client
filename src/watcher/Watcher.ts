@@ -73,6 +73,7 @@ export class RLLWatcher extends EventEmitter {
   private interval: number;
   private params: URLSearchParams;
   private timer: NodeJS.Timeout | undefined;
+  private queryInFlight = false;
   private fetcher: (
     params: URLSearchParams
   ) => Promise<RLLResponse<RLLEntity.Launch[]>>;
@@ -177,6 +178,13 @@ export class RLLWatcher extends EventEmitter {
    * @returns {void}
    */
   private query(): void {
+    // Skip ticks that fire while a previous poll (possibly multi-page) is still
+    // running, so slow responses cannot stack concurrent requests and events.
+    if (this.queryInFlight) {
+      return;
+    }
+    this.queryInFlight = true;
+
     const notify = (response: RLLResponse<RLLEntity.Launch[]>) => {
       for (const changedLaunch of response.result) {
         const { id } = changedLaunch;
@@ -198,6 +206,9 @@ export class RLLWatcher extends EventEmitter {
       })
       .catch((err) => {
         this.emit("error", err);
+      })
+      .finally(() => {
+        this.queryInFlight = false;
       });
   }
 

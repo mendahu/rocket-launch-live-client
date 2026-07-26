@@ -1,8 +1,8 @@
 import { RLLClient } from "../Client.js";
 import { RLLQueryConfig } from "../types/application.js";
-import { RLLWatcher } from "../Watcher.js";
+import { RLLWatcher } from "./Watcher.js";
 
-export { RLLWatcher } from "../Watcher.js";
+export { RLLWatcher } from "./Watcher.js";
 
 /**
  * Create a Watcher that polls the launches endpoint for changes.

@@ -50,6 +50,52 @@ npm install --no-audit --no-fund --loglevel=error \
   "typescript@$TYPESCRIPT_VERSION" \
   "@types/node@$NODE_TYPES_VERSION"
 
+step "Checking comments are stripped from JS but kept in declarations"
+cat > comments.mjs <<'JS'
+import assert from "node:assert/strict";
+import { readdirSync, readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { dirname, join, relative } from "node:path";
+
+const require = createRequire(import.meta.url);
+const root = dirname(require.resolve("rocket-launch-live-client"));
+
+const walk = (dir) =>
+  readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
+    entry.isDirectory()
+      ? walk(join(dir, entry.name))
+      : [join(dir, entry.name)]
+  );
+
+const files = walk(root);
+const jsdoc = /\/\*\*/g;
+
+// Runtime JS carries no JSDoc: it costs bytes and editors never read it.
+for (const file of files.filter((f) => f.endsWith(".js"))) {
+  const blocks = (readFileSync(file, "utf8").match(jsdoc) ?? []).length;
+  assert.equal(blocks, 0, `${relative(root, file)} should have no JSDoc blocks`);
+}
+
+// Declarations keep JSDoc: this is what powers IntelliSense for consumers.
+const documented = {
+  "index.d.ts": "Generate a RocketLaunch.Live client",
+  "Client.d.ts": "Fetch launches",
+  "watcher/index.d.ts": "Create a Watcher that polls the launches endpoint",
+};
+
+for (const [file, text] of Object.entries(documented)) {
+  const contents = readFileSync(join(root, file), "utf8");
+  assert.ok(
+    (contents.match(jsdoc) ?? []).length > 0,
+    `${file} should retain JSDoc blocks`
+  );
+  assert.ok(contents.includes(text), `${file} should document "${text}"`);
+}
+
+console.log("comment stripping OK");
+JS
+node comments.mjs
+
 step "Importing as ESM"
 cat > smoke.js <<'JS'
 import assert from "node:assert/strict";

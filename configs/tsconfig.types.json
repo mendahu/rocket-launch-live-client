@@ -3,9 +3,9 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "outDir": "../lib",
     "target": "ES2022",
-    "declaration": false,
-    "removeComments": true
+    "declarationDir": "../lib",
+    "emitDeclarationOnly": true,
+    "removeComments": false
   }
 }

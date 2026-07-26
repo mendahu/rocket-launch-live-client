@@ -7,8 +7,9 @@
   "main": "./lib/index.js",
   "scripts": {
     "clear": "rm -rf ./lib",
-    "build": "npm run clear && npm run build:esm",
+    "build": "npm run clear && npm run build:esm && npm run build:types",
     "build:esm": "tsc -p ./configs/tsconfig.esm.json",
+    "build:types": "tsc -p ./configs/tsconfig.types.json",
     "prepack": "npm run build",
     "typecheck": "tsc -p ./configs/tsconfig.testing.json",
     "test": "vitest",

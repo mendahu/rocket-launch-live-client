@@ -71,18 +71,15 @@ const client = rllc(RLL_API_KEY, options);
 All endpoints return the following response format, where `T` is an array of results:
 
 ```ts
-type RLLResponseBase<T> = {
+type RLLResponse<T> = {
   errors?: string[];
   valid_auth: boolean;
   count: number;
+  limit: number;
   total: number;
   last_page: number;
   result: T;
 };
-
-// `limit` is required on launches responses only
-type RLLResponse<T> = RLLResponseBase<T> &
-  (T extends RLLEntity.Launch[] ? { limit: number } : {});
 ```
 
 All endpoints return a maximum of 25 results per page. A `page` argument can be passed to retrieve incremental results.

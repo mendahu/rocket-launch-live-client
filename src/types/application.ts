@@ -220,22 +220,15 @@ export type RLLClientOptions = {
   keyInQueryParams?: boolean;
 };
 
-type RLLResponseBase<T> = {
+export type RLLResponse<T> = {
   errors?: string[];
   valid_auth: boolean;
   count: number;
+  limit: number;
   total: number;
   last_page: number;
   result: T;
 };
-
-/**
- * Standard API response envelope.
- * `limit` is required when `T` is `RLLEntity.Launch[]` (launches endpoint only)
- * and absent for all other endpoints.
- */
-export type RLLResponse<T> = RLLResponseBase<T> &
-  (T extends RLLEntity.Launch[] ? { limit: number } : {});
 
 export type RLLError = {
   error: string;

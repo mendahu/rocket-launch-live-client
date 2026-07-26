@@ -107,14 +107,13 @@ async function main(): Promise<void> {
   const launches: RLLResponse<RLLEntity.Launch[]> = await client.launches({
     id: 1,
   });
-  const limit: number = launches.limit;
+  const launchesLimit: number = launches.limit;
   const name: string = launches.result[0].name;
 
   const missions: RLLResponse<RLLEntity.Mission[]> = await client.missions();
-  // @ts-expect-error `limit` is present only on launch responses
-  void missions.limit;
+  const missionsLimit: number = missions.limit;
 
-  console.log(limit, name);
+  console.log(launchesLimit, missionsLimit, name);
 }
 
 void main();

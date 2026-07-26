@@ -15,6 +15,8 @@ import {
 
 const DEFAULT_INTERVAL_IN_MINS = 5;
 const MS_IN_MIN = 60000;
+/** Max concurrent page fetches while building the initial Watcher cache. */
+const INIT_PAGE_CONCURRENCY = 3;
 
 const intervalValidator = (interval: any): number => {
   if (typeof interval !== "number" && typeof interval !== "string") {
@@ -136,38 +138,57 @@ export class RLLWatcher extends EventEmitter {
   }
 
   /**
-   * Recursive API Caller to iterate through pages
+   * Fetch a single launches page. Always normalizes the page query param so a
+   * caller-supplied `page` cannot derail pagination.
    *
    * @private
-   * @function
-   *
-   * @param {URLSearchParams} params - Search parameters
-   * @param {function(results: RLLResponse<RLLEntity.Launch[]>)} callback - To execute on each page
-   *
-   * @returns {Promise<void>}
    */
-  private recursivelyFetch = (
-    params: URLSearchParams,
-    callback: (results: RLLResponse<RLLEntity.Launch[]>) => any
+  private fetchPage = (
+    baseParams: URLSearchParams,
+    page: number
+  ): Promise<RLLResponse<RLLEntity.Launch[]>> => {
+    const params = new URLSearchParams(baseParams);
+    params.delete("page");
+    if (page > 1) {
+      params.set("page", page.toString());
+    }
+
+    this.emit("call", params);
+    return this.fetcher(params);
+  };
+
+  /**
+   * Fetch every page for a query. After page 1 reveals `last_page`, remaining
+   * pages are fetched with bounded concurrency (1 = fully serial).
+   *
+   * @private
+   */
+  private fetchAllPages = async (
+    baseParams: URLSearchParams,
+    callback: (results: RLLResponse<RLLEntity.Launch[]>) => void,
+    concurrency: number
   ): Promise<void> => {
-    let page = 1;
+    const first = await this.fetchPage(baseParams, 1);
+    callback(first);
 
-    const recursiveFetcher = (): Promise<void> => {
-      this.emit("call", params);
-      return this.fetcher(params).then((results) => {
+    const lastPage = first.last_page;
+    if (lastPage <= 1) {
+      return;
+    }
+
+    let nextPage = 2;
+    const workerCount = Math.min(Math.max(concurrency, 1), lastPage - 1);
+
+    const workers = Array.from({ length: workerCount }, async () => {
+      while (nextPage <= lastPage) {
+        const page = nextPage;
+        nextPage += 1;
+        const results = await this.fetchPage(baseParams, page);
         callback(results);
+      }
+    });
 
-        if (results.last_page > page) {
-          page++;
-          params.set("page", page.toString());
-          return recursiveFetcher();
-        }
-
-        return;
-      });
-    };
-
-    return recursiveFetcher();
+    await Promise.all(workers);
   };
 
   /**
@@ -201,7 +222,9 @@ export class RLLWatcher extends EventEmitter {
 
     this.params.set("modified_since", formatToRLLISODate(this.last_call));
 
-    this.recursivelyFetch(new URLSearchParams(this.params), notify)
+    // Polls stay serial: change sets are usually small and ordered processing
+    // keeps event emission simpler.
+    this.fetchAllPages(new URLSearchParams(this.params), notify, 1)
       .then(() => {
         this.last_call = new Date();
       })
@@ -234,7 +257,11 @@ export class RLLWatcher extends EventEmitter {
       }
     };
 
-    this.recursivelyFetch(new URLSearchParams(this.params), buildCache)
+    this.fetchAllPages(
+      new URLSearchParams(this.params),
+      buildCache,
+      INIT_PAGE_CONCURRENCY
+    )
       .then(() => {
         // stop() may have been called during the initial crawl
         if (!this.running) {

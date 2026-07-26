@@ -1,6 +1,7 @@
 import nock from "nock";
 import { rllc } from "../index.js";
 import { watch } from "../watcher/index.js";
+import { RLLWatcher } from "../watcher/Watcher.js";
 import {
   RLLEntity,
   RLLQueryConfig,
@@ -321,6 +322,93 @@ describe("rllc Watcher", () => {
     });
 
     return expect(promise).resolves;
+  });
+
+  it("should fetch initial cache pages with bounded concurrency", async () => {
+    let inFlight = 0;
+    let maxInFlight = 0;
+
+    const pageBody = (
+      result: RLLEntity.Launch[],
+      last_page: number
+    ): RLLResponse<RLLEntity.Launch[]> => ({
+      valid_auth: true,
+      count: result.length,
+      limit: 25,
+      total: 51,
+      last_page,
+      result,
+    });
+
+    const fetcher = async (params: URLSearchParams) => {
+      inFlight += 1;
+      maxInFlight = Math.max(maxInFlight, inFlight);
+      await wait(60);
+      inFlight -= 1;
+
+      const page = Number(params.get("page") ?? "1");
+      if (page === 1) {
+        return pageBody(launches1, 3);
+      }
+      if (page === 2) {
+        return pageBody(launches2, 3);
+      }
+      return pageBody([launches3[0]], 3);
+    };
+
+    const watcher = new RLLWatcher(fetcher, 5);
+
+    await new Promise<void>((resolve, reject) => {
+      watcher.on("ready", (launches) => {
+        try {
+          expect(launches).to.have.length(51);
+          // After page 1, pages 2 and 3 should overlap under concurrency 3.
+          expect(maxInFlight).to.be.at.least(2);
+          resolve();
+        } catch (err) {
+          reject(err);
+        }
+      });
+      watcher.on("init_error", reject);
+      watcher.start();
+    });
+
+    watcher.stop();
+  });
+
+  it("should ignore a caller-supplied page option and start the cache at page 1", async () => {
+    const readyResponse: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 1,
+      limit: 25,
+      total: 1,
+      last_page: 1,
+      result: [launches1[0]],
+    };
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+      },
+    })
+      .get("/json/launches")
+      .query((query) => query.page === undefined)
+      .reply(200, readyResponse);
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
+    const watcher = watch(client, 5, { page: 5 });
+
+    const readyFake = Sinon.fake();
+    watcher.on("ready", () => {
+      readyFake();
+    });
+
+    watcher.start();
+    await wait(100);
+
+    assert.isTrue(readyFake.calledOnce);
+    watcher.stop();
+    scope.done();
   });
 
   it("should skip interval ticks while a previous poll is still in flight", async () => {

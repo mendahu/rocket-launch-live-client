@@ -244,9 +244,9 @@ describe("rllc Watcher", () => {
     assert.isFalse(changeFake.called);
     assert.isFalse(newFake.called);
     assert.isFalse(watcher.launches.has(266));
-    assert.isTrue(watcher.launches.has(3203));
+    assert.isTrue(watcher.launches.has(launches1[0].id));
     assert.isTrue(watcher.launches.has(529));
-    assert.isTrue(watcher.launches.has(3284));
+    assert.isTrue(watcher.launches.has(launches3[0].id));
 
     clock.tick(60000);
     await wait(100);

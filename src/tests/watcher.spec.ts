@@ -395,4 +395,87 @@ describe("rllc Watcher", () => {
     scope.done();
     clock.restore();
   });
+
+  it("should ignore repeated start() calls while already running", async () => {
+    const readyResponse: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 1,
+      limit: 25,
+      total: 1,
+      last_page: 1,
+      result: [launches1[0]],
+    };
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+      },
+    })
+      .get("/json/launches")
+      .reply(200, readyResponse);
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
+    const watcher = watch(client, 1);
+
+    const readyFake = Sinon.fake();
+    const callFake = Sinon.fake();
+    watcher.on("ready", () => {
+      readyFake();
+    });
+    watcher.on("call", () => {
+      callFake();
+    });
+
+    watcher.start();
+    watcher.start();
+    watcher.start();
+
+    await wait(100);
+
+    assert.isTrue(readyFake.calledOnce);
+    expect(callFake.getCalls()).to.have.length(1);
+
+    watcher.stop();
+    scope.done();
+  });
+
+  it("should allow start() again after stop()", async () => {
+    const readyResponse: RLLResponse<RLLEntity.Launch[]> = {
+      valid_auth: true,
+      count: 1,
+      limit: 25,
+      total: 1,
+      last_page: 1,
+      result: [launches1[0]],
+    };
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+      },
+    })
+      .get("/json/launches")
+      .times(2)
+      .reply(200, readyResponse);
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
+    const watcher = watch(client, 1);
+
+    const readyFake = Sinon.fake();
+    watcher.on("ready", () => {
+      readyFake();
+    });
+
+    watcher.start();
+    await wait(100);
+    assert.isTrue(readyFake.calledOnce);
+
+    watcher.stop();
+    watcher.start();
+    await wait(100);
+    assert.isTrue(readyFake.calledTwice);
+
+    watcher.stop();
+    scope.done();
+  });
 });

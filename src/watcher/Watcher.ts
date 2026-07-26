@@ -73,6 +73,7 @@ export class RLLWatcher extends EventEmitter {
   private interval: number;
   private params: URLSearchParams;
   private timer: NodeJS.Timeout | undefined;
+  private running = false;
   private queryInFlight = false;
   private fetcher: (
     params: URLSearchParams
@@ -214,6 +215,7 @@ export class RLLWatcher extends EventEmitter {
 
   /**
    * Begin monitoring API using the configured query parameters.
+   * Subsequent calls while already running are no-ops.
    *
    * @public
    * @function
@@ -221,6 +223,11 @@ export class RLLWatcher extends EventEmitter {
    * @returns {void}
    */
   public start(): void {
+    if (this.running) {
+      return;
+    }
+    this.running = true;
+
     const buildCache = (response: RLLResponse<RLLEntity.Launch[]>) => {
       for (const launch of response.result) {
         this.launches.set(launch.id, launch);
@@ -229,6 +236,10 @@ export class RLLWatcher extends EventEmitter {
 
     this.recursivelyFetch(new URLSearchParams(this.params), buildCache)
       .then(() => {
+        // stop() may have been called during the initial crawl
+        if (!this.running) {
+          return;
+        }
         this.emit("ready", this.launches);
         this.last_call = new Date();
         this.timer = setInterval(() => {
@@ -236,6 +247,7 @@ export class RLLWatcher extends EventEmitter {
         }, this.interval * MS_IN_MIN);
       })
       .catch((err) => {
+        this.running = false;
         this.emit("init_error", err);
       });
   }
@@ -249,8 +261,10 @@ export class RLLWatcher extends EventEmitter {
    * @returns {void}
    */
   public stop(): void {
+    this.running = false;
     if (this.timer) {
       clearInterval(this.timer);
+      this.timer = undefined;
     }
   }
 }

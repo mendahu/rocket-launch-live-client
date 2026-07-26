@@ -117,7 +117,7 @@ export namespace RLLEntity {
   export interface Mission extends RLLRecord {
     name: string;
     description: string | null;
-    launch_id: number;
+    launch_id: number | null;
     company: Omit<Company, "slug" | "inactive" | "country">;
   }
 

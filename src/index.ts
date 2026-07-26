@@ -11,7 +11,6 @@ export {
 } from "./types/application.js";
 export { ISO3166Alpha2 } from "./types/standards.js";
 export { RLLClient } from "./Client.js";
-export { RLLWatcher } from "./Watcher.js";
 
 /**
  * Generate a RocketLaunch.Live client

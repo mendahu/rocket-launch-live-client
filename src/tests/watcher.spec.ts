@@ -1,5 +1,6 @@
 import nock from "nock";
 import { rllc } from "../index.js";
+import { watch } from "../watcher/index.js";
 import {
   RLLEntity,
   RLLQueryConfig,
@@ -21,47 +22,47 @@ describe("rllc Watcher", () => {
   it("should throw if interval is not a number", () => {
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
 
-    expect(() => client.watch("banana" as unknown as number)).to.throw(
+    expect(() => watch(client, "banana" as unknown as number)).to.throw(
       "[RLL Client]: RLLWatcher interval must be a number."
     );
 
-    expect(() => client.watch([] as unknown as number)).to.throw(
+    expect(() => watch(client, [] as unknown as number)).to.throw(
       "[RLL Client]: RLLWatcher interval must be a number."
     );
 
-    expect(() => client.watch({} as unknown as number)).to.throw(
+    expect(() => watch(client, {} as unknown as number)).to.throw(
       "[RLL Client]: RLLWatcher interval must be a number."
     );
 
-    expect(() => client.watch((() => 5) as unknown as number)).to.throw(
+    expect(() => watch(client, (() => 5) as unknown as number)).to.throw(
       "[RLL Client]: RLLWatcher interval must be a number."
     );
 
-    expect(() => client.watch(false as unknown as number)).to.throw(
+    expect(() => watch(client, false as unknown as number)).to.throw(
       "[RLL Client]: RLLWatcher interval must be a number."
     );
 
-    expect(() => client.watch(BigInt(5) as unknown as number)).to.throw(
+    expect(() => watch(client, BigInt(5) as unknown as number)).to.throw(
       "[RLL Client]: RLLWatcher interval must be a number."
     );
 
-    expect(() => client.watch(Symbol() as unknown as number)).to.throw(
+    expect(() => watch(client, Symbol() as unknown as number)).to.throw(
       "[RLL Client]: RLLWatcher interval must be a number."
     );
   });
 
   it("should not throw if interval is a number or parseable number", () => {
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
-    client.watch("5");
-    client.watch(5);
-    client.watch(5.5);
+    watch(client, "5");
+    watch(client, 5);
+    watch(client, 5.5);
   });
 
   it("should warn if interval is a number less than 1", () => {
     const spy = vi.spyOn(console, "warn").mockImplementationOnce(() => {});
 
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
-    client.watch(0.5);
+    watch(client, 0.5);
 
     expect(spy).toHaveBeenCalledWith(
       "[RLL Client]: RLLWatcher does not accept intervals less than 1. Your watcher will default to 5 minute intervals unless corrected."
@@ -71,7 +72,7 @@ describe("rllc Watcher", () => {
   it("should throw if interval is 0", () => {
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
 
-    expect(() => client.watch(0)).to.throw(
+    expect(() => watch(client, 0)).to.throw(
       "RLLWatcher interval cannot be a negative number or zero. Watcher intervals should be greater than or equal to 1 minute."
     );
   });
@@ -79,7 +80,7 @@ describe("rllc Watcher", () => {
   it("should throw if interval is a negative number", () => {
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
 
-    expect(() => client.watch(-1)).to.throw(
+    expect(() => watch(client, -1)).to.throw(
       "RLLWatcher interval cannot be a negative number or zero. Watcher intervals should be greater than or equal to 1 minute."
     );
   });
@@ -91,7 +92,7 @@ describe("rllc Watcher", () => {
 
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
 
-    expect(() => client.watch(10, [] as RLLQueryConfig.Launches)).to.throw(
+    expect(() => watch(client, 10, [] as RLLQueryConfig.Launches)).to.throw(
       "Invalid type for query options. Must be an object."
     );
   });
@@ -183,7 +184,7 @@ describe("rllc Watcher", () => {
       .reply(500, response6);
 
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
-    const watcher = client.watch(1);
+    const watcher = watch(client, 1);
 
     const readyFake = Sinon.fake();
 
@@ -300,7 +301,7 @@ describe("rllc Watcher", () => {
       .reply(500, response2);
 
     const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
-    const watcher = client.watch();
+    const watcher = watch(client);
 
     const promise = new Promise((resolve, reject) => {
       watcher.start();

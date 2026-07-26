@@ -334,12 +334,17 @@ const options = {
 
 ## Watcher
 
-The `rocket-launch-live-client` has the ability to monitor the `launches` endpoint on a regular basis and return changes as they happen live.
+The Watcher monitors the `launches` endpoint on a regular basis and emits changes as they happen. It lives on a separate subpath so applications that only need the REST client do not load Watcher code.
 
 ```js
+import { rllc } from "rocket-launch-live-client";
+import { watch } from "rocket-launch-live-client/watcher";
+
+const client = rllc(process.env.ROCKETLAUNCH_LIVE_API_KEY);
+
 // Instantiate a new watcher
 // See below for options
-const watcher = client.watch(5, options);
+const watcher = watch(client, 5, options);
 
 // Define event handlers
 watcher.on("new", (newLaunch) => {
@@ -359,10 +364,11 @@ watcher.stop();
 
 ### Watcher Options
 
-A new watcher takes up to two arguments:
+`watch()` takes up to three arguments:
 
-1. Interval - (optional) (default: 5) - a duration, in minutes, between calls to the API. Adjust this based on the frequency you wish to stay up to date. To avoid needlessly querying the API, this client will now allow any option less than 1 minute.
-2. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint. _NOTE:_ the "limit" param is ignored on the `watcher`.
+1. Client - (required) - an `RLLClient` instance from `rllc()`
+2. Interval - (optional) (default: 5) - a duration, in minutes, between calls to the API. Adjust this based on the frequency you wish to stay up to date. To avoid needlessly querying the API, this client will not allow any option less than 1 minute.
+3. Query Options - (optional) - The exact same query options that can be submitted to the [`launches`](#launches) endpoint. _NOTE:_ the "limit" param is ignored on the `watcher`.
 
 Query options cannot be altered on a running watcher. In order to change your search conditions, you'll need to stop the watcher and start a new one.
 

@@ -53,20 +53,31 @@ npm install --no-audit --no-fund --loglevel=error \
 step "Importing as ESM"
 cat > smoke.js <<'JS'
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
 import * as pkg from "rocket-launch-live-client";
-import { rllc, RLLClient, RLLWatcher } from "rocket-launch-live-client";
+import { rllc, RLLClient } from "rocket-launch-live-client";
+import { watch, RLLWatcher } from "rocket-launch-live-client/watcher";
 
 assert.deepEqual(Object.keys(pkg).sort(), [
   "RLLClient",
   "RLLEndPoint",
   "RLLEntity",
-  "RLLWatcher",
   "rllc",
 ]);
+assert.equal("RLLWatcher" in pkg, false);
+
+const require = createRequire(import.meta.url);
+const rootEntry = require.resolve("rocket-launch-live-client");
+const clientEntry = join(dirname(rootEntry), "Client.js");
+assert.equal(readFileSync(rootEntry, "utf8").includes("Watcher"), false);
+assert.equal(readFileSync(clientEntry, "utf8").includes("Watcher"), false);
 
 const client = rllc("aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee");
 assert.ok(client instanceof RLLClient);
-assert.equal(typeof RLLWatcher, "function");
+assert.equal(typeof client.watch, "undefined");
+assert.equal(typeof client.queryLaunches, "function");
 
 for (const method of [
   "companies",
@@ -80,6 +91,11 @@ for (const method of [
   assert.equal(typeof client[method], "function", `missing ${method}()`);
 }
 
+assert.equal(typeof RLLWatcher, "function");
+assert.equal(typeof watch, "function");
+const watcher = watch(client, 5);
+assert.ok(watcher instanceof RLLWatcher);
+
 console.log("ESM import OK");
 JS
 node smoke.js
@@ -88,10 +104,15 @@ step "Requiring as CommonJS"
 cat > smoke.cjs <<'JS'
 const assert = require("node:assert/strict");
 const { rllc, RLLClient } = require("rocket-launch-live-client");
+const { watch, RLLWatcher } = require("rocket-launch-live-client/watcher");
 
 const client = rllc("aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee");
 assert.ok(client instanceof RLLClient);
 assert.equal(typeof client.launches, "function");
+assert.equal(typeof client.watch, "undefined");
+
+assert.equal(typeof RLLWatcher, "function");
+assert.ok(watch(client) instanceof RLLWatcher);
 
 console.log("CommonJS require OK");
 JS
@@ -100,8 +121,10 @@ node smoke.cjs
 step "Type checking a consumer against the published declarations"
 cat > consumer.ts <<'TS'
 import { rllc, RLLEntity, RLLResponse } from "rocket-launch-live-client";
+import { watch, RLLWatcher } from "rocket-launch-live-client/watcher";
 
 const client = rllc("aaaaaaaa-bbbb-4ccc-8ddd-eeeeeeeeeeee");
+const watcher: RLLWatcher = watch(client, 5, { country_code: "US" });
 
 async function main(): Promise<void> {
   const launches: RLLResponse<RLLEntity.Launch[]> = await client.launches({
@@ -113,7 +136,7 @@ async function main(): Promise<void> {
   const missions: RLLResponse<RLLEntity.Mission[]> = await client.missions();
   const missionsLimit: number = missions.limit;
 
-  console.log(launchesLimit, missionsLimit, name);
+  console.log(launchesLimit, missionsLimit, name, watcher.launches.size);
 }
 
 void main();

@@ -53,6 +53,12 @@
       "import": "./lib/index.js",
       "require": "./lib/index.js",
       "default": "./lib/index.js"
+    },
+    "./watcher": {
+      "types": "./lib/watcher/index.d.ts",
+      "import": "./lib/watcher/index.js",
+      "require": "./lib/watcher/index.js",
+      "default": "./lib/watcher/index.js"
     }
   }
 }

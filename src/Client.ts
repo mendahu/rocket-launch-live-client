@@ -11,7 +11,6 @@ import {
   optionsValidator,
   queryOptionsValidator,
 } from "./utils.js";
-import { RLLWatcher } from "./Watcher.js";
 
 /**
  * Class representing a RocketLaunch.Live client
@@ -70,27 +69,18 @@ export class RLLClient {
   }
 
   /**
-   * Instantiate a new RLL Watcher which will continually query the API for changes to the launches endpoint
+   * Execute a launches query with pre-built search params.
+   * Prefer {@link RLLClient.launches} for normal use; this exists for the
+   * `rocket-launch-live-client/watcher` subpath.
    *
    * @public
-   *
-   * @param {number} interval - Interval in minutes to query the API for changes. Defaults to 5 minutes, cannot be less than 1 minute
-   * @param {RLLQueryConfig.Launches} options - Query options, same as calling the launches method
-   *
-   * @returns {RLLWatcher}
    */
-  public watch(
-    interval?: number | string,
-    options?: RLLQueryConfig.Launches
-  ): RLLWatcher {
-    return new RLLWatcher(
-      (params: URLSearchParams): Promise<RLLResponse<RLLEntity.Launch[]>> =>
-        this.query<RLLResponse<RLLEntity.Launch[]>>(
-          RLLEndPoint.LAUNCHES,
-          params
-        ),
-      interval,
-      options
+  public queryLaunches(
+    params: URLSearchParams
+  ): Promise<RLLResponse<RLLEntity.Launch[]>> {
+    return this.query<RLLResponse<RLLEntity.Launch[]>>(
+      RLLEndPoint.LAUNCHES,
+      params
     );
   }
 

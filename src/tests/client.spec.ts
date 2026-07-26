@@ -160,6 +160,37 @@ describe("rllc Client", () => {
     scope.done();
   });
 
+  it("should decode gzip-compressed API responses", async () => {
+    const zlib = await import("node:zlib");
+    const payload = {
+      valid_auth: true,
+      count: 0,
+      limit: 25,
+      total: 0,
+      last_page: 1,
+      result: [],
+    };
+    const compressed = zlib.gzipSync(Buffer.from(JSON.stringify(payload)));
+
+    const scope = nock("https://fdo.rocketlaunch.live", {
+      reqheaders: {
+        authorization: "Bearer aac004f6-07ab-4f82-bff2-71d977072c56",
+        "accept-encoding": "gzip",
+      },
+    })
+      .get("/json/launches")
+      .reply(200, compressed, {
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json",
+      });
+
+    const client = rllc("aac004f6-07ab-4f82-bff2-71d977072c56");
+    const response = await client.launches();
+
+    expect(response).toEqual(payload);
+    scope.done();
+  });
+
   it("should handle HTML error responses", async () => {
     const scope = nock("https://fdo.rocketlaunch.live")
       .get("/json/launches")

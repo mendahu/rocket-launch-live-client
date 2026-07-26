@@ -1,5 +1,6 @@
-import { OutgoingHttpHeaders } from "node:http";
+import { IncomingMessage, OutgoingHttpHeaders } from "node:http";
 import https from "node:https";
+import { createGunzip } from "node:zlib";
 import { RLLError } from "./types/application.js";
 
 const BASE_URL = "https://fdo.rocketlaunch.live";
@@ -15,12 +16,14 @@ export const fetcher = <T>(
   timeoutMs: number = DEFAULT_REQUEST_TIMEOUT_MS
 ): Promise<T> => {
   const url = new URL("json/" + endpoint, BASE_URL);
-  let headers: OutgoingHttpHeaders | undefined;
+  const headers: OutgoingHttpHeaders = {
+    "accept-encoding": "gzip",
+  };
 
   if (keyInQueryParams) {
     params.set("key", apiKey);
   } else {
-    headers = { authorization: `Bearer ${apiKey}` };
+    headers.authorization = `Bearer ${apiKey}`;
   }
 
   params.forEach((v, k) => url.searchParams.set(k, v));
@@ -28,9 +31,33 @@ export const fetcher = <T>(
   return query<T>(url, headers, timeoutMs);
 };
 
+const readResponseBody = (res: IncomingMessage): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const encoding = res.headers["content-encoding"];
+    const stream =
+      encoding === "gzip" || encoding === "x-gzip"
+        ? res.pipe(createGunzip())
+        : res;
+
+    const chunks: Buffer[] = [];
+
+    stream.on("data", (chunk: Buffer) => {
+      chunks.push(chunk);
+    });
+
+    stream.on("error", (err) => {
+      reject(err);
+    });
+
+    stream.on("end", () => {
+      resolve(Buffer.concat(chunks).toString());
+    });
+  });
+};
+
 const query = <T>(
   url: URL,
-  headers: OutgoingHttpHeaders | undefined,
+  headers: OutgoingHttpHeaders,
   timeoutMs: number
 ): Promise<T> => {
   return new Promise((resolve, reject) => {
@@ -54,34 +81,39 @@ const query = <T>(
       url,
       { headers, signal: controller.signal },
       (res) => {
-        const data: Uint8Array[] = [];
+        readResponseBody(res)
+          .then((response) => {
+            let server_response: any;
 
-        res.on("data", (chunk) => data.push(chunk));
+            try {
+              server_response = JSON.parse(response);
+            } catch {
+              server_response = response;
+            }
 
-        res.on("end", () => {
-          const response = Buffer.concat(data).toString();
-
-          let server_response: any;
-
-          try {
-            server_response = JSON.parse(response);
-          } catch {
-            server_response = response;
-          }
-
-          if (res.statusCode === 200) {
-            finish(() => resolve(server_response));
-          } else {
+            if (res.statusCode === 200) {
+              finish(() => resolve(server_response));
+            } else {
+              const error: RLLError = {
+                error: "API Call Failed",
+                statusCode: res.statusCode ?? null,
+                message:
+                  "RLLC recieved a response from the server but it did not complete as expected.",
+                server_response,
+              };
+              finish(() => reject(error));
+            }
+          })
+          .catch(() => {
             const error: RLLError = {
-              error: "API Call Failed",
-              statusCode: res.statusCode ?? null,
+              error: "Unknown error",
+              statusCode: null,
               message:
-                "RLLC recieved a response from the server but it did not complete as expected.",
-              server_response,
+                "RLLC recieved an unknown error. This usually means that the HTTP request did not complete",
+              server_response: null,
             };
             finish(() => reject(error));
-          }
-        });
+          });
       }
     );
 

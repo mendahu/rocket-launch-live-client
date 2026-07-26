@@ -1,14 +1,16 @@
 import { ISO3166Alpha2 } from "./standards.js";
 
-export enum RLLEndPoint {
-  COMPANIES = "companies",
-  LAUNCHES = "launches",
-  LOCATIONS = "locations",
-  MISSIONS = "missions",
-  PADS = "pads",
-  TAGS = "tags",
-  VEHICLES = "vehicles",
-}
+export const RLLEndPoint = {
+  COMPANIES: "companies",
+  LAUNCHES: "launches",
+  LOCATIONS: "locations",
+  MISSIONS: "missions",
+  PADS: "pads",
+  TAGS: "tags",
+  VEHICLES: "vehicles",
+} as const;
+
+export type RLLEndPoint = (typeof RLLEndPoint)[keyof typeof RLLEndPoint];
 
 export namespace RLLEntity {
   interface RLLRecord {
@@ -27,31 +29,39 @@ export namespace RLLEntity {
 
   export interface Company extends RLLRecord {
     name: string;
+    slug: string;
     country: Country;
     inactive: boolean;
   }
 
-  export enum LaunchResult {
-    NOT_SET = -1,
-    FAILURE = 0,
-    SUCCESS = 1,
-    PARTIAL_FAILURE = 2,
-    IN_FLIGHT_ABORT_CREWED = 3,
-  }
+  export const LaunchResult = {
+    NOT_SET: -1,
+    FAILURE: 0,
+    SUCCESS: 1,
+    PARTIAL_FAILURE: 2,
+    IN_FLIGHT_ABORT_CREWED: 3,
+  } as const;
+
+  export type LaunchResult =
+    (typeof LaunchResult)[keyof typeof LaunchResult];
 
   export interface Media extends RLLRecord {
     media_url: string | null;
     youtube_vidid: string | null;
+    x_postid: string | null;
+    x_accountid: string | null;
+    bilibili_roomid: string | null;
     featured: boolean;
     ldfeatured: boolean;
     approved: boolean;
+    live_status: boolean | null;
   }
 
   export interface Launch extends RLLRecord {
     name: string;
     cospar_id: string | null;
     sort_date: string;
-    provider: { slug: string } & Omit<Company, "inactive" | "country">;
+    provider: { slug: string } & Omit<Company, "slug" | "inactive" | "country">;
     vehicle: { company_id: number; slug: string } & Omit<Vehicle, "company">;
     pad: Omit<Pad, "full_name" | "location"> & {
       location: Omit<
@@ -86,12 +96,12 @@ export namespace RLLEntity {
     slug: string;
     weather_summary: string | null;
     weather_condition: string | null;
-    weather_wind_mph: number | null;
-    weather_temp: number | null;
+    weather_wind_mph: string | null;
+    weather_temp: string | null;
     weather_icon: string | null;
     weather_updated: string | null;
     quicktext: string;
-    media?: Media[];
+    media: Media[];
     result: LaunchResult | null;
     suborbital: boolean;
     modified: string;
@@ -99,21 +109,21 @@ export namespace RLLEntity {
 
   export interface Location extends RLLRecord {
     name: string;
-    latitute: string; // original API had a typo which was preserved for backwards compatibility
-    latitude: string;
-    longitude: string;
+    latitute: string | null; // original API had a typo which was preserved for backwards compatibility
+    latitude: string | null;
+    longitude: string | null;
     state: State | null;
     statename?: string | null;
     country: Country | null;
     pads: Omit<Pad, "full_name" | "location" | "country" | "state">[];
-    utc_offset: number | null;
+    utc_offset: string | null;
   }
 
   export interface Mission extends RLLRecord {
     name: string;
     description: string | null;
-    launch_id: number;
-    company: Omit<Company, "inactive" | "country">;
+    launch_id: number | null;
+    company: Omit<Company, "slug" | "inactive" | "country">;
   }
 
   export interface Pad extends RLLRecord {
@@ -129,7 +139,7 @@ export namespace RLLEntity {
 
   export interface Vehicle extends RLLRecord {
     name: string;
-    company: Omit<Company, "inactive" | "country">;
+    company: Omit<Company, "slug" | "inactive" | "country">;
   }
 }
 
@@ -213,6 +223,13 @@ export namespace RLLQueryConfig {
 
 export type RLLClientOptions = {
   keyInQueryParams?: boolean;
+  /** HTTP request timeout in milliseconds (default 30000). Must be greater than 0. */
+  timeoutMs?: number;
+  /**
+   * Max decompressed response body size in bytes (default 10 MiB).
+   * Protects against oversized or gzip-bomb responses. Must be greater than 0.
+   */
+  maxResponseBytes?: number;
 };
 
 export type RLLResponse<T> = {

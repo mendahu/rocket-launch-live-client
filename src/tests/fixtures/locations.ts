@@ -2,6 +2,44 @@ import { RLLEntity } from "../../index.js";
 
 export const locations1: RLLEntity.Location[] = [
   {
+    id: 101,
+    name: "Alcântara Space Center",
+    latitute: "",
+    latitude: "",
+    longitude: "",
+    state: null,
+    country: {
+      name: "Brazil",
+      code: "BR",
+    },
+    pads: [
+      {
+        id: 151,
+        name: "Launch Pad",
+      },
+    ],
+    utc_offset: "-3.00",
+  },
+  {
+    id: 100,
+    name: "Andøya Space",
+    latitute: "69.1087",
+    latitude: "69.1087",
+    longitude: "15.5887",
+    state: null,
+    country: {
+      name: "Norway",
+      code: "NO",
+    },
+    pads: [
+      {
+        id: 148,
+        name: "Launch Pad",
+      },
+    ],
+    utc_offset: "2.00",
+  },
+  {
     id: 50,
     name: "Baikonur Cosmodrome",
     latitute: "45.9648",
@@ -69,8 +107,12 @@ export const locations1: RLLEntity.Location[] = [
         id: 125,
         name: "LC-45/2",
       },
+      {
+        id: 135,
+        name: "LC-90",
+      },
     ],
-    utc_offset: 5,
+    utc_offset: "6.00",
   },
   {
     id: 87,
@@ -88,29 +130,31 @@ export const locations1: RLLEntity.Location[] = [
         id: 103,
         name: "K-84 Ekaterinburg Submarine",
       },
+      {
+        id: 140,
+        name: "K-407 Novomoskovsk submarine",
+      },
     ],
     utc_offset: null,
   },
   {
-    id: 89,
-    name: "Boca Chica Launch Site",
-    latitute: "25.997",
-    latitude: "25.997",
-    longitude: "-97.157",
-    state: {
-      name: "Texas",
-    },
+    id: 98,
+    name: "Bowen Orbital Spaceport",
+    latitute: "-19.956538",
+    latitude: "-19.956538",
+    longitude: "148.100982",
+    state: null,
     country: {
-      name: "United States",
-      code: "US",
+      name: "Australia",
+      code: "AU",
     },
     pads: [
       {
-        id: 114,
+        id: 139,
         name: "Launch Pad",
       },
     ],
-    utc_offset: -6,
+    utc_offset: "10.00",
   },
   {
     id: 52,
@@ -131,7 +175,7 @@ export const locations1: RLLEntity.Location[] = [
         name: "Pad TBD",
       },
     ],
-    utc_offset: -5,
+    utc_offset: "-4.00",
   },
   {
     id: 62,
@@ -207,8 +251,24 @@ export const locations1: RLLEntity.Location[] = [
         id: 128,
         name: "SLC-16",
       },
+      {
+        id: 154,
+        name: "LC-14",
+      },
+      {
+        id: 156,
+        name: "LC-11",
+      },
+      {
+        id: 157,
+        name: "LC-12",
+      },
+      {
+        id: 158,
+        name: "LC-18A",
+      },
     ],
-    utc_offset: -5,
+    utc_offset: "-5.00",
   },
   {
     id: 69,
@@ -248,7 +308,7 @@ export const locations1: RLLEntity.Location[] = [
         name: "Launch Pad",
       },
     ],
-    utc_offset: -5,
+    utc_offset: "-6.00",
   },
   {
     id: 77,
@@ -275,7 +335,7 @@ export const locations1: RLLEntity.Location[] = [
         name: "TBD",
       },
     ],
-    utc_offset: 5,
+    utc_offset: "6.00",
   },
   {
     id: 91,
@@ -296,7 +356,26 @@ export const locations1: RLLEntity.Location[] = [
         name: "NASA B-52",
       },
     ],
-    utc_offset: null,
+    utc_offset: "-7.00",
+  },
+  {
+    id: 95,
+    name: "El Arenosillo Test Centre",
+    latitute: "37.09687",
+    latitude: "37.09687",
+    longitude: "-6.73863",
+    state: null,
+    country: {
+      name: "Spain",
+      code: "ES",
+    },
+    pads: [
+      {
+        id: 132,
+        name: "Pad",
+      },
+    ],
+    utc_offset: "2.00",
   },
   {
     id: 90,
@@ -312,7 +391,7 @@ export const locations1: RLLEntity.Location[] = [
         name: "Stargazer L-1011",
       },
     ],
-    utc_offset: null,
+    utc_offset: "1.00",
   },
   {
     id: 70,
@@ -355,7 +434,7 @@ export const locations1: RLLEntity.Location[] = [
         name: "ELA-1",
       },
     ],
-    utc_offset: -3,
+    utc_offset: "-3.00",
   },
   {
     id: 72,
@@ -374,7 +453,7 @@ export const locations1: RLLEntity.Location[] = [
         name: "Launch Pad",
       },
     ],
-    utc_offset: 3.5,
+    utc_offset: "3.50",
   },
   {
     id: 80,
@@ -391,6 +470,25 @@ export const locations1: RLLEntity.Location[] = [
       {
         id: 77,
         name: "Launch Pad",
+      },
+    ],
+    utc_offset: null,
+  },
+  {
+    id: 96,
+    name: "Jeju Island",
+    latitute: "",
+    latitude: "",
+    longitude: "",
+    state: null,
+    country: {
+      name: "South Korea",
+      code: "KR",
+    },
+    pads: [
+      {
+        id: 136,
+        name: "Offshore Pad",
       },
     ],
     utc_offset: null,
@@ -421,14 +519,30 @@ export const locations1: RLLEntity.Location[] = [
       },
       {
         id: 50,
-        name: 'LA-4 / "Mobile Pad"',
+        name: "LA-4 / \"Mobile Pad\"",
       },
       {
         id: 127,
-        name: "LP-43/130",
+        name: "LS-43/130",
+      },
+      {
+        id: 133,
+        name: "LS-43/96",
+      },
+      {
+        id: 134,
+        name: "LS-95A",
+      },
+      {
+        id: 143,
+        name: "LA-2B",
+      },
+      {
+        id: 153,
+        name: "LS-43/140",
       },
     ],
-    utc_offset: 8,
+    utc_offset: "8.00",
   },
   {
     id: 86,
@@ -476,7 +590,7 @@ export const locations1: RLLEntity.Location[] = [
         name: "NASA B-52",
       },
     ],
-    utc_offset: -4,
+    utc_offset: "-4.00",
   },
   {
     id: 79,
@@ -574,8 +688,12 @@ export const locations1: RLLEntity.Location[] = [
         id: 63,
         name: "Pad TBD",
       },
+      {
+        id: 150,
+        name: "Rocket Lab LC-3",
+      },
     ],
-    utc_offset: -5,
+    utc_offset: "-4.00",
   },
   {
     id: 83,
@@ -598,6 +716,9 @@ export const locations1: RLLEntity.Location[] = [
     ],
     utc_offset: null,
   },
+];
+
+export const locations2: RLLEntity.Location[] = [
   {
     id: 82,
     name: "Naro Space Center",
@@ -614,7 +735,27 @@ export const locations1: RLLEntity.Location[] = [
         id: 80,
         name: "Launch Pad",
       },
+      {
+        id: 147,
+        name: "LC-2",
+      },
     ],
+    utc_offset: null,
+  },
+  {
+    id: 104,
+    name: "Naval Ordnance Test Station, China Lake",
+    latitute: "",
+    latitude: "",
+    longitude: "",
+    state: {
+      name: "California",
+    },
+    country: {
+      name: "United States",
+      code: "US",
+    },
+    pads: [],
     utc_offset: null,
   },
   {
@@ -648,7 +789,7 @@ export const locations1: RLLEntity.Location[] = [
         name: "LP-3C",
       },
     ],
-    utc_offset: -9,
+    utc_offset: "-9.00",
   },
   {
     id: 76,
@@ -667,7 +808,7 @@ export const locations1: RLLEntity.Location[] = [
         name: "Launch Pad",
       },
     ],
-    utc_offset: 3,
+    utc_offset: "3.00",
   },
   {
     id: 65,
@@ -717,12 +858,13 @@ export const locations1: RLLEntity.Location[] = [
         id: 107,
         name: "LC-32/1",
       },
+      {
+        id: 131,
+        name: "LC-41/1",
+      },
     ],
-    utc_offset: 3,
+    utc_offset: "3.00",
   },
-];
-
-export const locations2: RLLEntity.Location[] = [
   {
     id: 20,
     name: "Rocket Lab Launch Complex, Mahia Peninsula",
@@ -748,7 +890,37 @@ export const locations2: RLLEntity.Location[] = [
         name: "LC-1B",
       },
     ],
-    utc_offset: 13,
+    utc_offset: "13.00",
+  },
+  {
+    id: 102,
+    name: "Ronald Reagan Ballistic Missile Defense Test Site",
+    latitute: "",
+    latitude: "",
+    longitude: "",
+    state: null,
+    country: {
+      name: "Marshall Islands",
+      code: "MH",
+    },
+    pads: [
+      {
+        id: 155,
+        name: "Stargazer L-1011",
+      },
+    ],
+    utc_offset: null,
+  },
+  {
+    id: 105,
+    name: "San Marco Launch Platform",
+    latitute: null,
+    latitude: null,
+    longitude: null,
+    state: null,
+    country: null,
+    pads: [],
+    utc_offset: null,
   },
   {
     id: 67,
@@ -779,7 +951,7 @@ export const locations2: RLLEntity.Location[] = [
         name: "Sounding Rocket Complex",
       },
     ],
-    utc_offset: 5.5,
+    utc_offset: "5.50",
   },
   {
     id: 78,
@@ -817,14 +989,33 @@ export const locations2: RLLEntity.Location[] = [
         name: "Launch Pad",
       },
     ],
-    utc_offset: 8.5,
+    utc_offset: "9.00",
+  },
+  {
+    id: 97,
+    name: "Space Port Kii",
+    latitute: "33.550821",
+    latitude: "33.550821",
+    longitude: "135.879791",
+    state: null,
+    country: {
+      name: "Japan",
+      code: "JP",
+    },
+    pads: [
+      {
+        id: 138,
+        name: "Space One Pad",
+      },
+    ],
+    utc_offset: "9.00",
   },
   {
     id: 92,
     name: "Spaceport America",
-    latitute: "",
-    latitude: "",
-    longitude: "",
+    latitute: "32.989972",
+    latitude: "32.989972",
+    longitude: "-106.9770763",
     state: {
       name: "New Mexico",
     },
@@ -838,7 +1029,7 @@ export const locations2: RLLEntity.Location[] = [
         name: "VMS Eve",
       },
     ],
-    utc_offset: null,
+    utc_offset: "-7.00",
   },
   {
     id: 94,
@@ -857,7 +1048,36 @@ export const locations2: RLLEntity.Location[] = [
         name: "Cosmic Girl, 747-400",
       },
     ],
-    utc_offset: 0,
+    utc_offset: "0.00",
+  },
+  {
+    id: 89,
+    name: "SpaceX Starbase",
+    latitute: "25.997",
+    latitude: "25.997",
+    longitude: "-97.157",
+    state: {
+      name: "Texas",
+    },
+    country: {
+      name: "United States",
+      code: "US",
+    },
+    pads: [
+      {
+        id: 114,
+        name: "Launch Pad",
+      },
+      {
+        id: 149,
+        name: "Orbital Pad 1",
+      },
+      {
+        id: 152,
+        name: "Orbital Pad 2",
+      },
+    ],
+    utc_offset: "-5.00",
   },
   {
     id: 85,
@@ -907,7 +1127,7 @@ export const locations2: RLLEntity.Location[] = [
         name: "LC-7",
       },
     ],
-    utc_offset: 8,
+    utc_offset: "8.00",
   },
   {
     id: 19,
@@ -930,7 +1150,7 @@ export const locations2: RLLEntity.Location[] = [
         name: "LA-Y1",
       },
     ],
-    utc_offset: 9,
+    utc_offset: "9.00",
   },
   {
     id: 71,
@@ -961,7 +1181,7 @@ export const locations2: RLLEntity.Location[] = [
         name: "M-V Pad",
       },
     ],
-    utc_offset: 9,
+    utc_offset: "9.00",
   },
   {
     id: 68,
@@ -1041,7 +1261,7 @@ export const locations2: RLLEntity.Location[] = [
         name: "SLC-3W",
       },
     ],
-    utc_offset: -8,
+    utc_offset: "-7.00",
   },
   {
     id: 36,
@@ -1059,8 +1279,12 @@ export const locations2: RLLEntity.Location[] = [
         id: 27,
         name: "Site 1S",
       },
+      {
+        id: 137,
+        name: "Site 1A",
+      },
     ],
-    utc_offset: 9,
+    utc_offset: "9.00",
   },
   {
     id: 88,
@@ -1085,7 +1309,7 @@ export const locations2: RLLEntity.Location[] = [
         name: "Launch Pad",
       },
     ],
-    utc_offset: 0,
+    utc_offset: "0.00",
   },
   {
     id: 45,
@@ -1111,8 +1335,16 @@ export const locations2: RLLEntity.Location[] = [
         id: 69,
         name: "LC-201",
       },
+      {
+        id: 144,
+        name: "LC-2",
+      },
+      {
+        id: 146,
+        name: "LC-1",
+      },
     ],
-    utc_offset: 8,
+    utc_offset: "8.00",
   },
   {
     id: 93,
@@ -1131,8 +1363,11 @@ export const locations2: RLLEntity.Location[] = [
         name: "Pad 1",
       },
     ],
-    utc_offset: 9.5,
+    utc_offset: "9.50",
   },
+];
+
+export const locations3: RLLEntity.Location[] = [
   {
     id: 28,
     name: "Xichang Satellite Launch Center",
@@ -1157,8 +1392,16 @@ export const locations2: RLLEntity.Location[] = [
         id: 53,
         name: "TBD",
       },
+      {
+        id: 141,
+        name: "LC-4",
+      },
+      {
+        id: 145,
+        name: "Mobile Launch Pad",
+      },
     ],
-    utc_offset: 8,
+    utc_offset: "8.00",
   },
   {
     id: 74,

@@ -1,18 +1,20 @@
 {
   "name": "rocket-launch-live-client",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "A Node.JS client for interacting with the RocketLaunch.Live API",
-  "types": "./lib/cjs/types/index.d.ts",
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/mjs/index.js",
+  "type": "module",
+  "types": "./lib/index.d.ts",
+  "main": "./lib/index.js",
   "scripts": {
     "clear": "rm -rf ./lib",
-    "build": "npm run clear && npm run build:esm && npm run build:cjs && ./build-fixup",
-    "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
-    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
-    "prepublish": "npm run build",
+    "build": "npm run clear && npm run build:esm && npm run build:types",
+    "build:esm": "tsc -p ./configs/tsconfig.esm.json",
+    "build:types": "tsc -p ./configs/tsconfig.types.json",
+    "prepack": "npm run build",
+    "typecheck": "tsc -p ./configs/tsconfig.testing.json",
     "test": "vitest",
-    "reset": "rm -rf lib && rm rocket-launch-live-client-*.tgz && npm run build && npm pack"
+    "verify:package": "./scripts/verify-package.sh",
+    "reset": "rm -rf lib rocket-launch-live-client-*.tgz && npm pack"
   },
   "repository": {
     "type": "git",
@@ -31,32 +33,33 @@
   },
   "homepage": "https://github.com/mendahu/rocket-launch-live-client#readme",
   "devDependencies": {
-    "@types/node": "^20.9.4",
-    "@types/sinon": "^17.0.2",
-    "dotenv": "^16.3.1",
-    "nock": "^13.3.8",
-    "sinon": "^17.0.1",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.3.2",
-    "vite": "^4.5.14",
-    "vitest": "^0.34.6"
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@types/node": "^26.1.1",
+    "@types/sinon": "^22.0.0",
+    "nock": "^14.0.16",
+    "publint": "^0.3.21",
+    "sinon": "^22.0.0",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
   },
   "files": [
     "lib/**/*"
   ],
   "engines": {
-    "node": ">=14.17.0"
+    "node": ">=20.19.0"
   },
   "exports": {
     ".": {
-      "import": {
-        "types": "./lib/esm/types/index.d.ts",
-        "default": "./lib/esm/index.mjs"
-      },
-      "require": {
-        "types": "./lib/cjs/types/index.d.ts",
-        "default": "./lib/cjs/index.js"
-      }
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.js",
+      "default": "./lib/index.js"
+    },
+    "./watcher": {
+      "types": "./lib/watcher/index.d.ts",
+      "import": "./lib/watcher/index.js",
+      "require": "./lib/watcher/index.js",
+      "default": "./lib/watcher/index.js"
     }
   }
 }

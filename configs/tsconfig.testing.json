@@ -1,6 +1,11 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "types": ["vitest/globals"]
-  }
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "types": ["vitest/globals", "node"],
+    "noEmit": true
+  },
+  "exclude": ["../node_modules", "../lib"],
+  "include": ["../src/**/*"]
 }

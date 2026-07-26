@@ -39,14 +39,13 @@
     "sinon": "^17.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.2",
-    "vite": "^4.5.14",
-    "vitest": "^0.34.6"
+    "vitest": "^4.1.10"
   },
   "files": [
     "lib/**/*"
   ],
   "engines": {
-    "node": ">=14.17.0"
+    "node": ">=20.19.0"
   },
   "exports": {
     ".": {

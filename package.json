@@ -9,10 +9,11 @@
     "clear": "rm -rf ./lib",
     "build": "npm run clear && npm run build:esm",
     "build:esm": "tsc -p ./configs/tsconfig.esm.json",
-    "prepublish": "npm run build",
+    "prepack": "npm run build",
     "typecheck": "tsc -p ./configs/tsconfig.testing.json",
     "test": "vitest",
-    "reset": "rm -rf lib && rm rocket-launch-live-client-*.tgz && npm run build && npm pack"
+    "verify:package": "./scripts/verify-package.sh",
+    "reset": "rm -rf lib rocket-launch-live-client-*.tgz && npm pack"
   },
   "repository": {
     "type": "git",
@@ -31,9 +32,11 @@
   },
   "homepage": "https://github.com/mendahu/rocket-launch-live-client#readme",
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@types/node": "^26.1.1",
     "@types/sinon": "^22.0.0",
     "nock": "^14.0.16",
+    "publint": "^0.3.21",
     "sinon": "^22.0.0",
     "typescript": "^7.0.2",
     "vitest": "^4.1.10"

@@ -88,7 +88,8 @@ export class RLLWatcher extends EventEmitter {
    * @param {number | string} [interval] - Optional Client Configuration options
    * @param {Object} [options] - Launch Search Options
    * @param {number | string} options.id - Launch id
-   * @param {number | string} options.page - Page number of results
+   * @param {number | string} options.page - Ignored; Watcher always starts at page 1
+   * @param {number | string} options.limit - Ignored; Watcher uses the API default page size
    * @param {string} options.cospar_id - Launch COSPAR ID (ie. 2022-123)
    * @param {Date | string} options.before_date - Only return launches before this date
    * @param {Date | string} options.after_date - Only return launches after this date

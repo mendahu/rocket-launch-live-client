@@ -2,14 +2,13 @@
   "name": "rocket-launch-live-client",
   "version": "2.0.0",
   "description": "A Node.JS client for interacting with the RocketLaunch.Live API",
-  "types": "./lib/cjs/types/index.d.ts",
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/mjs/index.js",
+  "type": "module",
+  "types": "./lib/index.d.ts",
+  "main": "./lib/index.js",
   "scripts": {
     "clear": "rm -rf ./lib",
-    "build": "npm run clear && npm run build:esm && npm run build:cjs && ./build-fixup",
-    "build:esm": "tsc -p ./configs/tsconfig.esm.json && mv lib/esm/index.js lib/esm/index.mjs",
-    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
+    "build": "npm run clear && npm run build:esm",
+    "build:esm": "tsc -p ./configs/tsconfig.esm.json",
     "prepublish": "npm run build",
     "typecheck": "tsc -p ./configs/tsconfig.testing.json",
     "test": "vitest",
@@ -47,14 +46,10 @@
   },
   "exports": {
     ".": {
-      "import": {
-        "types": "./lib/esm/types/index.d.ts",
-        "default": "./lib/esm/index.mjs"
-      },
-      "require": {
-        "types": "./lib/cjs/types/index.d.ts",
-        "default": "./lib/cjs/index.js"
-      }
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js",
+      "require": "./lib/index.js",
+      "default": "./lib/index.js"
     }
   }
 }

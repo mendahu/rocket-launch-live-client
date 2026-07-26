@@ -1,10 +1,10 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "module": "esnext",
-    "outDir": "../lib/esm",
-    "target": "es2015",
-    "moduleResolution": "bundler",
-    "declarationDir": "../lib/esm/types"
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "../lib",
+    "target": "ES2022",
+    "declarationDir": "../lib"
   }
 }

@@ -1,6 +1,6 @@
 import nock from "nock";
-import { rllc } from "../index";
-import { RLLClientOptions } from "../types/application";
+import { rllc } from "../index.js";
+import { RLLClientOptions } from "../types/application.js";
 import { expect, describe, it, vi } from "vitest";
 
 describe("rllc Client", () => {

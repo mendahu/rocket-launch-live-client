@@ -25,7 +25,7 @@ This package is a fully-typed, promise-based, zero-dependency Node.JS JavaScript
 
 ## Requirements
 
-This package is tested on and supports Node 14.18 or higher. It is fully CommonJS/ESM compatible and has Typescript support built in.
+This package requires Node **20.19.0** or higher. It ships as an ESM package with built-in TypeScript types. Use `import` as the primary entry path; on supported Node versions, `require()` also works via Node's `require(esm)` support.
 
 <a name="simple"></a>
 
